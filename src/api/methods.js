@@ -1,14 +1,6 @@
 module.exports = [
   {
     "api": "witness_api",
-    "method": "get_current_median_history_price"
-  },
-  {
-    "api": "witness_api",
-    "method": "get_feed_history"
-  },
-  {
-    "api": "witness_api",
     "method": "get_miner_queue"
   },
   {
@@ -380,50 +372,5 @@ module.exports = [
     "api": "network_broadcast_api",
     "method": "broadcast_block",
     "params": ["block"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_ticker",
-    "params": []
-  },
-  {
-    "api": "market_history",
-    "method": "get_volume",
-    "params": []
-  },
-  {
-    "api": "market_history",
-    "method": "get_order_book",
-    "params": ["limit"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_order_book_extended",
-    "params": ["limit"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_trade_history",
-    "params": ["start", "end", "limit"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_recent_trades",
-    "params": ["limit"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_market_history",
-    "params": ["bucket_seconds" , "start", "end"]
-  },
-  {
-    "api": "market_history",
-    "method": "get_market_history_buckets",
-    "params": []
-  },
-  {
-    "api": "market_history",
-    "method": "get_open_orders",
-    "params": ["owner"]
-  },
+  }
 ]
