@@ -84,7 +84,7 @@ const comment_payout_beneficiaries = new Serializer(
     }
 );
 
-const transaction = new Serializer( 
+const transaction = new Serializer(
     "transaction", {
         ref_block_num: uint16,
         ref_block_prefix: uint32,
@@ -113,12 +113,12 @@ Replace:  var operation = static_variant([
 with:     operation.st_operations = [
 
 Delete (these are custom types instead):
-let public_key = new Serializer( 
+let public_key = new Serializer(
     "public_key",
     {key_data: bytes(33)}
 );
 
-let asset = new Serializer( 
+let asset = new Serializer(
     "asset",
     {amount: int64,
     symbol: uint64}
@@ -145,8 +145,8 @@ let signed_block = new Serializer(
         witness: string,
         transaction_merkle_root: bytes(20),
         extensions: set(static_variant([
-            future_extensions,    
-            version,    
+            future_extensions,
+            version,
             hardfork_version_vote
         ])),
         witness_signature: bytes(65),
@@ -161,8 +161,8 @@ let block_header = new Serializer(
         witness: string,
         transaction_merkle_root: bytes(20),
         extensions: set(static_variant([
-            future_extensions,    
-            version,    
+            future_extensions,
+            version,
             hardfork_version_vote
         ]))
     }
@@ -175,8 +175,8 @@ let signed_block_header = new Serializer(
         witness: string,
         transaction_merkle_root: bytes(20),
         extensions: set(static_variant([
-            future_extensions,    
-            version,    
+            future_extensions,
+            version,
             hardfork_version_vote
         ])),
         witness_signature: bytes(65)
@@ -225,46 +225,6 @@ let withdraw_vesting = new Serializer(
     "withdraw_vesting", {
         account: string,
         vesting_shares: asset
-    }
-);
-
-let limit_order_create = new Serializer(
-    "limit_order_create", {
-        owner: string,
-        orderid: uint32,
-        amount_to_sell: asset,
-        min_to_receive: asset,
-        fill_or_kill: bool,
-        expiration: time_point_sec
-    }
-);
-
-let limit_order_cancel = new Serializer(
-    "limit_order_cancel", {
-        owner: string,
-        orderid: uint32
-    }
-);
-
-let price = new Serializer(
-    "price", {
-        base: asset,
-        quote: asset
-    }
-);
-
-let feed_publish = new Serializer(
-    "feed_publish", {
-        publisher: string,
-        exchange_rate: price
-    }
-);
-
-let convert = new Serializer(
-    "convert", {
-        owner: string,
-        requestid: uint32,
-        amount: asset
     }
 );
 
@@ -379,7 +339,6 @@ let comment_options = new Serializer(
         author: string,
         permlink: string,
         max_accepted_payout: asset,
-        percent_steem_dollars: uint16,
         allow_votes: bool,
         allow_curation_rewards: bool,
         extensions: set(static_variant([
@@ -394,17 +353,6 @@ let set_withdraw_vesting_route = new Serializer(
         to_account: string,
         percent: uint16,
         auto_vest: bool
-    }
-);
-
-let limit_order_create2 = new Serializer(
-    "limit_order_create2", {
-        owner: string,
-        orderid: uint32,
-        amount_to_sell: asset,
-        exchange_rate: price,
-        fill_or_kill: bool,
-        expiration: time_point_sec
     }
 );
 
@@ -598,7 +546,7 @@ let delegate_vesting_shares = new Serializer(
         vesting_shares: asset
   }
 );
-  
+
 let account_create_with_delegation = new Serializer(
     "account_create_with_delegation", {
         fee: asset,
@@ -626,7 +574,7 @@ let operation_wrapper = new Serializer(
         op: operation
   }
 );
-  
+
 let proposal_create = new Serializer(
     "proposal_create", {
         author: string,
@@ -638,7 +586,7 @@ let proposal_create = new Serializer(
         extensions: set(future_extensions)
   }
 );
-  
+
 let proposal_update = new Serializer(
     "proposal_update", {
         author: string,
@@ -654,7 +602,7 @@ let proposal_update = new Serializer(
         extensions: set(future_extensions)
   }
 );
-  
+
 let proposal_delete = new Serializer(
     "proposal_delete", {
         author: string,
@@ -662,15 +610,6 @@ let proposal_delete = new Serializer(
         requester: string,
         extensions: set(future_extensions)
   }
-);
-
-let fill_convert_request = new Serializer(
-    "fill_convert_request", {
-        owner: string,
-        requestid: uint32,
-        amount_in: asset,
-        amount_out: asset
-    }
 );
 
 let author_reward = new Serializer(
@@ -700,37 +639,12 @@ let comment_reward = new Serializer(
     }
 );
 
-let liquidity_reward = new Serializer(
-    "liquidity_reward", {
-        owner: string,
-        payout: asset
-    }
-);
-
-let interest = new Serializer(
-    "interest", {
-        owner: string,
-        interest: asset
-    }
-);
-
 let fill_vesting_withdraw = new Serializer(
     "fill_vesting_withdraw", {
         from_account: string,
         to_account: string,
         withdrawn: asset,
         deposited: asset
-    }
-);
-
-let fill_order = new Serializer(
-    "fill_order", {
-        current_owner: string,
-        current_orderid: uint32,
-        current_pays: asset,
-        open_owner: string,
-        open_orderid: uint32,
-        open_pays: asset
     }
 );
 
@@ -771,7 +685,7 @@ let comment_benefactor_reward = new Serializer(
         reward: asset
   }
 );
-  
+
 let return_vesting_delegation = new Serializer(
     "return_vesting_delegation", {
         account: string,
@@ -785,10 +699,6 @@ operation.st_operations = [
     transfer,
     transfer_to_vesting,
     withdraw_vesting,
-    limit_order_create,
-    limit_order_cancel,
-    feed_publish,
-    convert,
     account_create,
     account_update,
     witness_update,
@@ -801,7 +711,6 @@ operation.st_operations = [
     custom_json,
     comment_options,
     set_withdraw_vesting_route,
-    limit_order_create2,
     challenge_authority,
     prove_authority,
     request_account_recovery,
@@ -825,14 +734,10 @@ operation.st_operations = [
     proposal_create,
     proposal_update,
     proposal_delete,
-    fill_convert_request,
     author_reward,
     curation_reward,
     comment_reward,
-    liquidity_reward,
-    interest,
     fill_vesting_withdraw,
-    fill_order,
     shutdown_witness,
     fill_transfer_from_savings,
     hardfork,
