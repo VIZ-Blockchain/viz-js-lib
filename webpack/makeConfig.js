@@ -72,8 +72,8 @@ function makeConfig(options) {
   return {
     devtool: isDevelopment ? 'cheap-eval-source-map' : 'source-map',
     entry: {
-      golos: path.join(options.baseDir, 'src/browser.js'),
-      'golos-tests': path.join(options.baseDir, 'test/api.test.js'),
+      viz: path.join(options.baseDir, 'src/browser.js'),
+      'viz-tests': path.join(options.baseDir, 'test/api.test.js'),
     },
     output: {
       path: path.join(options.baseDir, 'dist'),

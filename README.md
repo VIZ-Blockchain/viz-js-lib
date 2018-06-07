@@ -1,5 +1,5 @@
-# Golos.js
-Golos.js the JavaScript API for Golos blockchain
+# viz.js
+viz.js the JavaScript API for VIZ blockchain
 
 [![npm version](https://badge.fury.io/js/golos-js.svg)](https://badge.fury.io/js/golos-js)
 
@@ -34,8 +34,8 @@ $ npm install golos-js --save
 Here is full documentation:
 https://github.com/GolosChain/golos-js/tree/master/doc
 
-## Browser 
-```html 
+## Browser
+```html
 <script src="./golos.min.js"></script>
 <script>
 golos.api.getAccounts(['ned', 'dan'], function(err, response){
@@ -68,14 +68,14 @@ golos.api.getAccounts(['ned', 'dan'], function(err, result) {
 ```
 
 ### Get State
-```js 
+```js
 golos.api.getState('/trends/funny', function(err, result) {
 	console.log(err, result);
 });
 ```
 
 ### Reputation Formatter
-```js 
+```js
 var reputation = golos.formatter.reputation(user.reputation);
 console.log(reputation);
 ```

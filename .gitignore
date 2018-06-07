@@ -11,7 +11,6 @@ build/Release
 node_modules
 .tern-port
 
-dist/golos-tests.min.js*
 # node-dist
 .tern-port
 .envrc
