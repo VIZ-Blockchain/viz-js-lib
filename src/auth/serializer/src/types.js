@@ -34,7 +34,7 @@ Types.asset = {
         let b_copy = b.copy(b.offset, b.offset + 7)
         let symbol = new Buffer(b_copy.toBinary(), "binary").toString().replace(/\x00/g, "")
         b.skip(7);
-        // "1.000 GOLOS" always written with full precision
+        // "1.000 VIZ" always written with full precision
         let amount_string = fromImpliedDecimal(amount, precision)
         return amount_string + " " + symbol
     },
@@ -63,7 +63,7 @@ Types.asset = {
     },
 
     toObject(object, debug = {}){
-        if (debug.use_default && object === undefined) { return "0.000 GOLOS"; }
+        if (debug.use_default && object === undefined) { return "0.000 VIZ"; }
         return object
     }
 }
