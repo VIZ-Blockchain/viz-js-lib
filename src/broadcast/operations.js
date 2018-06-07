@@ -51,51 +51,6 @@ module.exports = [
   },
   {
     "roles": ["active"],
-    "operation": "limit_order_create",
-    "params": [
-      "owner",
-      "orderid",
-      "amount_to_sell",
-      "min_to_receive",
-      "fill_or_kill",
-      "expiration"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "limit_order_cancel",
-    "params": [
-      "owner",
-      "orderid"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "price",
-    "params": [
-      "base",
-      "quote"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "feed_publish",
-    "params": [
-      "publisher",
-      "exchange_rate"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "convert",
-    "params": [
-      "owner",
-      "requestid",
-      "amount"
-    ]
-  },
-  {
-    "roles": ["active"],
     "operation": "account_create",
     "params": [
       "fee",
@@ -209,18 +164,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
-    "operation": "limit_order_create2",
-    "params": [
-      "owner",
-      "orderid",
-      "amount_to_sell",
-      "exchange_rate",
-      "fill_or_kill",
-      "expiration"
-    ]
-  },
-  {
     "roles": ["posting"],
     "operation": "challenge_authority",
     "params": [
@@ -274,7 +217,6 @@ module.exports = [
       "to",
       "agent",
       "escrow_id",
-      "sbd_amount",
       "steem_amount",
       "fee",
       "ratification_deadline",
@@ -303,7 +245,6 @@ module.exports = [
       "who",
       "receiver",
       "escrow_id",
-      "sbd_amount",
       "steem_amount"
     ]
   },
@@ -396,18 +337,7 @@ module.exports = [
     "params": [
       "account",
       "reward_steem",
-      "reward_sbd",
       "reward_vests"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "fill_convert_request",
-    "params": [
-      "owner",
-      "requestid",
-      "amount_in",
-      "amount_out"
     ]
   },
   {
@@ -421,40 +351,12 @@ module.exports = [
   },
   {
     "roles": ["active"],
-    "operation": "liquidity_reward",
-    "params": [
-      "owner",
-      "payout"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "interest",
-    "params": [
-      "owner",
-      "interest"
-    ]
-  },
-  {
-    "roles": ["active"],
     "operation": "fill_vesting_withdraw",
     "params": [
       "from_account",
       "to_account",
       "withdrawn",
       "deposited"
-    ]
-  },
-  {
-    "roles": ["posting"],
-    "operation": "fill_order",
-    "params": [
-      "current_owner",
-      "current_orderid",
-      "current_pays",
-      "open_owner",
-      "open_orderid",
-      "open_pays"
     ]
   },
   {
@@ -542,4 +444,3 @@ module.exports = [
     ]
   },
 ]
-
