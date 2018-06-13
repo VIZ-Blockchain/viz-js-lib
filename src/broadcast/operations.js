@@ -19,7 +19,8 @@ module.exports = [
       "permlink",
       "title",
       "body",
-      "json_metadata"
+      "json_metadata",
+      "options"
     ]
   },
   {
@@ -138,19 +139,6 @@ module.exports = [
       "required_posting_auths",
       "id",
       "json"
-    ]
-  },
-  {
-    "roles": ["posting"],
-    "operation": "comment_options",
-    "params": [
-      "author",
-      "permlink",
-      "max_accepted_payout",
-      "percent_steem_dollars",
-      "allow_votes",
-      "allow_curation_rewards",
-      "extensions"
     ]
   },
   {

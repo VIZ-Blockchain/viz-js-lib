@@ -84,6 +84,17 @@ const comment_payout_beneficiaries = new Serializer(
     }
 );
 
+const comment_options = new Serializer(
+    "comment_options", {
+        max_accepted_payout: asset,
+        allow_votes: bool,
+        allow_curation_rewards: bool,
+        extensions: set(static_variant([
+            comment_payout_beneficiaries
+        ]))
+    }
+);
+
 const transaction = new Serializer(
     "transaction", {
         ref_block_num: uint16,
@@ -200,7 +211,8 @@ let comment = new Serializer(
         permlink: string,
         title: string,
         body: string,
-        json_metadata: string
+        json_metadata: string,
+        options: comment_options
     }
 );
 
@@ -330,19 +342,6 @@ let custom_json = new Serializer(
         required_posting_auths: set(string),
         id: string,
         json: string
-    }
-);
-
-let comment_options = new Serializer(
-    "comment_options", {
-        author: string,
-        permlink: string,
-        max_accepted_payout: asset,
-        allow_votes: bool,
-        allow_curation_rewards: bool,
-        extensions: set(static_variant([
-            comment_payout_beneficiaries
-        ]))
     }
 );
 
@@ -705,7 +704,6 @@ operation.st_operations = [
     report_over_production,
     delete_comment,
     custom_json,
-    comment_options,
     set_withdraw_vesting_route,
     challenge_authority,
     prove_authority,
