@@ -51,20 +51,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
-    "operation": "account_create",
-    "params": [
-      "fee",
-      "creator",
-      "new_account_name",
-      "owner",
-      "active",
-      "posting",
-      "memo_key",
-      "json_metadata"
-    ]
-  },
-  {
     "roles": ["owner", "active"],
     "operation": "account_update",
     "params": [
@@ -369,7 +355,7 @@ module.exports = [
   },
   {
     "roles": ["active", "owner"],
-    "operation": "account_create_with_delegation",
+    "operation": "account_create",
     "params": [
       "fee",
       "delegation",

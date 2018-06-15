@@ -248,19 +248,6 @@ let authority = new Serializer(
     }
 );
 
-let account_create = new Serializer(
-    "account_create", {
-        fee: asset,
-        creator: string,
-        new_account_name: string,
-        owner: authority,
-        active: authority,
-        posting: authority,
-        memo_key: public_key,
-        json_metadata: string
-    }
-);
-
 let account_update = new Serializer(
     "account_update", {
         account: string,
@@ -543,8 +530,8 @@ let delegate_vesting_shares = new Serializer(
   }
 );
 
-let account_create_with_delegation = new Serializer(
-    "account_create_with_delegation", {
+let account_create = new Serializer(
+    "account_create", {
         fee: asset,
         delegation: asset,
         creator: string,
@@ -694,7 +681,6 @@ operation.st_operations = [
     transfer,
     transfer_to_vesting,
     withdraw_vesting,
-    account_create,
     account_update,
     witness_update,
     account_witness_vote,
@@ -723,7 +709,7 @@ operation.st_operations = [
     reset_account,
     set_reset_account,
     delegate_vesting_shares,
-    account_create_with_delegation,
+    account_create,
     account_metadata,
     proposal_create,
     proposal_update,
