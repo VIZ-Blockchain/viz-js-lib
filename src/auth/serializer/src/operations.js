@@ -84,17 +84,6 @@ const comment_payout_beneficiaries = new Serializer(
     }
 );
 
-const comment_options = new Serializer(
-    "comment_options", {
-        max_accepted_payout: asset,
-        allow_votes: bool,
-        allow_curation_rewards: bool,
-        extensions: set(static_variant([
-            comment_payout_beneficiaries
-        ]))
-    }
-);
-
 const transaction = new Serializer(
     "transaction", {
         ref_block_num: uint16,
@@ -212,7 +201,9 @@ let comment = new Serializer(
         title: string,
         body: string,
         json_metadata: string,
-        options: comment_options
+        extensions: set(static_variant([
+            comment_payout_beneficiaries
+        ]))
     }
 );
 

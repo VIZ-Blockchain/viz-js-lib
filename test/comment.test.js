@@ -11,7 +11,7 @@ const postingWif = password
 
 describe('golos.broadcast:', () => {
 
-  describe('comment with options', () => {
+  describe('comment with beneficiaries', () => {
     before(() => {
       return Promise.delay(2000);
     });
@@ -30,25 +30,17 @@ describe('golos.broadcast:', () => {
             json_metadata : JSON.stringify({
               tags: ['test'],
               app: `golosjs/${pkg.version}`
-            })
+            }),
+            extensions: [
+              [0, {
+                beneficiaries: [
+                  { account: 'pal', weight: 2000 },
+                  { account: 'null', weight: 5000 }
+                ]
+              }]
+            ]
           }
-        ],
-        ['comment_options', {
-          author: username,
-          permlink,
-          max_accepted_payout: '1000000.000 GBG',
-          percent_steem_dollars: 10000,
-          allow_votes: true,
-          allow_curation_rewards: true,
-          extensions: [
-            [0, {
-              beneficiaries: [
-                { account: 'pal', weight: 2000 },
-                { account: 'null', weight: 5000 }
-              ]
-            }]
-          ]
-        }]
+        ]
       ];
 
       const tx = await golos.broadcast.sendAsync(

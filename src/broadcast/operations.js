@@ -20,7 +20,7 @@ module.exports = [
       "title",
       "body",
       "json_metadata",
-      "options"
+      "extensions"
     ]
   },
   {
