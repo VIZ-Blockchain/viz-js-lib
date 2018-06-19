@@ -215,11 +215,6 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_account_bandwidth",
-    "params": ["account", "bandwidthType"]
-  },
-  {
-    "api": "database_api",
     "method": "get_savings_withdraw_from",
     "params": ["account"]
   },

@@ -18,7 +18,6 @@ export const methods_0_16_4 = [
 
     // database_api
     "cancel_all_subscriptions",
-    "get_account_bandwidth",
     "get_account_count",
     "get_account_history",
     "get_account_references",
@@ -87,7 +86,7 @@ export const methods_0_16_4 = [
     "set_subscribe_callback",
     "verify_account_authority",
     "verify_authority",
-    
+
     // account_by_key_api
     "get_key_references",
 
