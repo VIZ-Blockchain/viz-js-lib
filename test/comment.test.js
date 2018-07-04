@@ -1,15 +1,15 @@
 import Promise from 'bluebird';
 import should from 'should';
-import golos from '../src';
+import viz from '../src';
 import pkg from '../package.json';
 
-const username = process.env.GOLOS_USERNAME || 'guest123';
-const password = process.env.GOLOS_PASSWORD;
+const username = process.env.VIZ_USERNAME || 'guest123';
+const password = process.env.VIZ_PASSWORD;
 const postingWif = password
-  ? golos.auth.toWif(username, password, 'posting')
+  ? viz.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
 
-describe('golos.broadcast:', () => {
+describe('viz.broadcast:', () => {
 
   describe('comment with beneficiaries', () => {
     before(() => {
@@ -17,7 +17,7 @@ describe('golos.broadcast:', () => {
     });
 
     it('works', async () => {
-      const permlink = golos.formatter.commentPermlink('pal', '2scmtp-test');
+      const permlink = viz.formatter.commentPermlink('pal', '2scmtp-test');
       const operations = [
         ['comment',
           {
@@ -26,10 +26,10 @@ describe('golos.broadcast:', () => {
             author: username,
             permlink,
             title: 'Test',
-            body: `This is a test using Golos.js v${pkg.version}.`,
+            body: `This is a test using viz.js v${pkg.version}.`,
             json_metadata : JSON.stringify({
               tags: ['test'],
-              app: `golosjs/${pkg.version}`
+              app: `vizjs/${pkg.version}`
             }),
             extensions: [
               [0, {
@@ -43,7 +43,7 @@ describe('golos.broadcast:', () => {
         ]
       ];
 
-      const tx = await golos.broadcast.sendAsync(
+      const tx = await viz.broadcast.sendAsync(
         { operations, extensions: [] },
         { posting: postingWif }
       );

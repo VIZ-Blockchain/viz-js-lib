@@ -5,7 +5,7 @@ const config = require("./config");
 const formatter = require("./formatter")(api);
 const utils = require("./utils");
 
-const golos = {
+const viz = {
   api,
   auth,
   broadcast,
@@ -15,11 +15,11 @@ const golos = {
 };
 
 if (typeof window !== "undefined") {
-  window.golos = golos;
+  window.viz = viz;
 }
 
 if (typeof global !== "undefined") {
-  global.golos = golos;
+  global.viz = viz;
 }
 
-exports = module.exports = golos;
+exports = module.exports = viz;

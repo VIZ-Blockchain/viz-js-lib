@@ -6,7 +6,7 @@ var type = require('../src/auth/serializer/src/types');
 var p = require('../src/auth/serializer/src/precision');
 var th = require('./test_helper');
 
-describe("golos.auth: types", function() {
+describe("viz.auth: types", function() {
 
     it("vote_id",function() {
         var toHex=function(id){
@@ -53,13 +53,13 @@ describe("golos.auth: types", function() {
     it("public_key sort", function() {
         let mapType = type.map(type.public_key, type.uint16)
         let map = mapType.fromObject([//not sorted
-            ["GLS56ankGHKf6qUsQe7vPsXTSEqST6Dt1ff73aV3YQbedzRua8NLQ",0],
-            ["GLS8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
+            ["VIZ56ankGHKf6qUsQe7vPsXTSEqST6Dt1ff73aV3YQbedzRua8NLQ",0],
+            ["VIZ8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
         ])
         let mapObject = mapType.toObject(map)
         assert.deepEqual(mapObject, [ // sorted (uppercase comes first)
-            ["GLS8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
-            ["GLS56ankGHKf6qUsQe7vPsXTSEqST6Dt1ff73aV3YQbedzRua8NLQ",0],
+            ["VIZ8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
+            ["VIZ56ankGHKf6qUsQe7vPsXTSEqST6Dt1ff73aV3YQbedzRua8NLQ",0],
         ])
     })
 

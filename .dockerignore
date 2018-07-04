@@ -6,7 +6,5 @@ npm-debug.log*
 build/Release
 node_modules
 .tern-port
-dist/golos-tests.min.js*
-.tern-port
 .envrc
 dist

@@ -117,11 +117,6 @@ module.exports = [
   },
   {
     "api": "tags",
-    "method": "get_discussions_by_promoted",
-    "params": ["query"]
-  },
-  {
-    "api": "tags",
     "method": "get_discussions_by_author_before_date",
     "params": ["author", "startPermlink", "beforeDate", "limit"]
   },
@@ -225,11 +220,6 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_conversion_requests",
-    "params": ["accountName"]
-  },
-  {
-    "api": "database_api",
     "method": "get_transaction_hex",
     "params": ["trx"]
   },
@@ -324,11 +314,6 @@ module.exports = [
   },
   {
     "api": "follow",
-    "method": "get_account_reputations",
-    "params": ["names"]
-  },
-  {
-    "api": "follow",
     "method": "get_reblogged_by",
     "params": ["author", "permlink"]
   },
@@ -336,12 +321,6 @@ module.exports = [
     "api": "follow",
     "method": "get_blog_authors",
     "params": ["blogAccount"]
-  },
-  {
-    "api": "follow",
-    "method": "get_accounts",
-    "method_name":"getAccountsWithReputation",
-    "params": ["names"]
   },
   {
     "api": "account_by_key",

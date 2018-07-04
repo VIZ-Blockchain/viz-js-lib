@@ -1,10 +1,10 @@
-const golos = require('../lib');
+const viz = require('../lib');
 
-const username = process.env.GOLOS_USERNAME;
-const password = process.env.GOLOS_PASSWORD;
-const wif = golos.auth.toWif(username, password, 'posting');
+const username = process.env.VIZ_USERNAME;
+const password = process.env.VIZ_PASSWORD;
+const wif = viz.auth.toWif(username, password, 'posting');
 
-golos
+viz
   .broadcast
   .upvote(
     wif,

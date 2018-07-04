@@ -1,7 +1,7 @@
 # viz.js
 viz.js the JavaScript API for VIZ blockchain
 
-[![npm version](https://badge.fury.io/js/golos-js.svg)](https://badge.fury.io/js/golos-js)
+[![npm version](https://badge.fury.io/js/viz-js.svg)](https://badge.fury.io/js/viz-js)
 
 # Documentation
 
@@ -20,7 +20,6 @@ viz.js the JavaScript API for VIZ blockchain
     - [Votes](#votes)
     - [Content](#content)
     - [Witnesses](#witnesses)
-- [Login API](#login)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
@@ -28,17 +27,17 @@ viz.js the JavaScript API for VIZ blockchain
 
 # Install
 ```
-$ npm install golos-js --save
+$ npm install viz-js --save
 ```
 
 Here is full documentation:
-https://github.com/GolosChain/golos-js/tree/master/doc
+https://github.com/VIZ-World/viz-js/tree/master/doc
 
 ## Browser
 ```html
-<script src="./golos.min.js"></script>
+<script src="./viz.min.js"></script>
 <script>
-golos.api.getAccounts(['ned', 'dan'], function(err, response){
+viz.api.getAccounts(['ned', 'dan'], function(err, response){
     console.log(err, response);
 });
 </script>
@@ -47,41 +46,28 @@ golos.api.getAccounts(['ned', 'dan'], function(err, response){
 ## Server
 
 ## WebSockets
-wss://ws.golos.io By Default<br/>
+wss://testnet.viz.world By Default<br/>
 
 ## Examples
 ### Broadcast Vote
 ```js
-var golos = require('golos');
+var viz = require('viz');
 
-var wif = golos.auth.toWif(username, password, 'posting');
-golos.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
+var wif = viz.auth.toWif(username, password, 'posting');
+viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
 	console.log(err, result);
 });
 ```
 
 ### Get Accounts
 ```js
-golos.api.getAccounts(['ned', 'dan'], function(err, result) {
+viz.api.getAccounts(['ned', 'dan'], function(err, result) {
 	console.log(err, result);
 });
-```
-
-### Get State
-```js
-golos.api.getState('/trends/funny', function(err, result) {
-	console.log(err, result);
-});
-```
-
-### Reputation Formatter
-```js
-var reputation = golos.formatter.reputation(user.reputation);
-console.log(reputation);
 ```
 
 ## Contributions
-Patches are welcome! Contributors are listed in the package.json file. Please run the tests before opening a pull request and make sure that you are passing all of them. If you would like to contribute, but don't know what to work on, check the issues list or on Golos Chat https://chat.golos.io/ channel #golosjs.
+Patches are welcome! Contributors are listed in the package.json file. Please run the tests before opening a pull request and make sure that you are passing all of them. If you would like to contribute, but don't know what to work on, check the issues list.
 
 ## Issues
 When you find issues, please report them!

@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Golos.js Broadcast</title>
+  <title>Broadcast</title>
 </head>
 <body>
 
-<script src="../dist/golos.min.js"></script>
+<script src="../dist/viz.min.js"></script>
 <script>
   /** Configure your account */
   var username = 'guest123';
   var postingWif = '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
 
   /** Broadcast a vote */
-  golos.broadcast.vote(
+  viz.broadcast.vote(
     postingWif,
     username, // Voter
-    'firepower', // Author
-    'golosit-veni-vidi-vici-golosfest-2016-together-we-made-it-happen-thank-you-golosians', // Permlink
+    'viz', // Author
+    'test', // Permlink
     10000, // Weight (10000 = 100%)
     function(err, result) {
       console.log(err, result);
@@ -27,7 +27,7 @@
   /** Broadcast a comment */
   var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
 
-  golos.broadcast.comment(
+  viz.broadcast.comment(
     postingWif,
     'siol', // Parent Author
     'test', // Parent Permlink
@@ -35,7 +35,7 @@
     permlink, // Permlink
     '', // Title
     'This is a test!', // Body
-    { tags: ['test'], app: 'golosjs/examples' }, // Json Metadata
+    { tags: ['test'], app: 'vizjs/examples' }, // Json Metadata
     function(err, result) {
       console.log(err, result);
     }
@@ -44,7 +44,7 @@
   /** Broadcast a post */
   var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
 
-  golos.broadcast.comment(
+  viz.broadcast.comment(
     postingWif,
     '', // Leave parent author empty
     'photography', // Main tag
@@ -52,7 +52,8 @@
     permlink + '-post', // Permlink
     'This is just a test!', // Title
     'Nothing to see here', // Body
-    { tags: ['test'], app: 'golosjs/examples' }, // Json Metadata
+    { tags: ['test'], app: 'vizjs/examples' }, // Json Metadata
+    [],
     function(err, result) {
       console.log(err, result);
     }
@@ -60,7 +61,7 @@
 
   /** Follow an user */
   var follower = username; // Your username
-  var following = 'golosjs'; // User to follow
+  var following = 'vizjs'; // User to follow
 
   var json = JSON.stringify(
     ['follow', {
@@ -70,7 +71,7 @@
     }]
   );
 
-  golos.broadcast.customJson(
+  viz.broadcast.customJson(
     postingWif,
     [], // Required_auths
     [follower], // Required Posting Auths
@@ -90,7 +91,7 @@
     }]
   );
 
-  golos.broadcast.customJson(
+  viz.broadcast.customJson(
     postingWif,
     [], // Required_auths
     [follower], // Required Posting Auths

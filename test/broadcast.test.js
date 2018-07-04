@@ -1,38 +1,38 @@
 import Promise from 'bluebird';
 import should from 'should';
-import golos from '../src';
+import viz from '../src';
 
-const username = process.env.GOLOS_USERNAME || 'guest123';
-const password = process.env.GOLOS_PASSWORD;
+const username = process.env.VIZ_USERNAME || 'guest123';
+const password = process.env.VIZ_PASSWORD;
 const postingWif = password
-  ? golos.auth.toWif(username, password, 'posting')
+  ? viz.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
 
-describe('golos.broadcast:', () => {
+describe('viz.broadcast:', () => {
   it('exists', () => {
-    should.exist(golos.broadcast);
+    should.exist(viz.broadcast);
   });
 
   it('has generated methods', () => {
-    should.exist(golos.broadcast.vote);
-    should.exist(golos.broadcast.voteWith);
-    should.exist(golos.broadcast.comment);
-    should.exist(golos.broadcast.transfer);
+    should.exist(viz.broadcast.vote);
+    should.exist(viz.broadcast.voteWith);
+    should.exist(viz.broadcast.comment);
+    should.exist(viz.broadcast.transfer);
   });
 
   it('has backing methods', () => {
-    should.exist(golos.broadcast.send);
+    should.exist(viz.broadcast.send);
   });
 
   it('has promise methods', () => {
-    should.exist(golos.broadcast.sendAsync);
-    should.exist(golos.broadcast.voteAsync);
-    should.exist(golos.broadcast.transferAsync);
+    should.exist(viz.broadcast.sendAsync);
+    should.exist(viz.broadcast.voteAsync);
+    should.exist(viz.broadcast.transferAsync);
   });
 
   describe('patching transaction with default global properties', () => {
     it('works', async () => {
-      const tx = await golos.broadcast._prepareTransaction({
+      const tx = await viz.broadcast._prepareTransaction({
         extensions: [],
         operations: [['vote', {
           voter: 'pal',
@@ -53,7 +53,7 @@ describe('golos.broadcast:', () => {
 
   describe('downvoting', () => {
     it('works', async () => {
-      const tx = await golos.broadcast.voteAsync(
+      const tx = await viz.broadcast.voteAsync(
         postingWif,
         username,
         'pal',
@@ -78,7 +78,7 @@ describe('golos.broadcast:', () => {
     });
 
     it('works', async () => {
-      const tx = await golos.broadcast.voteAsync(
+      const tx = await viz.broadcast.voteAsync(
         postingWif,
         username,
         'pal',
@@ -97,7 +97,7 @@ describe('golos.broadcast:', () => {
     });
 
     it('works with callbacks', (done) => {
-      golos.broadcast.vote(
+      viz.broadcast.vote(
         postingWif,
         username,
         'pal',
@@ -125,7 +125,7 @@ describe('golos.broadcast:', () => {
     });
 
     it('works', async () => {
-      const tx = await golos.broadcast.customJsonAsync(
+      const tx = await viz.broadcast.customJsonAsync(
         postingWif,
         [],
         [username],

@@ -1,6 +1,6 @@
 FROM node:6
-ADD ./package.json /golosjs/package.json
-WORKDIR /golosjs
+ADD ./package.json /vizjs/package.json
+WORKDIR /vizjs
 RUN npm install
-ADD . /golosjs
+ADD . /vizjs
 RUN npm test

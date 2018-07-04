@@ -377,7 +377,7 @@ let escrow_transfer = new Serializer(
     "escrow_transfer", {
         from: string,
         to: string,
-        steem_amount: asset,
+        amount: asset,
         escrow_id: uint32,
         agent: string,
         fee: asset,
@@ -405,7 +405,7 @@ let escrow_release = new Serializer(
         who: string,
         receiver: string,
         escrow_id: uint32,
-        steem_amount: asset
+        amount: asset
     }
 );
 
@@ -590,7 +590,7 @@ let author_reward = new Serializer(
     "author_reward", {
         author: string,
         permlink: string,
-        steem_payout: asset,
+        payout: asset,
         vesting_payout: asset
     }
 );

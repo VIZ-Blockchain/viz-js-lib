@@ -15,7 +15,6 @@
     - [Votes](#votes)
     - [Content](#content)
     - [Witnesses](#witnesses)
-- [Login API](#login)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
@@ -24,34 +23,34 @@
 
 # Install
 ```
-$ npm install git+https://github.com/GolosChain/golos-js --save
+$ npm install git+https://github.com/VIZ-World/viz-js --save
 ```
 
-# Browser 
-```html 
-<script src="./golos.min.js"></script>
+# Browser
+```html
+<script src="./viz.min.js"></script>
 <script>
-golos.api.getAccounts(['ned', 'dan'], function(err, response){
+viz.api.getAccounts(['viz','in'], function(err, response){
     console.log(err, response);
 });
 </script>
 ```
 
 ## Config
-Default config should work with golos. however you can change it to work with golos
-as 
+Default config should work with viz. however you can change it to work with viz
+as
 ```js
-golos.config.set('websocket','wss://ws.golos.io'); // assuming websocket is work at ws.golos.io
-golos.config.set('address_prefix','GLS');
-golos.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd444b9da763de12');
+viz.config.set('websocket','wss://testnet.viz.world'); // assuming websocket is work at testnet.viz.world
+viz.config.set('address_prefix','VIZ');
+viz.config.set('chain_id','2040effda178d4fffff5eab7a915d4019879f5205cc5392e4bcced2b6edda0cd');
 ```
 ### set
 ```
-golos.config.set('address_prefix','GLS');
+viz.config.set('address_prefix','VIZ');
 ```
 ### get
 ```
-golos.config.get('chain_id');
+viz.config.get('chain_id');
 ```
 
 # API
@@ -60,25 +59,25 @@ golos.config.get('chain_id');
 
 ### Set Subscribe Callback
 ```
-golos.api.setSubscribeCallback(callback, clearFilter, function(err, result) {
+viz.api.setSubscribeCallback(callback, clearFilter, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Set Pending Transaction Callback
 ```
-golos.api.setPendingTransactionCallback(cb, function(err, result) {
+viz.api.setPendingTransactionCallback(cb, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Set Block Applied Callback
 ```
-golos.api.setBlockAppliedCallback(cb, function(err, result) {
+viz.api.setBlockAppliedCallback(cb, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Cancel All Subscriptions
 ```
-golos.api.cancelAllSubscriptions(function(err, result) {
+viz.api.cancelAllSubscriptions(function(err, result) {
   console.log(err, result);
 });
 ```
@@ -87,13 +86,13 @@ golos.api.cancelAllSubscriptions(function(err, result) {
 
 ### Get Trending Tags
 ```
-golos.api.getTrendingTags(afterTag, limit, function(err, result) {
+viz.api.getTrendingTags(afterTag, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Trending
 ```
-golos.api.getDiscussionsByTrending(query, function(err, result) {
+viz.api.getDiscussionsByTrending(query, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -109,7 +108,7 @@ var query = {
   //start_author: 'epexa',
   //start_permlink: 'test-url'
 };
-golos.api.getDiscussionsByTrending(query, function(err, result) {
+viz.api.getDiscussionsByTrending(query, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -121,55 +120,55 @@ golos.api.getDiscussionsByTrending(query, function(err, result) {
 ```
 ### Get Discussions By Created
 ```
-golos.api.getDiscussionsByCreated(query, function(err, result) {
+viz.api.getDiscussionsByCreated(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Active
 ```
-golos.api.getDiscussionsByActive(query, function(err, result) {
+viz.api.getDiscussionsByActive(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Cashout
 ```
-golos.api.getDiscussionsByCashout(query, function(err, result) {
+viz.api.getDiscussionsByCashout(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Payout
 ```
-golos.api.getDiscussionsByPayout(query, function(err, result) {
+viz.api.getDiscussionsByPayout(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Votes
 ```
-golos.api.getDiscussionsByVotes(query, function(err, result) {
+viz.api.getDiscussionsByVotes(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Children
 ```
-golos.api.getDiscussionsByChildren(query, function(err, result) {
+viz.api.getDiscussionsByChildren(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Hot
 ```
-golos.api.getDiscussionsByHot(query, function(err, result) {
+viz.api.getDiscussionsByHot(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Feed
 ```
-golos.api.getDiscussionsByFeed(query, function(err, result) {
+viz.api.getDiscussionsByFeed(query, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Discussions By Blog
 ```
-golos.api.getDiscussionsByBlog(query, function(err, result) {
+viz.api.getDiscussionsByBlog(query, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -184,7 +183,7 @@ var query = {
   select_tags: ['dev'],
   limit: 100
 };
-golos.api.getDiscussionsByBlog(query, function(err, result) {
+viz.api.getDiscussionsByBlog(query, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -196,7 +195,7 @@ golos.api.getDiscussionsByBlog(query, function(err, result) {
 ```
 ### Get Discussions By Comments
 ```
-golos.api.getDiscussionsByComments(query, function(err, result) {
+viz.api.getDiscussionsByComments(query, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -205,43 +204,43 @@ golos.api.getDiscussionsByComments(query, function(err, result) {
 
 ### Get Block Header
 ```
-golos.api.getBlockHeader(blockNum, function(err, result) {
+viz.api.getBlockHeader(blockNum, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Block
 ```
-golos.api.getBlock(blockNum, function(err, result) {
+viz.api.getBlock(blockNum, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get State
 ```
-golos.api.getState(path, function(err, result) {
+viz.api.getState(path, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Trending Categories
 ```
-golos.api.getTrendingCategories(after, limit, function(err, result) {
+viz.api.getTrendingCategories(after, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Best Categories
 ```
-golos.api.getBestCategories(after, limit, function(err, result) {
+viz.api.getBestCategories(after, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Active Categories
 ```
-golos.api.getActiveCategories(after, limit, function(err, result) {
+viz.api.getActiveCategories(after, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Recent Categories
 ```
-golos.api.getRecentCategories(after, limit, function(err, result) {
+viz.api.getRecentCategories(after, limit, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -250,43 +249,31 @@ golos.api.getRecentCategories(after, limit, function(err, result) {
 
 ### Get Config
 ```
-golos.api.getConfig(function(err, result) {
+viz.api.getConfig(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Dynamic Global Properties
 ```
-golos.api.getDynamicGlobalProperties(function(err, result) {
+viz.api.getDynamicGlobalProperties(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Chain Properties
 ```
-golos.api.getChainProperties(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Feed History
-```
-golos.api.getFeedHistory(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Current Median History Price
-```
-golos.api.getCurrentMedianHistoryPrice(function(err, result) {
+viz.api.getChainProperties(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Hardfork Version
 ```
-golos.api.getHardforkVersion(function(err, result) {
+viz.api.getHardforkVersion(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Next Scheduled Hardfork
 ```
-golos.api.getNextScheduledHardfork(function(err, result) {
+viz.api.getNextScheduledHardfork(function(err, result) {
   console.log(err, result);
 });
 ```
@@ -295,14 +282,14 @@ golos.api.getNextScheduledHardfork(function(err, result) {
 
 ### Get Key References
 ```
-golos.api.getKeyReferences(key, function(err, result) {
+viz.api.getKeyReferences(key, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example:
 ```js
-var publicKeys = ['GLS6...', 'GLS6...'];
-golos.api.getKeyReferences(publicKeys, function(err, result) {
+var publicKeys = ['VIZ...', 'VIZ...'];
+viz.api.getKeyReferences(publicKeys, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -317,14 +304,14 @@ golos.api.getKeyReferences(publicKeys, function(err, result) {
 
 ### Get Accounts
 ```
-golos.api.getAccounts(names, function(err, result) {
+viz.api.getAccounts(names, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example:
 ```js
-var accounts = [ 'epexa', 'epexa2' ];
-golos.api.getAccounts(accounts, function(err, result) {
+var accounts=['viz','in'];
+viz.api.getAccounts(accounts, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -336,14 +323,14 @@ golos.api.getAccounts(accounts, function(err, result) {
 ```
 ### Lookup Account Names
 ```
-golos.api.lookupAccountNames(accountNames, function(err, result) {
+viz.api.lookupAccountNames(accountNames, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example:
 ```js
-var usernames = ['epexa', 'epexa2'];
-golos.api.lookupAccountNames(usernames, function(err, result) {
+var usernames=['viz','in'];
+viz.api.lookupAccountNames(usernames, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -356,15 +343,15 @@ golos.api.lookupAccountNames(usernames, function(err, result) {
 ```
 ### Lookup Accounts
 ```
-golos.api.lookupAccounts(lowerBoundName, limit, function(err, result) {
+viz.api.lookupAccounts(lowerBoundName, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example:
 ```js
-var searchAccountsQuery = 'epe';
+var searchAccountsQuery = 'vi';
 var limitResults = 10;
-golos.api.lookupAccounts(searchAccountsQuery, limitResults, function(err, result) {
+viz.api.lookupAccounts(searchAccountsQuery, limitResults, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -376,100 +363,69 @@ golos.api.lookupAccounts(searchAccountsQuery, limitResults, function(err, result
 ```
 ### Get Account Count
 ```
-golos.api.getAccountCount(function(err, result) {
+viz.api.getAccountCount(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Conversion Requests
 ```
-golos.api.getConversionRequests(accountName, function(err, result) {
+viz.api.getConversionRequests(accountName, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Account History
 ```
-golos.api.getAccountHistory(account, from, limit, function(err, result) {
+viz.api.getAccountHistory(account, from, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Owner History
 ```
-golos.api.getOwnerHistory(account, function(err, result) {
+viz.api.getOwnerHistory(account, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Recovery Request
 ```
-golos.api.getRecoveryRequest(account, function(err, result) {
+viz.api.getRecoveryRequest(account, function(err, result) {
   console.log(err, result);
 });
 ```
-
-## Market
-
-### Get Ticker
-```js
-/**
- * getTicker() receive statistic values of the internal GBG:GOLOS market for the last 24 hours
-*/
-golos.api.getTicker(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Order Book
-```
-golos.api.getOrderBook(limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Open Orders
-```
-golos.api.getOpenOrders(owner, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Liquidity Queue
-```
-golos.api.getLiquidityQueue(startAccount, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-
 ## Authority / validation
 
 ### Get Transaction Hex
 ```
-golos.api.getTransactionHex(trx, function(err, result) {
+viz.api.getTransactionHex(trx, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Transaction
 ```
-golos.api.getTransaction(trxId, function(err, result) {
+viz.api.getTransaction(trxId, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Required Signatures
 ```
-golos.api.getRequiredSignatures(trx, availableKeys, function(err, result) {
+viz.api.getRequiredSignatures(trx, availableKeys, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Potential Signatures
 ```
-golos.api.getPotentialSignatures(trx, function(err, result) {
+viz.api.getPotentialSignatures(trx, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Verify Authority
 ```
-golos.api.verifyAuthority(trx, function(err, result) {
+viz.api.verifyAuthority(trx, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Verify Account Authority
 ```
-golos.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
+viz.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -478,13 +434,13 @@ golos.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
 
 ### Get Active Votes
 ```
-golos.api.getActiveVotes(author, permlink, function(err, result) {
+viz.api.getActiveVotes(author, permlink, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Account Votes
 ```
-golos.api.getAccountVotes(voter, function(err, result) {
+viz.api.getAccountVotes(voter, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -494,7 +450,7 @@ golos.api.getAccountVotes(voter, function(err, result) {
 
 ### Get Content
 ```
-golos.api.getContent(author, permlink, function(err, result) {
+viz.api.getContent(author, permlink, votes_count, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -504,10 +460,11 @@ golos.api.getContent(author, permlink, function(err, result) {
  * getContent() receiving a post
  * @param {String} author - author of the post
  * @param {String} permlink - url-address of the post
+ * @param {Integer} votes_count - use -1 for showing all votes
 */
-var author = 'epexa';
-var permlink = 'test-url';
-golos.api.getContent(author, permlink, function(err, result) {
+var author = 'viz';
+var permlink = 'test';
+viz.api.getContent(author, permlink, -1, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('getContent', result.title);
@@ -517,7 +474,7 @@ golos.api.getContent(author, permlink, function(err, result) {
 ```
 ### Get Content Replies
 ```
-golos.api.getContentReplies(parent, parentPermlink, function(err, result) {
+viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -530,7 +487,7 @@ golos.api.getContentReplies(parent, parentPermlink, function(err, result) {
 */
 var parent = 'epexa';
 var parentPermlink = 'test-url';
-golos.api.getContentReplies(parent, parentPermlink, function(err, result) {
+viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
   //console.log(err, result);
   if (!err) {
     result.forEach(function(item) {
@@ -542,13 +499,13 @@ golos.api.getContentReplies(parent, parentPermlink, function(err, result) {
 ```
 ### Get Discussions By Author Before Date
 ```
-golos.api.getDiscussionsByAuthorBeforeDate(author, startPermlink, beforeDate, limit, function(err, result) {
+viz.api.getDiscussionsByAuthorBeforeDate(author, startPermlink, beforeDate, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Replies By Last Update
 ```
-golos.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err, result) {
+viz.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -558,79 +515,43 @@ golos.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err
 
 ### Get Witnesses
 ```
-golos.api.getWitnesses(witnessIds, function(err, result) {
+viz.api.getWitnesses(witnessIds, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Witness By Account
 ```
-golos.api.getWitnessByAccount(accountName, function(err, result) {
+viz.api.getWitnessByAccount(accountName, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Witnesses By Vote
 ```
-golos.api.getWitnessesByVote(from, limit, function(err, result) {
+viz.api.getWitnessesByVote(from, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Lookup Witness Accounts
 ```
-golos.api.lookupWitnessAccounts(lowerBoundName, limit, function(err, result) {
+viz.api.lookupWitnessAccounts(lowerBoundName, limit, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Witness Count
 ```
-golos.api.getWitnessCount(function(err, result) {
+viz.api.getWitnessCount(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Active Witnesses
 ```
-golos.api.getActiveWitnesses(function(err, result) {
+viz.api.getActiveWitnesses(function(err, result) {
   console.log(err, result);
 });
 ```
 ### Get Miner Queue
 ```
-golos.api.getMinerQueue(function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Login API
-
-### Login
-
-/!\ It's **not safe** to use this method with your username and password. This method always return `true` and is only used in intern with empty values to enable broadcast.
-
-```
-golos.api.login('', '', function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example:
-```js
-/**
- * login() authorization
- * @param {String} username - user username
- * @param {String} password - user password
-*/
-var username = 'epexa';
-var password = 'qwerty12345';
-golos.api.login(username, password, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    console.log('login', result);
-  }
-  else console.error(err);
-});
-```
-
-### Get Api By Name
-```
-golos.api.getApiByName(apiName, function(err, result) {
+viz.api.getMinerQueue(function(err, result) {
   console.log(err, result);
 });
 ```
@@ -639,7 +560,7 @@ golos.api.getApiByName(apiName, function(err, result) {
 
 ### Get Followers
 ```
-golos.api.getFollowers(following, startFollower, followType, limit, function(err, result) {
+viz.api.getFollowers(following, startFollower, followType, limit, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -656,7 +577,7 @@ var following = 'epexa';
 var startFollower = '';
 var followType = null;
 var limit = 100;
-golos.api.getFollowers(following, startFollower, followType, limit, function(err, result) {
+viz.api.getFollowers(following, startFollower, followType, limit, function(err, result) {
   //console.log(err, result);
   if ( ! err) {
     result.forEach(function(item) {
@@ -668,7 +589,7 @@ golos.api.getFollowers(following, startFollower, followType, limit, function(err
 ```
 ### Get Following
 ```
-golos.api.getFollowing(follower, startFollowing, followType, limit, function(err, result) {
+viz.api.getFollowing(follower, startFollowing, followType, limit, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -685,7 +606,7 @@ var follower = 'epexa';
 var startFollower = '';
 var followType = null;
 var limit = 100;
-golos.api.getFollowing(follower, startFollower, followType, limit, function(err, result) {
+viz.api.getFollowing(follower, startFollower, followType, limit, function(err, result) {
   //console.log(err, result);
   if ( ! err) {
     result.forEach(function(item) {
@@ -697,7 +618,7 @@ golos.api.getFollowing(follower, startFollower, followType, limit, function(err,
 ```
 ### Get Follow Count
 ```
-golos.api.getFollowCount(account, function(err, result) {
+viz.api.getFollowCount(account, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -708,7 +629,7 @@ golos.api.getFollowCount(account, function(err, result) {
  * @param {String} account - username of the user to return data
 */
 var account = 'epexa';
-golos.api.getFollowCount(account, function(err, result) {
+viz.api.getFollowCount(account, function(err, result) {
   console.log(err, result);
   if (!err) {
     console.log('getFollowCount', result);
@@ -721,25 +642,25 @@ golos.api.getFollowCount(account, function(err, result) {
 
 ### Broadcast Transaction
 ```
-golos.api.broadcastTransaction(trx, function(err, result) {
+viz.api.broadcastTransaction(trx, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Broadcast Transaction Synchronous
 ```
-golos.api.broadcastTransactionSynchronous(trx, function(err, result) {
+viz.api.broadcastTransactionSynchronous(trx, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Broadcast Block
 ```
-golos.api.broadcastBlock(b, function(err, result) {
+viz.api.broadcastBlock(b, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Broadcast Transaction With Callback
 ```
-golos.api.broadcastTransactionWithCallback(confirmationCallback, trx, function(err, result) {
+viz.api.broadcastTransactionWithCallback(confirmationCallback, trx, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -747,7 +668,7 @@ golos.api.broadcastTransactionWithCallback(confirmationCallback, trx, function(e
 
 ### Account Create
 ```
-golos.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -766,8 +687,9 @@ golos.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, 
  * @param {String} jsonMetadata - additional data for a new account (avatar, location, etc.)
 */
 var wif = '5K...';
-var fee = '90.000 GOLOS';
-var creator = 'epexa';
+var fee = '10.000 VIZ';
+var delegation = '0.000000 SHARES';
+var creator = 'viz';
 var newAccountName = name;
 var owner = {
   weight_threshold: 1,
@@ -786,7 +708,7 @@ var posting = {
 };
 var memoKey = newKeys.memo;
 var jsonMetadata = '{}';
-golos.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('accountCreate', result);
@@ -794,51 +716,46 @@ golos.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, 
   else console.error(err);
 });
 ```
-### Account Create With Delegation
-```
-golos.broadcast.accountCreateWithDelegation(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Delegate Vesting Shares
 ```
-golos.broadcast.delegateVestingShares(wif, delegator, delegatee, vesting_shares, function(err, result) {
+viz.broadcast.delegateVestingShares(wif, delegator, delegatee, vesting_shares, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Account Update
 ```
-golos.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
+viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Account Witness Proxy
 ```
-golos.broadcast.accountWitnessProxy(wif, account, proxy, function(err, result) {
+viz.broadcast.accountWitnessProxy(wif, account, proxy, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Account Witness Vote
 ```
-golos.broadcast.accountWitnessVote(wif, account, witness, approve, function(err, result) {
+viz.broadcast.accountWitnessVote(wif, account, witness, approve, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Challenge Authority
 ```
-golos.broadcast.challengeAuthority(wif, challenger, challenged, requireOwner, function(err, result) {
+viz.broadcast.challengeAuthority(wif, challenger, challenged, requireOwner, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Change Recovery Account
 ```
-golos.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, extensions, function(err, result) {
+viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Comment
 ```
-golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function(err, result) {
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -854,6 +771,7 @@ golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, tit
  * @param {String} title - header of the post
  * @param {String} body - text of the post
  * @param {String} jsonMetadata - meta-data of the post (images etc.)
+ * @param {Array} extensions - example: [[ 0, {"beneficiaries":[{"account":"viz","weight":2000},{"account":"on1x","weight":1000}]} ]]
 */
 var wif = '5K...';
 var parentAuthor = '';
@@ -863,7 +781,8 @@ var permlink = 'test-url';
 var title = 'test';
 var body = 'test2';
 var jsonMetadata = '{}';
-golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function(err, result) {
+var extensions = [];
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('comment', result);
@@ -892,7 +811,7 @@ var permlink = 're-' + parentAuthor + '-' + parentPermlink + '-' + Date.now(); /
 var title = '';
 var body = 'hi!';
 var jsonMetadata = '{}';
-golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function(err, result) {
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('comment', result);
@@ -900,184 +819,128 @@ golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, tit
   else console.error(err);
 });
 ```
-### Comment Options
-```
-golos.broadcast.commentOptions(wif, author, permlink, maxAcceptedPayout, percentGolosDollars, allowVotes, allowCurationRewards, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Comment Reward
 ```
-golos.broadcast.commentReward(wif, author, permlink, sbdPayout, vestingPayout, function(err, result) {
+viz.broadcast.commentReward(wif, author, permlink, Payout, vestingPayout, function(err, result) {
   console.log(err, result);
 });
 ```
-### Convert
-```
-golos.broadcast.convert(wif, owner, requestid, amount, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Custom
 ```
-golos.broadcast.custom(wif, requiredAuths, id, data, function(err, result) {
+viz.broadcast.custom(wif, requiredAuths, id, data, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Custom Binary
 ```
-golos.broadcast.customBinary(wif, id, data, function(err, result) {
+viz.broadcast.customBinary(wif, id, data, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Custom Json
 ```
-golos.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
+viz.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Delete Comment
 ```
-golos.broadcast.deleteComment(wif, author, permlink, function(err, result) {
+viz.broadcast.deleteComment(wif, author, permlink, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Escrow Dispute
 ```
-golos.broadcast.escrowDispute(wif, from, to, agent, who, escrowId, function(err, result) {
+viz.broadcast.escrowDispute(wif, from, to, agent, who, escrowId, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Escrow Release
 ```
-golos.broadcast.escrowRelease(wif, from, to, agent, who, receiver, escrowId, sbdAmount, golosAmount, function(err, result) {
+viz.broadcast.escrowRelease(wif, from, to, agent, who, receiver, escrowId, Amount, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Escrow Transfer
 ```
-golos.broadcast.escrowTransfer(wif, from, to, agent, escrowId, sbdAmount, golosAmount, fee, ratificationDeadline, escrowExpiration, jsonMeta, function(err, result) {
+viz.broadcast.escrowTransfer(wif, from, to, agent, escrowId, Amount, fee, ratificationDeadline, escrowExpiration, jsonMeta, function(err, result) {
   console.log(err, result);
 });
 ```
-### Feed Publish
-```
-golos.broadcast.feedPublish(wif, publisher, exchangeRate, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Pow2
 ```
-golos.broadcast.pow2(wif, work, newOwnerKey, props, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Convert Request
-```
-golos.broadcast.fillConvertRequest(wif, owner, requestid, amountIn, amountOut, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Order
-```
-golos.broadcast.fillOrder(wif, currentOwner, currentOrderid, currentPays, openOwner, openOrderid, openPays, function(err, result) {
+viz.broadcast.pow2(wif, work, newOwnerKey, props, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Fill Vesting Withdraw
 ```
-golos.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
+viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
   console.log(err, result);
 });
 ```
-### Interest
-```
-golos.broadcast.interest(wif, owner, interest, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Cancel
-```
-golos.broadcast.limitOrderCancel(wif, owner, orderid, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Create
-```
-golos.broadcast.limitOrderCreate(wif, owner, orderid, amountToSell, minToReceive, fillOrKill, expiration, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Create2
-```
-golos.broadcast.limitOrderCreate2(wif, owner, orderid, amountToSell, exchangeRate, fillOrKill, expiration, function(err, result) {
-  console.log(err, result);
-});
-```
-### Liquidity Reward
-```
-golos.broadcast.liquidityReward(wif, owner, payout, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Pow
 ```
-golos.broadcast.pow(wif, worker, input, signature, work, function(err, result) {
+viz.broadcast.pow(wif, worker, input, signature, work, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Prove Authority
 ```
-golos.broadcast.proveAuthority(wif, challenged, requireOwner, function(err, result) {
+viz.broadcast.proveAuthority(wif, challenged, requireOwner, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Recover Account
 ```
-golos.broadcast.recoverAccount(wif, accountToRecover, newOwnerAuthority, recentOwnerAuthority, extensions, function(err, result) {
+viz.broadcast.recoverAccount(wif, accountToRecover, newOwnerAuthority, recentOwnerAuthority, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Request Account Recovery
 ```
-golos.broadcast.requestAccountRecovery(wif, recoveryAccount, accountToRecover, newOwnerAuthority, extensions, function(err, result) {
+viz.broadcast.requestAccountRecovery(wif, recoveryAccount, accountToRecover, newOwnerAuthority, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Escrow Approve
 ```
-golos.broadcast.escrowApprove(wif, from, to, agent, who, escrowId, approve, function(err, result) {
+viz.broadcast.escrowApprove(wif, from, to, agent, who, escrowId, approve, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Set Withdraw Vesting Route
 ```
-golos.broadcast.setWithdrawVestingRoute(wif, fromAccount, toAccount, percent, autoVest, function(err, result) {
+viz.broadcast.setWithdrawVestingRoute(wif, fromAccount, toAccount, percent, autoVest, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Transfer
 ```
-golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
+viz.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example:
 ```js
 /**
- * transfer() transfer golos or golos gold
+ * transfer() transfer VIZ
  * @param {Base58} wif - private owner key
  * @param {String} from - username who send, whose owner key
  * @param {String} to - username who get
- * @param {String} amount - number of coins in the format: 0.001 GOLOS
+ * @param {String} amount - number of coins in the format: 0.001 VIZ
  * @param {String} memo - a comment
 */
 var wif = '5J...';
 var from = 'epexa';
 var to = 'melnikaite';
-var amount = '0.001 GOLOS';
+var amount = '0.001 VIZ';
 var memo = 'gift';
-golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
+viz.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('transfer', result);
@@ -1087,61 +950,55 @@ golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
 ```
 ### Transfer To Vesting
 ```
-golos.broadcast.transferToVesting(wif, from, to, amount, function(err, result) {
+viz.broadcast.transferToVesting(wif, from, to, amount, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Vote
 ```
-golos.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
+viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Withdraw Vesting
 ```
-golos.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result) {
+viz.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Witness Update
 ```
-golos.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, props, fee, function(err, result) {
+viz.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, props, fee, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Fill Vesting Withdraw
 ```
-golos.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Order
-```
-golos.broadcast.fillOrder(wif, currentOwner, currentOrderid, currentPays, openOwner, openOrderid, openPays, function(err, result) {
+viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Fill Transfer From Savings
 ```
-golos.broadcast.fillTransferFromSavings(wif, from, to, amount, requestId, memo, function(err, result) {
+viz.broadcast.fillTransferFromSavings(wif, from, to, amount, requestId, memo, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Transfer To Savings
 ```
-golos.broadcast.transferToSavings(wif, from, to, amount, memo, function(err, result) {
+viz.broadcast.transferToSavings(wif, from, to, amount, memo, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Transfer From Savings
 ```
-golos.broadcast.transferFromSavings(wif, from, requestId, to, amount, memo, function(err, result) {
+viz.broadcast.transferFromSavings(wif, from, requestId, to, amount, memo, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Cancel Transfer From Savings
 ```
-golos.broadcast.cancelTransferFromSavings(wif, from, requestId, function(err, result) {
+viz.broadcast.cancelTransferFromSavings(wif, from, requestId, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -1150,7 +1007,7 @@ golos.broadcast.cancelTransferFromSavings(wif, from, requestId, function(err, re
 
 ### Verify
 ```
-golos.auth.verify(name, password, auths);
+viz.auth.verify(name, password, auths);
 ```
 #### Example:
 ```js
@@ -1158,15 +1015,15 @@ var username = 'epexa';
 var password = 'P5...';  // master password
 // object in which the key type public key (active, memo, owner, posting), and the value of the array in the array itself is the public key
 var auths = {
-  posting: [['GLS6...']]
+  posting: [['VIZ...']]
 };
-var verifyResult = golos.auth.verify(username, password, auths);
+var verifyResult = viz.auth.verify(username, password, auths);
 console.log('verify', verifyResult);
 ```
 
 ### Generate Keys
 ```
-golos.auth.generateKeys(name, password, roles);
+viz.auth.generateKeys(name, password, roles);
 ```
 #### Example:
 ```js
@@ -1177,80 +1034,80 @@ golos.auth.generateKeys(name, password, roles);
 */
 var name = 'epexa4';
 var password = 'qwerty12345';
-var newKeys = golos.auth.generateKeys(name, password, ['owner', 'active', 'posting', 'memo']);
+var newKeys = viz.auth.generateKeys(name, password, ['owner', 'active', 'posting', 'memo']);
 console.log('newKeys', newKeys);
 ```
 
 ### Get Private Keys
 ```
-golos.auth.getPrivateKeys(name, password, roles);
+viz.auth.getPrivateKeys(name, password, roles);
 ```
 #### Example:
 ```js
 var username = 'epexa';
 var password = 'P5H...'; // master password
 var roles = ['owner', 'active', 'posting', 'memo']; // optional parameter, if not specify, then all keys will return
-var keys = golos.auth.getPrivateKeys(username, password, roles);
+var keys = viz.auth.getPrivateKeys(username, password, roles);
 console.log('getPrivateKeys', keys);
 ```
 
 ### Is Wif
 ```
-golos.auth.isWif(privWif);
+viz.auth.isWif(privWif);
 ```
 #### Example:
 ```js
 var privWif = '5J...';
-var resultIsWif = golos.auth.isWif(privWif);
+var resultIsWif = viz.auth.isWif(privWif);
 console.log('isWif', resultIsWif);
 ```
 
 ### To Wif
 ```
-golos.auth.toWif(name, password, role);
+viz.auth.toWif(name, password, role);
 ```
 #### Example:
 ```js
 var username = 'epexa';
 var password = 'P5H...'; // master password
 var role = 'posting'; // private key type, one of owner, active, posting, memo
-var privateKey = golos.auth.toWif(username, password, role);
+var privateKey = viz.auth.toWif(username, password, role);
 console.log('toWif', privateKey);
 ```
 
 ### Wif Is Valid
 ```
-golos.auth.wifIsValid(privWif, pubWif);
+viz.auth.wifIsValid(privWif, pubWif);
 ```
 #### Example:
 ```js
 var privWif = '5J...'; // private key
-var pubWif = 'GLS6...'; // public key
-var resultWifIsValid = golos.auth.wifIsValid(privWif, pubWif);
+var pubWif = 'VIZ...'; // public key
+var resultWifIsValid = viz.auth.wifIsValid(privWif, pubWif);
 console.log('wifIsValid', resultWifIsValid);
 ```
 
 ### Wif To Public
 ```
-golos.auth.wifToPublic(privWif);
+viz.auth.wifToPublic(privWif);
 ```
 #### Example:
 ```js
 var privWif = '5J...'; // private key
-var resultWifToPublic = golos.auth.wifToPublic(privWif, pubWif);
+var resultWifToPublic = viz.auth.wifToPublic(privWif, pubWif);
 console.log('wifToPublic', resultWifToPublic);
 ```
 
 ### Sign Transaction
 ```
-golos.auth.signTransaction(trx, keys);
+viz.auth.signTransaction(trx, keys);
 ```
 
 # Formatter
 
 ### Create Suggested Password
 ```
-var password = golos.formatter.createSuggestedPassword();
+var password = viz.formatter.createSuggestedPassword();
 console.log(password);
 // => 'GAz3GYFvvQvgm7t2fQmwMDuXEzDqTzn9'
 ```
@@ -1259,38 +1116,31 @@ console.log(password);
 ```
 var parentAuthor = 'ned';
 var parentPermlink = 'a-selfie';
-var commentPermlink = golos.formatter.commentPermlink(parentAuthor, parentPermlink);
+var commentPermlink = viz.formatter.commentPermlink(parentAuthor, parentPermlink);
 console.log(commentPermlink);
 // => 're-ned-a-selfie-20170621t080403765z'
 ```
 
 ### Estimate Account Value
 ```
-var golosPower = golos.formatter.estimateAccountValue(account);
+var VIZPower = viz.formatter.estimateAccountValue(account);
 ```
 
-### Reputation
+### SHARES To VIZ
 ```
-var reputation = golos.formatter.reputation(3512485230915);
-console.log(reputation);
-// => 56
-```
-
-### Vest To Golos
-```
-var golosPower = golos.formatter.vestToGolos(vestingShares, totalVestingShares, totalVestingFundGolos);
-console.log(golosPower);
+var shares = viz.formatter.sharesToVIZ(vestingShares, totalVestingShares, totalVestingFund);
+console.log(shares);
 ```
 
 # Utils
 
 ### Validate Username
 ```
-var isValidUsername = golos.utils.validateAccountName('test1234');
+var isValidUsername = viz.utils.validateAccountName('test1234');
 console.log(isValidUsername);
 // => 'null'
 
-var isValidUsername = golos.utils.validateAccountName('a1');
+var isValidUsername = viz.utils.validateAccountName('a1');
 console.log(isValidUsername);
 // => 'Account name should be longer.'
 ```

@@ -17,5 +17,5 @@ global.crypto = {
   },
 };
 
-require('../dist/golos.min.js');
-module.exports = global.golos;
+require('../dist/viz.min.js');
+module.exports = global.viz;

@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Golos.js</title>
+  <title>viz.js</title>
 </head>
 <body>
 
-<script src="../dist/golos.min.js"></script>
+<script src="../dist/viz.min.js"></script>
 <script>
-golos.api.getConfig(function(err, response){
+viz.api.getConfig(function(err, response){
   console.log(err, response);
 });
-golos.api.getAccounts(['ned', 'dan'], function(err, response){
+viz.api.getAccounts(['viz','in'], function(err, response){
   console.log(err, response);
 });
-golos.api.getAccountCount(function(err, response){
+viz.api.getAccountCount(function(err, response){
   console.log(err, response);
 });
 </script>

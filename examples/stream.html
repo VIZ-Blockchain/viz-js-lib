@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Golos.js Stream</title>
+  <title>Stream</title>
 </head>
 <body>
 
-<script src="../dist/golos.min.js"></script>
+<script src="../dist/viz.min.js"></script>
 <script>
-golos.api.streamOperations(function (err, operations) {
+viz.api.streamOperations(function (err, operations) {
   operations.forEach(function (operation) {
     console.log(operation);
   });

@@ -8,10 +8,10 @@ import config from '../config';
 import methods from './methods';
 import { camelCase } from '../utils';
 
-const debugEmitters = newDebug('golos:emitters');
-const debugProtocol = newDebug('golos:protocol');
-const debugSetup = newDebug('golos:setup');
-const debugWs = newDebug('golos:ws');
+const debugEmitters = newDebug('viz:emitters');
+const debugProtocol = newDebug('viz:protocol');
+const debugSetup = newDebug('viz:setup');
+const debugWs = newDebug('viz:ws');
 
 let WebSocket;
 if (isNode) {
@@ -28,7 +28,7 @@ const DEFAULTS = {
 
 const expectedResponseMs = process.env.EXPECTED_RESPONSE_MS || 2000;
 
-class Golos extends EventEmitter {
+class VIZ extends EventEmitter {
   constructor(options = {}) {
     super(options);
     defaults(options, DEFAULTS);
@@ -42,7 +42,7 @@ class Golos extends EventEmitter {
   }
 
   setWebSocket(url) {
-    console.warn("golos.api.setWebSocket(url) is now deprecated instead use golos.config.set('websocket',url)");
+    console.warn("viz.api.setWebSocket(url) is now deprecated instead use viz.config.set('websocket',url)");
     debugSetup('Setting WS', url);
     config.set('websocket', url);
     this.stop();
@@ -82,7 +82,7 @@ class Golos extends EventEmitter {
         const id = data.id;
         const request = this.requests[id];
         if (!request) {
-          debugWs('Golos.onMessage error: unknown request ', id);
+          debugWs('VIZ.onMessage error: unknown request ', id);
           return;
         }
         delete this.requests[id];
@@ -124,7 +124,7 @@ class Golos extends EventEmitter {
 
   onMessage(message, request) {
     const {api, data, resolve, reject, start_time} = request;
-    debugWs('-- Golos.onMessage -->', message.id);
+    debugWs('-- VIZ.onMessage -->', message.id);
     const errorCause = message.error;
     if (errorCause) {
       const err = new Error(
@@ -144,7 +144,7 @@ class Golos extends EventEmitter {
   }
 
   send(api, data, callback) {
-    debugSetup('Golos::send', api, data);
+    debugSetup('VIZ::send', api, data);
     const id = data.id || this.id++;
     const startP = this.start();
 
@@ -304,8 +304,8 @@ methods.forEach((method) => {
   const methodName = method.method_name || camelCase(method.method);
   const methodParams = method.params || [];
 
-  Golos.prototype[`${methodName}With`] =
-    function Golos$$specializedSendWith(options, callback) {
+  VIZ.prototype[`${methodName}With`] =
+    function VIZ$$specializedSendWith(options, callback) {
       const params = methodParams.map((param) => options[param]);
       return this.send(method.api, {
         method: method.method,
@@ -313,8 +313,8 @@ methods.forEach((method) => {
       }, callback);
     };
 
-  Golos.prototype[methodName] =
-    function Golos$specializedSend(...args) {
+  VIZ.prototype[methodName] =
+    function VIZ$specializedSend(...args) {
       const options = methodParams.reduce((memo, param, i) => {
         memo[param] = args[i]; // eslint-disable-line no-param-reassign
         return memo;
@@ -325,10 +325,10 @@ methods.forEach((method) => {
     };
 });
 
-Promise.promisifyAll(Golos.prototype);
+Promise.promisifyAll(VIZ.prototype);
 
 // Export singleton instance
-const golos = new Golos();
-exports = module.exports = golos;
-exports.Golos = Golos;
-exports.Golos.DEFAULTS = DEFAULTS;
+const viz = new VIZ();
+exports = module.exports = viz;
+exports.VIZ = VIZ;
+exports.VIZ.DEFAULTS = DEFAULTS;
