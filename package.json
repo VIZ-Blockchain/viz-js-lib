@@ -1,6 +1,6 @@
 {
   "name": "viz-world-js",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "viz.js the JavaScript API for VIZ blockchain",
   "main": "lib/index.js",
   "scripts": {

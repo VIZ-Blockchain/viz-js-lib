@@ -1,7 +1,7 @@
 # viz.js
 viz.js the JavaScript API for VIZ blockchain
 
-[![npm version](https://badge.fury.io/js/viz-js.svg)](https://badge.fury.io/js/viz-js)
+[![npm version](https://badge.fury.io/js/viz-world-js.svg)](https://badge.fury.io/js/viz-world-js)
 
 # Documentation
 
