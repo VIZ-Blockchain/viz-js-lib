@@ -68,9 +68,15 @@ module.exports = [
     "params": [
       "owner",
       "url",
-      "block_signing_key",
-      "props",
-      "fee"
+      "block_signing_key"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "chain_properties_update",
+    "params": [
+      "owner",
+      "props"
     ]
   },
   {
@@ -366,6 +372,7 @@ module.exports = [
       "posting",
       "memo_key",
       "json_metadata",
+      "referrer",
       "extensions"
     ]
   },

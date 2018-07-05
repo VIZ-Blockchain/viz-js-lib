@@ -968,7 +968,20 @@ viz.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result)
 ```
 ### Witness Update
 ```
-viz.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, props, fee, function(err, result) {
+viz.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, function(err, result) {
+  console.log(err, result);
+});
+```
+### Witness Chain Properties Update
+```
+let chain_properties = {
+  account_creation_fee:"1.000 VIZ",
+  create_account_delegation_ratio:10,
+  create_account_delegation_time:2592000,
+  maximum_block_size:131072,
+  min_delegation:"0.001 VIZ"
+};
+viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);
 });
 ```

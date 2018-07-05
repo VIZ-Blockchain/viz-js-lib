@@ -49,16 +49,17 @@ ChainTypes.operations = {
   proposal_create: 35,
   proposal_update: 36,
   proposal_delete: 37,
-  author_reward: 38,
-  curation_reward: 39,
-  comment_reward: 40,
-  fill_vesting_withdraw: 41,
-  shutdown_witness: 42,
-  fill_transfer_from_savings: 43,
-  hardfork: 44,
-  comment_payout_update: 45,
-  comment_benefactor_reward: 46,
-  return_vesting_delegation: 47
+  chain_properties_update: 38,
+  author_reward: 39,
+  curation_reward: 40,
+  comment_reward: 41,
+  fill_vesting_withdraw: 42,
+  shutdown_witness: 43,
+  fill_transfer_from_savings: 44,
+  hardfork: 45,
+  comment_payout_update: 46,
+  comment_benefactor_reward: 47,
+  return_vesting_delegation: 48
 };
 
 //types.hpp

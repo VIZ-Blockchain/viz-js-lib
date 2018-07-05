@@ -254,6 +254,9 @@ let chain_properties = new Serializer(
     "chain_properties", {
         account_creation_fee: asset,
         maximum_block_size: uint32,
+        create_account_delegation_ratio: uint32,
+        create_account_delegation_time: uint32,
+        min_delegation: asset
     }
 );
 
@@ -261,9 +264,14 @@ let witness_update = new Serializer(
     "witness_update", {
         owner: string,
         url: string,
-        block_signing_key: public_key,
-        props: chain_properties,
-        fee: asset
+        block_signing_key: public_key
+    }
+);
+
+let chain_properties_update = new Serializer(
+    "chain_properties_update", {
+    	owner: string,
+        props: chain_properties
     }
 );
 
@@ -532,6 +540,7 @@ let account_create = new Serializer(
         posting: authority,
         memo_key: public_key,
         json_metadata: string,
+        referrer: string,
         extensions: set(future_extensions)
   }
 );
@@ -705,6 +714,7 @@ operation.st_operations = [
     proposal_create,
     proposal_update,
     proposal_delete,
+    chain_properties_update,
     author_reward,
     curation_reward,
     comment_reward,
