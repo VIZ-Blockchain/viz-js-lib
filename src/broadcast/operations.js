@@ -107,15 +107,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
-    "operation": "custom",
-    "params": [
-      "required_auths",
-      "id",
-      "data"
-    ]
-  },
-  {
     "roles": ["posting"],
     "operation": "delete_comment",
     "params": [
@@ -275,14 +266,6 @@ module.exports = [
     "params": [
       "from",
       "request_id"
-    ]
-  },
-  {
-    "roles": ["posting", "active", "owner"],
-    "operation": "custom_binary",
-    "params": [
-      "id",
-      "data"
     ]
   },
   {

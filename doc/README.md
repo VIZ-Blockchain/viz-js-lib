@@ -827,18 +827,6 @@ viz.broadcast.commentReward(wif, author, permlink, Payout, vestingPayout, functi
 });
 ```
 
-### Custom
-```
-viz.broadcast.custom(wif, requiredAuths, id, data, function(err, result) {
-  console.log(err, result);
-});
-```
-### Custom Binary
-```
-viz.broadcast.customBinary(wif, id, data, function(err, result) {
-  console.log(err, result);
-});
-```
 ### Custom Json
 ```
 viz.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {

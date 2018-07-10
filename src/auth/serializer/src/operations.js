@@ -299,14 +299,6 @@ let pow = new Serializer(
     }
 );
 
-let custom = new Serializer(
-    "custom", {
-        required_auths: set(string),
-        id: uint16,
-        data: bytes()
-    }
-);
-
 let report_over_production = new Serializer(
     "report_over_production", {
         reporter: string,
@@ -484,17 +476,6 @@ let cancel_transfer_from_savings = new Serializer(
     "cancel_transfer_from_savings", {
         from: string,
         request_id: uint32
-    }
-);
-
-let custom_binary = new Serializer(
-    "custom_binary", {
-        required_owner_auths: set(string),
-        required_active_auths: set(string),
-        required_posting_auths: set(string),
-        required_auths: array(authority),
-        id: string,
-        data: bytes()
     }
 );
 
@@ -686,7 +667,6 @@ operation.st_operations = [
     account_witness_vote,
     account_witness_proxy,
     pow,
-    custom,
     report_over_production,
     delete_comment,
     custom_json,
@@ -704,7 +684,6 @@ operation.st_operations = [
     transfer_to_savings,
     transfer_from_savings,
     cancel_transfer_from_savings,
-    custom_binary,
     decline_voting_rights,
     reset_account,
     set_reset_account,
