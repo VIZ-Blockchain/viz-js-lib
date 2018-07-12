@@ -871,12 +871,6 @@ viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposi
 });
 ```
 
-### Pow
-```
-viz.broadcast.pow(wif, worker, input, signature, work, function(err, result) {
-  console.log(err, result);
-});
-```
 ### Prove Authority
 ```
 viz.broadcast.proveAuthority(wif, challenged, requireOwner, function(err, result) {

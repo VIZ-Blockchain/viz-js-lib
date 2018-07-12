@@ -97,16 +97,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
-    "operation": "pow",
-    "params": [
-      "worker",
-      "input",
-      "signature",
-      "work"
-    ]
-  },
-  {
     "roles": ["posting"],
     "operation": "delete_comment",
     "params": [

@@ -290,15 +290,6 @@ let account_witness_proxy = new Serializer(
     }
 );
 
-let pow = new Serializer(
-    "pow", {
-        worker: public_key,
-        input: bytes(32),
-        signature: bytes(65),
-        work: bytes(32)
-    }
-);
-
 let report_over_production = new Serializer(
     "report_over_production", {
         reporter: string,
@@ -666,7 +657,6 @@ operation.st_operations = [
     witness_update,
     account_witness_vote,
     account_witness_proxy,
-    pow,
     report_over_production,
     delete_comment,
     custom_json,
