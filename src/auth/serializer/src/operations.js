@@ -470,29 +470,6 @@ let cancel_transfer_from_savings = new Serializer(
     }
 );
 
-let decline_voting_rights = new Serializer(
-    "decline_voting_rights", {
-        account: string,
-        decline: bool
-    }
-);
-
-let reset_account = new Serializer(
-    "reset_account", {
-        reset_account: string,
-        account_to_reset: string,
-        new_owner_authority: authority
-    }
-);
-
-let set_reset_account = new Serializer(
-    "set_reset_account", {
-        account: string,
-        current_reset_account: string,
-        reset_account: string
-    }
-);
-
 let delegate_vesting_shares = new Serializer(
     "delegate_vesting_shares", {
         delegator: string,
@@ -674,9 +651,6 @@ operation.st_operations = [
     transfer_to_savings,
     transfer_from_savings,
     cancel_transfer_from_savings,
-    decline_voting_rights,
-    reset_account,
-    set_reset_account,
     delegate_vesting_shares,
     account_create,
     account_metadata,

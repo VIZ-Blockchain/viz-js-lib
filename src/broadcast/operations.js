@@ -259,32 +259,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["owner"],
-    "operation": "decline_voting_rights",
-    "params": [
-      "account",
-      "decline"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "reset_account",
-    "params": [
-      "reset_account",
-      "account_to_reset",
-      "new_owner_authority"
-    ]
-  },
-  {
-    "roles": ["owner", "posting"],
-    "operation": "set_reset_account",
-    "params": [
-      "account",
-      "current_reset_account",
-      "reset_account"
-    ]
-  },
-  {
     "roles": ["posting"],
     "operation": "claim_reward_balance",
     "params": [
