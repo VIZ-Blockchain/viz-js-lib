@@ -290,14 +290,6 @@ let account_witness_proxy = new Serializer(
     }
 );
 
-let report_over_production = new Serializer(
-    "report_over_production", {
-        reporter: string,
-        first_block: signed_block_header,
-        second_block: signed_block_header
-    }
-);
-
 let delete_comment = new Serializer(
     "delete_comment", {
         author: string,
@@ -634,7 +626,6 @@ operation.st_operations = [
     witness_update,
     account_witness_vote,
     account_witness_proxy,
-    report_over_production,
     delete_comment,
     custom_json,
     set_withdraw_vesting_route,
