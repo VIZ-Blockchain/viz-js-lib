@@ -125,15 +125,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
-    "operation": "challenge_authority",
-    "params": [
-      "challenger",
-      "challenged",
-      "require_owner"
-    ]
-  },
-  {
     "roles": ["active", "owner"],
     "operation": "prove_authority",
     "params": [

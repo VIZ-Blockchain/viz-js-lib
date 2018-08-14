@@ -315,14 +315,6 @@ let set_withdraw_vesting_route = new Serializer(
     }
 );
 
-let challenge_authority = new Serializer(
-    "challenge_authority", {
-        challenger: string,
-        challenged: string,
-        require_owner: bool
-    }
-);
-
 let prove_authority = new Serializer(
     "prove_authority", {
         challenged: string,
@@ -593,7 +585,6 @@ operation.st_operations = [
     delete_comment,
     custom_json,
     set_withdraw_vesting_route,
-    challenge_authority,
     prove_authority,
     request_account_recovery,
     recover_account,
