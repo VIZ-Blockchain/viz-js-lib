@@ -436,32 +436,6 @@ let escrow_approve = new Serializer(
     }
 );
 
-let transfer_to_savings = new Serializer(
-    "transfer_to_savings", {
-        from: string,
-        to: string,
-        amount: asset,
-        memo: string
-    }
-);
-
-let transfer_from_savings = new Serializer(
-    "transfer_from_savings", {
-        from: string,
-        request_id: uint32,
-        to: string,
-        amount: asset,
-        memo: string
-    }
-);
-
-let cancel_transfer_from_savings = new Serializer(
-    "cancel_transfer_from_savings", {
-        from: string,
-        request_id: uint32
-    }
-);
-
 let delegate_vesting_shares = new Serializer(
     "delegate_vesting_shares", {
         delegator: string,
@@ -577,16 +551,6 @@ let shutdown_witness = new Serializer(
     }
 );
 
-let fill_transfer_from_savings = new Serializer(
-    "fill_transfer_from_savings", {
-        from: string,
-        to: string,
-        amount: asset,
-        request_id: uint32,
-        memo: string
-    }
-);
-
 let hardfork = new Serializer(
     "hardfork", {
         hardfork_id: uint32
@@ -639,9 +603,6 @@ operation.st_operations = [
     escrow_release,
     pow2,
     escrow_approve,
-    transfer_to_savings,
-    transfer_from_savings,
-    cancel_transfer_from_savings,
     delegate_vesting_shares,
     account_create,
     account_metadata,
@@ -654,7 +615,6 @@ operation.st_operations = [
     comment_reward,
     fill_vesting_withdraw,
     shutdown_witness,
-    fill_transfer_from_savings,
     hardfork,
     comment_payout_update,
     comment_benefactor_reward,

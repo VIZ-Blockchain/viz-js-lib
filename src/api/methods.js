@@ -210,16 +210,6 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_savings_withdraw_from",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_savings_withdraw_to",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
     "method": "get_transaction_hex",
     "params": ["trx"]
   },

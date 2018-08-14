@@ -16,23 +16,13 @@ module.exports = VIZ_API => {
     return vesting_viz;
   }
 
-  function calculateSaving(savings_withdraws) {
-    let savings_pending = 0;
-    savings_withdraws.forEach(withdraw => {
-      const [amount, asset] = withdraw.amount.split(" ");
-      savings_pending += parseFloat(amount);
-    });
-    return savings_pending;
-  }
-
   function estimateAccountValue(
     account,
-    { gprops, savings_withdraws, vesting_viz } = {}
+    { gprops, vesting_viz } = {}
   ) {
     const promises = [];
     const username = account.name;
     const assetPrecision = 1000;
-    let savings;
 
     if (!vesting_viz) {
       if (!gprops) {
@@ -47,28 +37,12 @@ module.exports = VIZ_API => {
       }
     }
 
-    if (!savings_withdraws) {
-      promises.push(
-        VIZ_API
-          .getSavingsWithdrawFromAsync(username)
-          .then(savings_withdraws => {
-            savings = calculateSaving(savings_withdraws);
-          })
-      );
-    } else {
-      savings = calculateSaving(savings_withdraws);
-    }
-
     return Promise.all(promises).then(() => {
-      const savings_balance = account.savings_balance;
       const balance = parseFloat(account.balance.split(" ")[0]);
-      const saving_balance = parseFloat(savings_balance.split(" ")[0]);
 
       const total_viz =
         vesting_viz +
-        balance +
-        saving_balance +
-        savings;
+        balance;
 
       return (total_viz).toFixed(3);
     });

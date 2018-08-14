@@ -53,8 +53,6 @@ export const methods_test = [
     "get_recovery_request",
     "get_replies_by_last_update",
     "get_required_signatures",
-    "get_savings_withdraw_from",
-    "get_savings_withdraw_to",
     "get_tags_used_by_author",
     "get_transaction",
     "get_transaction_hex",

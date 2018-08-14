@@ -973,30 +973,6 @@ viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposi
   console.log(err, result);
 });
 ```
-### Fill Transfer From Savings
-```
-viz.broadcast.fillTransferFromSavings(wif, from, to, amount, requestId, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer To Savings
-```
-viz.broadcast.transferToSavings(wif, from, to, amount, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer From Savings
-```
-viz.broadcast.transferFromSavings(wif, from, requestId, to, amount, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Cancel Transfer From Savings
-```
-viz.broadcast.cancelTransferFromSavings(wif, from, requestId, function(err, result) {
-  console.log(err, result);
-});
-```
 
 # Auth
 

@@ -230,35 +230,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
-    "operation": "transfer_to_savings",
-    "params": [
-      "from",
-      "to",
-      "amount",
-      "memo"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "transfer_from_savings",
-    "params": [
-      "from",
-      "request_id",
-      "to",
-      "amount",
-      "memo"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "cancel_transfer_from_savings",
-    "params": [
-      "from",
-      "request_id"
-    ]
-  },
-  {
     "roles": ["posting"],
     "operation": "claim_reward_balance",
     "params": [
@@ -284,17 +255,6 @@ module.exports = [
       "to_account",
       "withdrawn",
       "deposited"
-    ]
-  },
-  {
-    "roles": ["posting"],
-    "operation": "fill_transfer_from_savings",
-    "params": [
-      "from",
-      "to",
-      "amount",
-      "request_id",
-      "memo"
     ]
   },
   {
