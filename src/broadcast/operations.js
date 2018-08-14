@@ -125,14 +125,6 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active", "owner"],
-    "operation": "prove_authority",
-    "params": [
-      "challenged",
-      "require_owner"
-    ]
-  },
-  {
     "roles": ["active"],
     "operation": "request_account_recovery",
     "params": [

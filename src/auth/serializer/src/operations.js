@@ -315,13 +315,6 @@ let set_withdraw_vesting_route = new Serializer(
     }
 );
 
-let prove_authority = new Serializer(
-    "prove_authority", {
-        challenged: string,
-        require_owner: bool
-    }
-);
-
 let request_account_recovery = new Serializer(
     "request_account_recovery", {
         recovery_account: string,
@@ -585,7 +578,6 @@ operation.st_operations = [
     delete_comment,
     custom_json,
     set_withdraw_vesting_route,
-    prove_authority,
     request_account_recovery,
     recover_account,
     change_recovery_account,
