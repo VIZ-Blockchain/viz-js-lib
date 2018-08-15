@@ -19,6 +19,7 @@ module.exports = [
       "permlink",
       "title",
       "body",
+      "curation_percent",
       "json_metadata",
       "extensions"
     ]

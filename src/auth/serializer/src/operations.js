@@ -186,6 +186,7 @@ let comment = new Serializer(
         permlink: string,
         title: string,
         body: string,
+        curation_percent: uint16,
         json_metadata: string,
         extensions: set(static_variant([
             comment_payout_beneficiaries
