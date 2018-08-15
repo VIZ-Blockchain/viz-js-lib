@@ -12,20 +12,6 @@ sed 's/steemit_protocol_//g' > tmp.coffee
 */
 // coffee tmp.coffee # fix errors until you see: `ChainTypes is not defined`
 
-/*
-
-   remove these 7 lines from tmp.coffee:
-
-static_variant [
-    pow2
-    equihash_pow
-] = static_variant [
-    pow2
-    equihash_pow
-]
-
-*/
-
 // npm i -g decaffeinate
 // decaffeinate tmp.coffee
 
@@ -377,39 +363,6 @@ let escrow_release = new Serializer(
     }
 );
 
-let pow2_input = new Serializer(
-    "pow2_input", {
-        worker_account: string,
-        prev_block: bytes(20),
-        nonce: uint64
-    }
-);
-
-let pow2 = new Serializer(
-    "pow2", {
-        input: pow2_input,
-        pow_summary: uint32
-    }
-);
-
-let equihash_proof = new Serializer(
-    "equihash_proof", {
-        n: uint32,
-        k: uint32,
-        seed: bytes(32),
-        inputs: array(uint32)
-    }
-);
-
-let equihash_pow = new Serializer(
-    "equihash_pow", {
-        input: pow2_input,
-        proof: equihash_proof,
-        prev_block: bytes(20),
-        pow_summary: uint32
-    }
-);
-
 let escrow_approve = new Serializer(
     "escrow_approve", {
         from: string,
@@ -584,7 +537,6 @@ operation.st_operations = [
     escrow_transfer,
     escrow_dispute,
     escrow_release,
-    pow2,
     escrow_approve,
     delegate_vesting_shares,
     account_create,

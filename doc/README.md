@@ -741,12 +741,6 @@ viz.broadcast.accountWitnessVote(wif, account, witness, approve, function(err, r
   console.log(err, result);
 });
 ```
-### Challenge Authority
-```
-viz.broadcast.challengeAuthority(wif, challenger, challenged, requireOwner, function(err, result) {
-  console.log(err, result);
-});
-```
 ### Change Recovery Account
 ```
 viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, extensions, function(err, result) {
@@ -858,12 +852,6 @@ viz.broadcast.escrowTransfer(wif, from, to, agent, escrowId, Amount, fee, ratifi
 });
 ```
 
-### Pow2
-```
-viz.broadcast.pow2(wif, work, newOwnerKey, props, function(err, result) {
-  console.log(err, result);
-});
-```
 ### Fill Vesting Withdraw
 ```
 viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
@@ -871,12 +859,6 @@ viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposi
 });
 ```
 
-### Prove Authority
-```
-viz.broadcast.proveAuthority(wif, challenged, requireOwner, function(err, result) {
-  console.log(err, result);
-});
-```
 ### Recover Account
 ```
 viz.broadcast.recoverAccount(wif, accountToRecover, newOwnerAuthority, recentOwnerAuthority, extensions, function(err, result) {

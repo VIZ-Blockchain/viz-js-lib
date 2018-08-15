@@ -194,14 +194,6 @@ module.exports = [
   },
   {
     "roles": ["active"],
-    "operation": "pow2",
-    "params": [
-      "input",
-      "pow_summary"
-    ]
-  },
-  {
-    "roles": ["active"],
     "operation": "escrow_approve",
     "params": [
       "from",
