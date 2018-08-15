@@ -2,8 +2,8 @@ import api from "../api";
 
 const defaultWeight = 1;
 
-exports = module.exports = steemBroadcast => {
-  steemBroadcast.addAccountAuth = (
+exports = module.exports = Broadcaster => {
+  Broadcaster.addAccountAuth = (
     activeWif,
     username,
     authorizedUsername,
@@ -27,7 +27,7 @@ exports = module.exports = steemBroadcast => {
       const active = role === "active" ? updatedAuthority : undefined;
       const posting = role === "posting" ? updatedAuthority : undefined;
       /** Add authority on user account */
-      steemBroadcast.accountUpdate(
+      Broadcaster.accountUpdate(
         activeWif,
         userAccount.name,
         owner,
@@ -40,7 +40,7 @@ exports = module.exports = steemBroadcast => {
     });
   };
 
-  steemBroadcast.removeAccountAuth = (
+  Broadcaster.removeAccountAuth = (
     activeWif,
     username,
     authorizedUsername,
@@ -66,7 +66,7 @@ exports = module.exports = steemBroadcast => {
       const active = role === "active" ? updatedAuthority : undefined;
       const posting = role === "posting" ? updatedAuthority : undefined;
 
-      steemBroadcast.accountUpdate(
+      Broadcaster.accountUpdate(
         activeWif,
         userAccount.name,
         owner,

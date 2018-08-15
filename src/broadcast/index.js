@@ -5,24 +5,24 @@ import noop from 'lodash/noop';
 import broadcastHelpers from './helpers';
 import formatterFactory from '../formatter';
 import operations from './operations';
-import steemApi from '../api';
-import steemAuth from '../auth';
+import nodeApi from '../api';
+import nodeAuth from '../auth';
 import { camelCase } from '../utils';
 import config from '../config'
 
 const debug = newDebug('viz:broadcast');
-const formatter = formatterFactory(steemApi);
+const formatter = formatterFactory(nodeApi);
 
-const steemBroadcast = {};
+const Broadcaster = {};
 
 // Base transaction logic -----------------------------------------------------
 
 /**
- * Sign and broadcast transactions on the steem network
+ * Sign and broadcast transactions on the network
  */
 
-steemBroadcast.send = function steemBroadcast$send(tx, privKeys, callback) {
-  const resultP = steemBroadcast._prepareTransaction(tx)
+Broadcaster.send = function Broadcaster$send(tx, privKeys, callback) {
+  const resultP = Broadcaster._prepareTransaction(tx)
     .then((transaction) => {
       debug(
         'Signing transaction (transaction, transaction.operations)',
@@ -30,7 +30,7 @@ steemBroadcast.send = function steemBroadcast$send(tx, privKeys, callback) {
       );
       return Promise.join(
         transaction,
-        steemAuth.signTransaction(transaction, privKeys)
+        nodeAuth.signTransaction(transaction, privKeys)
       );
     })
     .spread((transaction, signedTransaction) => {
@@ -39,21 +39,21 @@ steemBroadcast.send = function steemBroadcast$send(tx, privKeys, callback) {
         transaction, transaction.operations
       );
       return config.get('broadcast_transaction_with_callback')
-        ? steemApi.broadcastTransactionWithCallbackAsync(() => {}, signedTransaction).then(() => signedTransaction)
-        : steemApi.broadcastTransactionAsync(signedTransaction).then(() => signedTransaction)
+        ? nodeApi.broadcastTransactionWithCallbackAsync(() => {}, signedTransaction).then(() => signedTransaction)
+        : nodeApi.broadcastTransactionAsync(signedTransaction).then(() => signedTransaction)
     });
 
   resultP.nodeify(callback || noop);
 };
 
-steemBroadcast._prepareTransaction = function steemBroadcast$_prepareTransaction(tx) {
-  const propertiesP = steemApi.getDynamicGlobalPropertiesAsync()
+Broadcaster._prepareTransaction = function Broadcaster$_prepareTransaction(tx) {
+  const propertiesP = nodeApi.getDynamicGlobalPropertiesAsync()
   return propertiesP
     .then((properties) => {
       // Set defaults on the transaction
       const chainDate = new Date(properties.time + 'Z');
       const refBlockNum = (properties.head_block_number - 3) & 0xFFFF;
-      return steemApi.getBlockAsync(properties.head_block_number - 2).then((block) => {
+      return nodeApi.getBlockAsync(properties.head_block_number - 2).then((block) => {
         const headBlockId = block.previous;
         return Object.assign({
           ref_block_num: refBlockNum,
@@ -78,14 +78,14 @@ operations.forEach((operation) => {
     operationParams.indexOf('parent_permlink') !== -1 &&
     operationParams.indexOf('parent_permlink') !== -1;
 
-  steemBroadcast[`${operationName}With`] =
-    function steemBroadcast$specializedSendWith(wif, options, callback) {
+  Broadcaster[`${operationName}With`] =
+    function Broadcaster$specializedSendWith(wif, options, callback) {
       debug(`Sending operation "${operationName}" with`, {options, callback});
       const keys = {};
       if (operation.roles && operation.roles.length) {
         keys[operation.roles[0]] = wif; // TODO - Automatically pick a role? Send all?
       }
-      return steemBroadcast.send({
+      return Broadcaster.send({
         extensions: [],
         operations: [[operation.operation, Object.assign(
           {},
@@ -100,21 +100,21 @@ operations.forEach((operation) => {
       }, keys, callback);
     };
 
-  steemBroadcast[operationName] =
-    function steemBroadcast$specializedSend(wif, ...args) {
+  Broadcaster[operationName] =
+    function Broadcaster$specializedSend(wif, ...args) {
       debug(`Parsing operation "${operationName}" with`, {args});
       const options = operationParams.reduce((memo, param, i) => {
         memo[param] = args[i]; // eslint-disable-line no-param-reassign
         return memo;
       }, {});
       const callback = args[operationParams.length];
-      return steemBroadcast[`${operationName}With`](wif, options, callback);
+      return Broadcaster[`${operationName}With`](wif, options, callback);
     };
 });
 
 const toString = obj => typeof obj === 'object' ? JSON.stringify(obj) : obj;
-broadcastHelpers(steemBroadcast);
+broadcastHelpers(Broadcaster);
 
-Promise.promisifyAll(steemBroadcast);
+Promise.promisifyAll(Broadcaster);
 
-exports = module.exports = steemBroadcast;
+exports = module.exports = Broadcaster;

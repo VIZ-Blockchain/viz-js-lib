@@ -1,5 +1,5 @@
 
-// This file is merge updated from steemd's js_operation_serializer program.
+// This file is merge updated from js_operation_serializer program.
 /*
 
 ./js_operation_serializer |
