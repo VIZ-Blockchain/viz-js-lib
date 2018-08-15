@@ -72,7 +72,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active"],
+    "roles": ["owner"],
     "operation": "chain_properties_update",
     "params": [
       "owner",

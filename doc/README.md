@@ -943,7 +943,9 @@ let chain_properties = {
   create_account_delegation_ratio:10,
   create_account_delegation_time:2592000,
   maximum_block_size:131072,
-  min_delegation:"0.001 VIZ"
+  min_delegation:"0.001 VIZ",
+  min_curator_percent:0,
+  max_curator_percent:10000
 };
 viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);

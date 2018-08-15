@@ -242,7 +242,9 @@ let chain_properties = new Serializer(
         maximum_block_size: uint32,
         create_account_delegation_ratio: uint32,
         create_account_delegation_time: uint32,
-        min_delegation: asset
+        min_delegation: asset,
+        min_curator_percent: uint32,
+        max_curator_percent: uint32,
     }
 );
 
