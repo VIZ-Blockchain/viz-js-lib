@@ -749,7 +749,7 @@ viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, e
 ```
 ### Comment
 ```
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -774,9 +774,10 @@ var author = 'epexa';
 var permlink = 'test-url';
 var title = 'test';
 var body = 'test2';
+var curation_percent = 5000;//50%
 var jsonMetadata = '{}';
 var extensions = [];
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('comment', result);
@@ -804,8 +805,9 @@ var author = 'epexa';
 var permlink = 're-' + parentAuthor + '-' + parentPermlink + '-' + Date.now(); // re-epexa-test-url-1517333064308
 var title = '';
 var body = 'hi!';
+var curation_percent = 5000;//50%
 var jsonMetadata = '{}';
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('comment', result);
@@ -944,8 +946,8 @@ let chain_properties = {
   create_account_delegation_time:2592000,
   maximum_block_size:131072,
   min_delegation:"0.001 VIZ",
-  min_curator_percent:0,
-  max_curator_percent:10000
+  min_curation_percent:0,
+  max_curation_percent:10000
 };
 viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);

@@ -186,7 +186,7 @@ let comment = new Serializer(
         permlink: string,
         title: string,
         body: string,
-        curation_percent: uint16,
+        curation_percent: int16,
         json_metadata: string,
         extensions: set(static_variant([
             comment_payout_beneficiaries
@@ -244,8 +244,8 @@ let chain_properties = new Serializer(
         create_account_delegation_ratio: uint32,
         create_account_delegation_time: uint32,
         min_delegation: asset,
-        min_curator_percent: uint32,
-        max_curator_percent: uint32,
+        min_curation_percent: int16,
+        max_curation_percent: int16,
     }
 );
 
