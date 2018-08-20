@@ -246,6 +246,8 @@ let chain_properties = new Serializer(
         min_delegation: asset,
         min_curation_percent: int16,
         max_curation_percent: int16,
+        bandwidth_reserve_percent: int16,
+        bandwidth_reserve_below: asset,
     }
 );
 

@@ -947,7 +947,9 @@ let chain_properties = {
   maximum_block_size:131072,
   min_delegation:"0.001 VIZ",
   min_curation_percent:0,
-  max_curation_percent:10000
+  max_curation_percent:10000,
+  bandwidth_reserve_percent:1000,
+  bandwidth_reserve_below:"500.000000 SHARES",
 };
 viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);
