@@ -527,7 +527,7 @@ let committee_worker_create_request = new Serializer(
     "committee_worker_create_request", {
         creator: string,
         url: string,
-        worker: string
+        worker: string,
         required_amount_min: asset,
         required_amount_max: asset,
         duration: uint32
