@@ -523,6 +523,58 @@ let return_vesting_delegation = new Serializer(
   }
 );
 
+let committee_worker_create_request = new Serializer(
+    "committee_worker_create_request", {
+        creator: string,
+        url: string,
+        worker: string
+        required_amount_min: asset,
+        required_amount_max: asset,
+        duration: uint32
+    }
+);
+
+let committee_worker_cancel_request = new Serializer(
+    "committee_worker_cancel_request", {
+        creator: string,
+        request_id: uint32
+    }
+);
+
+let committee_vote_request = new Serializer(
+    "committee_vote_request", {
+        voter: string,
+        request_id: uint32,
+        vote_percent: int16
+    }
+);
+
+let committee_cancel_request = new Serializer(
+    "committee_cancel_request", {
+        request_id: uint32
+    }
+);
+
+let committee_approve_request = new Serializer(
+    "committee_approve_request", {
+        request_id: uint32
+    }
+);
+
+let committee_pay_request = new Serializer(
+    "committee_payout_request", {
+        worker: string,
+        request_id: uint32,
+        tokens: asset
+    }
+);
+
+let committee_payout_request = new Serializer(
+    "committee_payout_request", {
+        request_id: uint32
+    }
+);
+
 operation.st_operations = [
     vote,
     comment,
@@ -558,7 +610,14 @@ operation.st_operations = [
     hardfork,
     comment_payout_update,
     comment_benefactor_reward,
-    return_vesting_delegation
+    return_vesting_delegation,
+    committee_worker_create_request,
+    committee_worker_cancel_request,
+    committee_vote_request,
+    committee_cancel_request,
+    committee_approve_request,
+    committee_pay_request,
+    committee_payout_request
 ];
 
 //# -------------------------------

@@ -307,4 +307,45 @@ module.exports = [
       "extensions"
     ]
   },
+  {
+    "roles": ["posting"],
+    "operation": "committee_worker_create_request",
+    "params": [
+      "creator",
+      "url",
+      "worker",
+      "required_amount_min",
+      "required_amount_max",
+      "duration"
+    ]
+  },
+  {
+    "roles": ["posting"],
+    "operation": "committee_worker_create_request",
+    "params": [
+      "creator",
+      "url",
+      "worker",
+      "required_amount_min",
+      "required_amount_max",
+      "duration"
+    ]
+  },
+  {
+    "roles": ["posting"],
+    "operation": "committee_worker_cancel_request",
+    "params": [
+      "creator",
+      "request_id"
+    ]
+  },
+  {
+    "roles": ["posting"],
+    "operation": "committee_vote_request",
+    "params": [
+      "voter",
+      "request_id",
+      "vote_percent"
+    ]
+  }
 ]

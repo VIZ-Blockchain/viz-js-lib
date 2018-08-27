@@ -45,7 +45,14 @@ ChainTypes.operations = {
   hardfork: 31,
   comment_payout_update: 32,
   comment_benefactor_reward: 33,
-  return_vesting_delegation: 34
+  return_vesting_delegation: 34,
+  committee_worker_create_request: 35,
+  committee_worker_cancel_request: 36,
+  committee_vote_request: 37,
+  committee_cancel_request: 38,
+  committee_approve_request: 39,
+  committee_payout_request: 40,
+  committee_pay_request: 41
 };
 
 //types.hpp
