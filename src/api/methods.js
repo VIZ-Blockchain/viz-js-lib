@@ -346,5 +346,10 @@ module.exports = [
     "api": "social_network",
     "method": "get_committee_request_votes",
     "params": ["request_id"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_committee_requests_list",
+    "params": ["status"]
   }
 ]

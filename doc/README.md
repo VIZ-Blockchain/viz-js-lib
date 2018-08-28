@@ -576,6 +576,14 @@ viz.api.getCommitteeRequestVotes(request_id, function(err, result) {
 });
 ```
 
+### Get committee requests list by status
+```js
+var status=0;
+viz.api.getCommitteeRequestsList(status, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Follow API
 
 ### Get Followers
