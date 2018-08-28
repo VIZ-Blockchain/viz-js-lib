@@ -340,7 +340,7 @@ module.exports = [
   {
     "api": "social_network",
     "method": "get_committee_request",
-    "params": ["request_id"]
+    "params": ["request_id","votes_count"]
   },
   {
     "api": "social_network",
