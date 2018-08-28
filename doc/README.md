@@ -15,6 +15,7 @@
     - [Votes](#votes)
     - [Content](#content)
     - [Witnesses](#witnesses)
+    - [Committee](#committee)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
@@ -556,6 +557,25 @@ viz.api.getMinerQueue(function(err, result) {
 });
 ```
 
+## Committee API
+
+### Get committee request by id
+```js
+var request_id=1;
+var votes_limit=-1; //-1 all, 0 none, >0 limit
+viz.api.getCommitteeRequest(request_id, votes_limit, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get all committee votes by request id
+```js
+var request_id=1;
+viz.api.getCommitteeRequestVotes(request_id, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Follow API
 
 ### Get Followers
@@ -665,6 +685,41 @@ viz.api.broadcastTransactionWithCallback(confirmationCallback, trx, function(err
 });
 ```
 # Broadcast
+
+### Committee Worker Create Request
+```
+viz.broadcast.committeeWorkerCreateRequest(wif, creator, url, worker, reward_amount_min, reward_amount_max, duration, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+var wif='5K...';
+var creator='on1x';
+var url='https://goldvoice.club/...'; //URL with worker request for discussion
+var worker='lightextension-escrow'; //account login for get payments from committee fund, it may be escrow with multisig
+var reward_amount_min='1000.000 VIZ'; //Min amount of tokens needed for doing the work
+var reward_amount_max='10000.000 VIZ'; //Targeted amount of tokens needed for doing the work (can not be greater that current committee fund)
+var duration=432000; //60*60*24*5 - Request duration in sec (between COMMITTEE_MIN_DURATION=5 days and COMMITTEE_MAX_DURATION=30 days)
+viz.broadcast.committeeWorkerCreateRequest(wif, creator, url, worker, reward_amount_min, reward_amount_max, duration, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Committee Worker Cancel Request
+```
+viz.broadcast.committeeWorkerCancelRequest(wif, creator, request_id, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Committee Vote Request
+```
+// vote_percent can be from -10000 to 10000
+viz.broadcast.committeeVoteRequest(wif, voter, request_id, vote_percent, function(err, result) {
+  console.log(err, result);
+});
+```
 
 ### Account Create
 ```
