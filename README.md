@@ -5,33 +5,13 @@ viz.js the JavaScript API for VIZ blockchain
 
 # Documentation
 
-- [Install](#install)
-- [Browser](#browser)
-- [Config](#config)
-- [Database API](#api)
-    - [Subscriptions](#subscriptions)
-    - [Tags](#tags)
-    - [Blocks and transactions](#blocks-and-transactions)
-    - [Globals](#globals)
-    - [Keys](#keys)
-    - [Accounts](#accounts)
-    - [Market](#market)
-    - [Authority / validation](#authority--validation)
-    - [Votes](#votes)
-    - [Content](#content)
-    - [Witnesses](#witnesses)
-- [Follow API](#follow-api)
-- [Broadcast API](#broadcast-api)
-- [Broadcast](#broadcast)
-- [Auth](#auth)
+Here is full documentation:
+https://github.com/VIZ-World/viz-world-js/tree/master/doc
 
 # Install
 ```
-$ npm install viz-js --save
+$ npm install viz-world-js --save
 ```
-
-Here is full documentation:
-https://github.com/VIZ-World/viz-js/tree/master/doc
 
 ## Browser
 ```html
