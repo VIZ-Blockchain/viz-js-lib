@@ -336,5 +336,15 @@ module.exports = [
     "api": "network_broadcast_api",
     "method": "broadcast_block",
     "params": ["block"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_committee_request",
+    "params": ["request_id"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_committee_request_votes",
+    "params": ["request_id"]
   }
 ]
