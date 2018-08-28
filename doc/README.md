@@ -557,7 +557,7 @@ viz.api.getMinerQueue(function(err, result) {
 });
 ```
 
-## Committee API
+## Committee
 
 ### Get committee request by id
 ```js
