@@ -21,7 +21,7 @@ ChainTypes.operations = {
   account_witness_vote: 7,
   account_witness_proxy: 8,
   delete_content: 9,
-  custom_json: 10,
+  custom: 10,
   set_withdraw_vesting_route: 11,
   request_account_recovery: 12,
   recover_account: 13,

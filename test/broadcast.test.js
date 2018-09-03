@@ -119,13 +119,13 @@ describe('viz.broadcast:', () => {
     });
   });
 
-  describe('customJson', () => {
+  describe('custom', () => {
     before(() => {
       return Promise.delay(2000);
     });
 
     it('works', async () => {
-      const tx = await viz.broadcast.customJsonAsync(
+      const tx = await viz.broadcast.customAsync(
         postingWif,
         [],
         [username],

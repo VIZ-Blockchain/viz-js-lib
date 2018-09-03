@@ -889,9 +889,9 @@ viz.broadcast.contentReward(wif, author, permlink, Payout, vestingPayout, functi
 });
 ```
 
-### Custom Json
+### Custom
 ```
-viz.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
+viz.broadcast.custom(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
   console.log(err, result);
 });
 ```

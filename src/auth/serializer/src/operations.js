@@ -288,8 +288,8 @@ let delete_content = new Serializer(
     }
 );
 
-let custom_json = new Serializer(
-    "custom_json", {
+let custom = new Serializer(
+    "custom", {
         required_auths: set(string),
         required_posting_auths: set(string),
         id: string,
@@ -586,7 +586,7 @@ operation.st_operations = [
     account_witness_vote,
     account_witness_proxy,
     delete_content,
-    custom_json,
+    custom,
     set_withdraw_vesting_route,
     request_account_recovery,
     recover_account,

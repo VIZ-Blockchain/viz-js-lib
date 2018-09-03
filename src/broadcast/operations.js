@@ -107,7 +107,7 @@ module.exports = [
   },
   {
     "roles": ["posting", "active"],
-    "operation": "custom_json",
+    "operation": "custom",
     "params": [
       "required_auths",
       "required_posting_auths",
