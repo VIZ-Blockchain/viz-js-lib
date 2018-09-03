@@ -24,10 +24,10 @@
     }
   );
 
-  /** Broadcast a comment */
+  /** Broadcast a content */
   var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
 
-  viz.broadcast.comment(
+  viz.broadcast.content(
     postingWif,
     'siol', // Parent Author
     'test', // Parent Permlink
@@ -44,7 +44,7 @@
   /** Broadcast a post */
   var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
 
-  viz.broadcast.comment(
+  viz.broadcast.content(
     postingWif,
     '', // Leave parent author empty
     'photography', // Main tag

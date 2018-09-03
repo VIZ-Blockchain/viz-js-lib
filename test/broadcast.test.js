@@ -16,7 +16,7 @@ describe('viz.broadcast:', () => {
   it('has generated methods', () => {
     should.exist(viz.broadcast.vote);
     should.exist(viz.broadcast.voteWith);
-    should.exist(viz.broadcast.comment);
+    should.exist(viz.broadcast.content);
     should.exist(viz.broadcast.transfer);
   });
 

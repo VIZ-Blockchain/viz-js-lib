@@ -25,7 +25,7 @@ export const methods_test = [
     "get_discussions_by_blog",
     "get_discussions_by_cashout",
     "get_discussions_by_children",
-    "get_discussions_by_comments",
+    "get_discussions_by_contents",
     "get_discussions_by_created",
     "get_discussions_by_feed",
     "get_discussions_by_hot",

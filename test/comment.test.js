@@ -11,15 +11,15 @@ const postingWif = password
 
 describe('viz.broadcast:', () => {
 
-  describe('comment with beneficiaries', () => {
+  describe('content with beneficiaries', () => {
     before(() => {
       return Promise.delay(2000);
     });
 
     it('works', async () => {
-      const permlink = viz.formatter.commentPermlink('pal', '2scmtp-test');
+      const permlink = viz.formatter.contentPermlink('pal', '2scmtp-test');
       const operations = [
-        ['comment',
+        ['content',
           {
             parent_author: 'pal',
             parent_permlink: '2scmtp-test',

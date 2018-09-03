@@ -66,7 +66,7 @@ module.exports = VIZ_API => {
       );
     },
 
-    commentPermlink: function(parentAuthor, parentPermlink) {
+    contentPermlink: function(parentAuthor, parentPermlink) {
       const timeStr = new Date()
         .toISOString()
         .replace(/[^a-zA-Z0-9]+/g, "")

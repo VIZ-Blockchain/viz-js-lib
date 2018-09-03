@@ -112,7 +112,7 @@ module.exports = [
   },
   {
     "api": "tags",
-    "method": "get_discussions_by_comments",
+    "method": "get_discussions_by_contents",
     "params": ["query"]
   },
   {

@@ -64,7 +64,7 @@ const beneficiaries = new Serializer(
     }
 );
 
-const comment_payout_beneficiaries = new Serializer(
+const content_payout_beneficiaries = new Serializer(
     0, {
         beneficiaries: set(beneficiaries)
     }
@@ -178,8 +178,8 @@ let vote = new Serializer(
     }
 );
 
-let comment = new Serializer(
-    "comment", {
+let content = new Serializer(
+    "content", {
         parent_author: string,
         parent_permlink: string,
         author: string,
@@ -189,7 +189,7 @@ let comment = new Serializer(
         curation_percent: int16,
         json_metadata: string,
         extensions: set(static_variant([
-            comment_payout_beneficiaries
+            content_payout_beneficiaries
         ]))
     }
 );
@@ -281,8 +281,8 @@ let account_witness_proxy = new Serializer(
     }
 );
 
-let delete_comment = new Serializer(
-    "delete_comment", {
+let delete_content = new Serializer(
+    "delete_content", {
         author: string,
         permlink: string
     }
@@ -466,13 +466,13 @@ let curation_reward = new Serializer(
     "curation_reward", {
         curator: string,
         reward: asset,
-        comment_author: string,
-        comment_permlink: string
+        content_author: string,
+        content_permlink: string
     }
 );
 
-let comment_reward = new Serializer(
-    "comment_reward", {
+let content_reward = new Serializer(
+    "content_reward", {
         author: string,
         permlink: string,
         payout: asset
@@ -500,15 +500,15 @@ let hardfork = new Serializer(
     }
 );
 
-let comment_payout_update = new Serializer(
-    "comment_payout_update", {
+let content_payout_update = new Serializer(
+    "content_payout_update", {
         author: string,
         permlink: string
     }
 );
 
-let comment_benefactor_reward = new Serializer(
-    "comment_benefactor_reward", {
+let content_benefactor_reward = new Serializer(
+    "content_benefactor_reward", {
         benefactor: string,
         author: string,
         permlink: string,
@@ -577,7 +577,7 @@ let committee_payout_request = new Serializer(
 
 operation.st_operations = [
     vote,
-    comment,
+    content,
     transfer,
     transfer_to_vesting,
     withdraw_vesting,
@@ -585,7 +585,7 @@ operation.st_operations = [
     witness_update,
     account_witness_vote,
     account_witness_proxy,
-    delete_comment,
+    delete_content,
     custom_json,
     set_withdraw_vesting_route,
     request_account_recovery,
@@ -604,12 +604,12 @@ operation.st_operations = [
     chain_properties_update,
     author_reward,
     curation_reward,
-    comment_reward,
+    content_reward,
     fill_vesting_withdraw,
     shutdown_witness,
     hardfork,
-    comment_payout_update,
-    comment_benefactor_reward,
+    content_payout_update,
+    content_benefactor_reward,
     return_vesting_delegation,
     committee_worker_create_request,
     committee_worker_cancel_request,

@@ -194,9 +194,9 @@ viz.api.getDiscussionsByBlog(query, function(err, result) {
   else console.error(err);
 });
 ```
-### Get Discussions By Comments
+### Get Discussions By Contents
 ```
-viz.api.getDiscussionsByComments(query, function(err, result) {
+viz.api.getDiscussionsByContents(query, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -482,7 +482,7 @@ viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
 #### Example:
 ```js
 /**
- * getContentReplies() receiving a comments
+ * getContentReplies() receiving a contents
  * @param {String} parent - author of the post
  * @param {String} parentPermlink - url-address of the post
 */
@@ -731,7 +731,7 @@ viz.broadcast.committeeVoteRequest(wif, voter, request_id, vote_percent, functio
 
 ### Account Create
 ```
-viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -748,6 +748,7 @@ viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, po
  * @param {Object} posting - object containing a posting key
  * @param {String} memoKey - new memo key
  * @param {String} jsonMetadata - additional data for a new account (avatar, location, etc.)
+ * @param {String} referer - name of a referer user, can be empty
 */
 var wif = '5K...';
 var fee = '10.000 VIZ';
@@ -771,7 +772,9 @@ var posting = {
 };
 var memoKey = newKeys.memo;
 var jsonMetadata = '{}';
-viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, extensions, function(err, result) {
+var referer = '';
+var extensions = [];
+viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('accountCreate', result);
@@ -810,16 +813,16 @@ viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, e
   console.log(err, result);
 });
 ```
-### Comment
+### Content
 ```
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
 #### Example add a post:
 ```js
 /**
- * comment() add a post
+ * content() add a post
  * @param {Base58} wif - private posting key
  * @param {String} parentAuthor - for add a post, empty field
  * @param {String} parentPermlink - main tag
@@ -840,25 +843,25 @@ var body = 'test2';
 var curation_percent = 5000;//50%
 var jsonMetadata = '{}';
 var extensions = [];
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
-    console.log('comment', result);
+    console.log('content', result);
   }
   else console.error(err);
 });
 ```
-#### Example add a comment:
+#### Example add a content:
 ```js
 /**
- * comment() add a comment
+ * content() add a content
  * @param {Base58} wif - private posting key
- * @param {String} parentAuthor - for add a comment, author of the post
- * @param {String} parentPermlink - for add a comment, url-address of the post
- * @param {String} author - author of the comment
- * @param {String} permlink - unique url-address of the comment
- * @param {String} title - for create a comment, empty field
- * @param {String} body - text of the comment
+ * @param {String} parentAuthor - for add a content, author of the post
+ * @param {String} parentPermlink - for add a content, url-address of the post
+ * @param {String} author - author of the content
+ * @param {String} permlink - unique url-address of the content
+ * @param {String} title - for create a content, empty field
+ * @param {String} body - text of the content
  * @param {String} jsonMetadata - meta-data of the post (images etc.)
 */
 var wif = '5K...';
@@ -870,18 +873,18 @@ var title = '';
 var body = 'hi!';
 var curation_percent = 5000;//50%
 var jsonMetadata = '{}';
-viz.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
-    console.log('comment', result);
+    console.log('content', result);
   }
   else console.error(err);
 });
 ```
 
-### Comment Reward
+### Content Reward
 ```
-viz.broadcast.commentReward(wif, author, permlink, Payout, vestingPayout, function(err, result) {
+viz.broadcast.contentReward(wif, author, permlink, Payout, vestingPayout, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -892,9 +895,9 @@ viz.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, fun
   console.log(err, result);
 });
 ```
-### Delete Comment
+### Delete Content
 ```
-viz.broadcast.deleteComment(wif, author, permlink, function(err, result) {
+viz.broadcast.deleteContent(wif, author, permlink, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -962,7 +965,7 @@ viz.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
  * @param {String} from - username who send, whose owner key
  * @param {String} to - username who get
  * @param {String} amount - number of coins in the format: 0.001 VIZ
- * @param {String} memo - a comment
+ * @param {String} memo - a content
 */
 var wif = '5J...';
 var from = 'epexa';
@@ -1134,12 +1137,12 @@ console.log(password);
 // => 'GAz3GYFvvQvgm7t2fQmwMDuXEzDqTzn9'
 ```
 
-### Comment Permlink
+### Content Permlink
 ```
 var parentAuthor = 'ned';
 var parentPermlink = 'a-selfie';
-var commentPermlink = viz.formatter.commentPermlink(parentAuthor, parentPermlink);
-console.log(commentPermlink);
+var contentPermlink = viz.formatter.contentPermlink(parentAuthor, parentPermlink);
+console.log(contentPermlink);
 // => 're-ned-a-selfie-20170621t080403765z'
 ```
 

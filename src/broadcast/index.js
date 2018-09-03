@@ -94,7 +94,7 @@ operations.forEach((operation) => {
             json_metadata: toString(options.json_metadata),
           } : {},
           useCommentPermlink && options.permlink == null ? {
-            permlink: formatter.commentPermlink(options.parent_author, options.parent_permlink),
+            permlink: formatter.contentPermlink(options.parent_author, options.parent_permlink),
           } : {}
         )]],
       }, keys, callback);

@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     "roles": ["posting"],
-    "operation": "comment",
+    "operation": "content",
     "params": [
       "parent_author",
       "parent_permlink",
@@ -99,7 +99,7 @@ module.exports = [
   },
   {
     "roles": ["posting"],
-    "operation": "delete_comment",
+    "operation": "delete_content",
     "params": [
       "author",
       "permlink"
@@ -216,7 +216,7 @@ module.exports = [
   },
   {
     "roles": ["posting"],
-    "operation": "comment_reward",
+    "operation": "content_reward",
     "params": [
       "author",
       "permlink",
