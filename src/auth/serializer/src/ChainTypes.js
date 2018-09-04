@@ -52,7 +52,8 @@ ChainTypes.operations = {
   committee_cancel_request: 38,
   committee_approve_request: 39,
   committee_payout_request: 40,
-  committee_pay_request: 41
+  committee_pay_request: 41,
+  witness_reward: 42
 };
 
 //types.hpp

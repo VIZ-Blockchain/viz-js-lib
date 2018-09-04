@@ -562,7 +562,7 @@ let committee_approve_request = new Serializer(
 );
 
 let committee_pay_request = new Serializer(
-    "committee_payout_request", {
+    "committee_pay_request", {
         worker: string,
         request_id: uint32,
         tokens: asset
@@ -572,6 +572,14 @@ let committee_pay_request = new Serializer(
 let committee_payout_request = new Serializer(
     "committee_payout_request", {
         request_id: uint32
+    }
+);
+
+let witness_reward = new Serializer(
+    "witness_reward", {
+        witness: string,
+        block_id: uint32,
+        shares: asset
     }
 );
 
@@ -617,7 +625,8 @@ operation.st_operations = [
     committee_cancel_request,
     committee_approve_request,
     committee_pay_request,
-    committee_payout_request
+    committee_payout_request,
+    witness_reward
 ];
 
 //# -------------------------------
