@@ -578,7 +578,6 @@ let committee_payout_request = new Serializer(
 let witness_reward = new Serializer(
     "witness_reward", {
         witness: string,
-        block_id: uint32,
         shares: asset
     }
 );
