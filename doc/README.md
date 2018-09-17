@@ -1016,6 +1016,7 @@ let chain_properties = {
   max_curation_percent:10000,
   bandwidth_reserve_percent:1000,
   bandwidth_reserve_below:"500.000000 SHARES",
+  flag_energy_additional_cost:0
 };
 viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);
