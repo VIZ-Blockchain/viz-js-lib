@@ -53,7 +53,10 @@ ChainTypes.operations = {
   committee_approve_request: 39,
   committee_payout_request: 40,
   committee_pay_request: 41,
-  witness_reward: 42
+  witness_reward: 42,
+  create_invite: 43,
+  claim_invite_balance: 44,
+  invite_registration: 45
 };
 
 //types.hpp

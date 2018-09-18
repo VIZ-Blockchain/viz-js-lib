@@ -729,6 +729,28 @@ viz.broadcast.committeeVoteRequest(wif, voter, request_id, vote_percent, functio
 });
 ```
 
+### Create invite
+```js
+viz.broadcast.createInvite(wif, creator, balance, invite_key, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Claim invite balance
+```js
+// initiator can be temp account with any wif
+viz.broadcast.claimInviteBalance(wif, initator, receiver, invite_secret, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Invite registration
+```js
+viz.broadcast.inviteRegistration(wif, initator, new_account_name, invite_secret, new_account_key, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ### Account Create
 ```
 viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, function(err, result) {

@@ -335,5 +335,33 @@ module.exports = [
       "request_id",
       "vote_percent"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "create_invite",
+    "params": [
+      "creator",
+      "balance",
+      "invite_key"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "claim_invite_balance",
+    "params": [
+      "initiator",
+      "receiver",
+      "invite_secret"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "invite_registration",
+    "params": [
+      "initiator",
+      "new_account_name",
+      "invite_secret",
+      "new_account_key"
+    ]
   }
 ]

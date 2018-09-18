@@ -583,6 +583,31 @@ let witness_reward = new Serializer(
     }
 );
 
+let create_invite = new Serializer(
+    "create_invite", {
+        creator: string,
+        balance: asset,
+        invite_key: public_key
+    }
+);
+
+let claim_invite_balance = new Serializer(
+    "claim_invite_balance", {
+        initiator: string,
+        receiver: string,
+        invite_secret: string
+    }
+);
+
+let invite_registration = new Serializer(
+    "invite_registration", {
+        initiator: string,
+        new_account_name: string,
+        invite_secret: string,
+        new_account_key: public_key
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -626,7 +651,10 @@ operation.st_operations = [
     committee_approve_request,
     committee_pay_request,
     committee_payout_request,
-    witness_reward
+    witness_reward,
+    create_invite,
+    claim_invite_balance,
+    invite_registration
 ];
 
 //# -------------------------------
