@@ -351,5 +351,20 @@ module.exports = [
     "api": "social_network",
     "method": "get_committee_requests_list",
     "params": ["status"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_invites_list",
+    "params": ["status"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_invite_by_id",
+    "params": ["id"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_invite_by_key",
+    "params": ["invite_key"]
   }
 ]

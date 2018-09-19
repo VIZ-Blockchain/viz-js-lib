@@ -15,7 +15,8 @@
     - [Votes](#votes)
     - [Content](#content)
     - [Witnesses](#witnesses)
-    - [Committee](#committee)
+    - [Committee API](#committee-api)
+    - [Invite API](#invite-api)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
@@ -557,7 +558,7 @@ viz.api.getMinerQueue(function(err, result) {
 });
 ```
 
-## Committee
+## Committee API
 
 ### Get committee request by id
 ```js
@@ -580,6 +581,31 @@ viz.api.getCommitteeRequestVotes(request_id, function(err, result) {
 ```js
 var status=0;
 viz.api.getCommitteeRequestsList(status, function(err, result) {
+  console.log(err, result);
+});
+```
+
+## Invite API
+
+### Get invites list by status
+```js
+var status=0;// active invites
+viz.api.getInvitesList(status, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get invite by id
+```js
+viz.api.getInviteById(id, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get invite by key
+```js
+var key='VIZ77gW5bga9JEsT8Ke1A2RPUN2hyiNAnveB4D7phBDH3TBw1kzBg';
+viz.api.getInviteByKey(key, function(err, result) {
   console.log(err, result);
 });
 ```
