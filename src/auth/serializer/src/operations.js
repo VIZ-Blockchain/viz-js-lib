@@ -248,7 +248,8 @@ let chain_properties = new Serializer(
         max_curation_percent: int16,
         bandwidth_reserve_percent: int16,
         bandwidth_reserve_below: asset,
-        flag_energy_additional_cost: int16
+        flag_energy_additional_cost: int16,
+        vote_accounting_min_rshares: uint32
     }
 );
 
