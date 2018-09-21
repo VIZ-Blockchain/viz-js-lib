@@ -1065,7 +1065,8 @@ let chain_properties = {
   bandwidth_reserve_percent:1000,
   bandwidth_reserve_below:"500.000000 SHARES",
   flag_energy_additional_cost:0,
-  vote_accounting_min_rshares:500000
+  vote_accounting_min_rshares:500000,
+  committee_request_approve_min_percent:1000,
 };
 viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);

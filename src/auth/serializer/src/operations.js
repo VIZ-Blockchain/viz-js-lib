@@ -249,7 +249,8 @@ let chain_properties = new Serializer(
         bandwidth_reserve_percent: int16,
         bandwidth_reserve_below: asset,
         flag_energy_additional_cost: int16,
-        vote_accounting_min_rshares: uint32
+        vote_accounting_min_rshares: uint32,
+        committee_request_approve_min_percent: int16
     }
 );
 
