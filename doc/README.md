@@ -779,7 +779,7 @@ viz.broadcast.inviteRegistration(wif, initator, new_account_name, invite_secret,
 
 ### Account Create
 ```
-viz.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
