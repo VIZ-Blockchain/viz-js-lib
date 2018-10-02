@@ -1068,7 +1068,7 @@ let chain_properties = {
   vote_accounting_min_rshares:500000,
   committee_request_approve_min_percent:1000,
 };
-viz.broadcast.chainProperiesUpdate(wif, owner, chain_properties, function(err, result) {
+viz.broadcast.chainPropertiesUpdate(wif, owner, chain_properties, function(err, result) {
   console.log(err, result);
 });
 ```
