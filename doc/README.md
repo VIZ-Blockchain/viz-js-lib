@@ -847,7 +847,6 @@ viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonM
 
 ```js
 /**
- * accountCreate() new account registration
  * @param {Base58} wif - private active key
  * @param {String} accountName - account username
  * @param {Object} owner - object containing a new owner key
