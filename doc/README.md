@@ -847,7 +847,7 @@ viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonM
 
 ```js
 /**
- * @param {Base58} wif - private active key
+ * @param {Base58} wif - private owner key
  * @param {String} accountName - account username
  * @param {Object} owner - object containing a new owner key
  * @param {Object} active - object containing a active key
