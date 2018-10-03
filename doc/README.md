@@ -866,10 +866,10 @@ var owner = {
 };
 
 var active = {
-  			weight_threshold: 1,
-  			account_auths: [],
-  			key_auths: [[newKeys.active, 1]]
-		};
+  	weight_threshold: 1,
+  	account_auths: [],
+  	key_auths: [[newKeys.active, 1]]
+};
 
 var posting = {
   	weight_threshold: 1,
