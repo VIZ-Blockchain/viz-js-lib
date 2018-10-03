@@ -846,7 +846,18 @@ viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonM
 ####  Example
 
 ```js
-var account = name;
+/**
+ * accountCreate() new account registration
+ * @param {Base58} wif - private active key
+ * @param {String} accountName - account username
+ * @param {Object} owner - object containing a new owner key
+ * @param {Object} active - object containing a active key
+ * @param {Object} posting - object containing a posting key
+ * @param {String} memoKey - new memo key
+ * @param {String} jsonMetadata - additional data for a new account (avatar, location, etc.)
+*/
+
+var accountName = name;
 var ownerWif = '5J...'
 
 var owner = {
@@ -868,6 +879,7 @@ var posting = {
 };
 
 var memoKey = newKeys.memo;
+var jsonMetadata = account.json_metadata;
 
 viz.broadcast.accountUpdate(ownerWif, account, owner, active,
  			posting,memoKey, json_met, function(err, result) 
