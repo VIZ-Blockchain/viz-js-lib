@@ -882,8 +882,8 @@ var jsonMetadata = account.json_metadata;
 
 viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, json_met, function(err, result) 
 {
-  	if (!err)
-    {
+	if (!err)
+	{
 		console.log(viz.auth.getPrivateKeys(name, password, roles));
 	} else {
 		console.log('Error accountUpdate: ');
