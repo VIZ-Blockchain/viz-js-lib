@@ -843,7 +843,49 @@ viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonM
   console.log(err, result);
 });
 ```
+####  Example
+
+```js
+var account = name;
+var ownerWif = '5J...'
+
+var owner = {
+  	weight_threshold: 1,
+  	account_auths: [],
+  	key_auths: [[newKeys.owner, 1]]
+};
+
+var active = {
+  			weight_threshold: 1,
+  			account_auths: [],
+  			key_auths: [[newKeys.active, 1]]
+		};
+
+var posting = {
+  	weight_threshold: 1,
+  	account_auths: [],
+  	key_auths: [[newKeys.posting, 1]]
+};
+
+var memoKey = newKeys.memo;
+
+viz.broadcast.accountUpdate(ownerWif, account, owner, active,
+ 			posting,memoKey, json_met, function(err, result) 
+{
+  	if (!err)
+    {
+		console.log(viz.auth.getPrivateKeys(name, password, roles));
+	} else {
+		console.log('Error accountUpdate: ');
+		console.log(err);
+	}
+});	
+```
+
+
+
 ### Account Witness Proxy
+
 ```
 viz.broadcast.accountWitnessProxy(wif, account, proxy, function(err, result) {
   console.log(err, result);
