@@ -860,28 +860,27 @@ var accountName = name;
 var ownerWif = '5J...'
 
 var owner = {
-  	weight_threshold: 1,
-  	account_auths: [],
-  	key_auths: [[newKeys.owner, 1]]
+  weight_threshold: 1,
+  account_auths: [],
+  key_auths: [[newKeys.owner, 1]]
 };
 
 var active = {
-  	weight_threshold: 1,
-  	account_auths: [],
-  	key_auths: [[newKeys.active, 1]]
+  weight_threshold: 1,
+  account_auths: [],
+  key_auths: [[newKeys.active, 1]]
 };
 
 var posting = {
-  	weight_threshold: 1,
-  	account_auths: [],
-  	key_auths: [[newKeys.posting, 1]]
+  weight_threshold: 1,
+  account_auths: [],
+  key_auths: [[newKeys.posting, 1]]
 };
 
 var memoKey = newKeys.memo;
 var jsonMetadata = account.json_metadata;
 
-viz.broadcast.accountUpdate(ownerWif, account, owner, active,
- 			posting,memoKey, json_met, function(err, result) 
+viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, json_met, function(err, result) 
 {
   	if (!err)
     {
