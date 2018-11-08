@@ -39,10 +39,10 @@ viz.api.getAccounts(['viz','in'], function(err, response){
 ```
 
 ## Config
-Default config should work with viz. however you can change it to work with viz
+Default config should not work with VIZ without websocket in config. However you can change it to work with any viz fork
 as
 ```js
-viz.config.set('websocket','wss://testnet.viz.world'); // assuming websocket is work at testnet.viz.world
+viz.config.set('websocket','wss://api.viz.blckchnd.com/ws'); // assuming websocket is work at api.viz.blckchnd.com/ws
 viz.config.set('address_prefix','VIZ');
 viz.config.set('chain_id','2040effda178d4fffff5eab7a915d4019879f5205cc5392e4bcced2b6edda0cd');
 ```
@@ -880,7 +880,7 @@ var posting = {
 var memoKey = newKeys.memo;
 var jsonMetadata = account.json_metadata;
 
-viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, json_met, function(err, result) 
+viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, json_met, function(err, result)
 {
 	if (!err)
 	{
@@ -889,7 +889,7 @@ viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, j
 		console.log('Error accountUpdate: ');
 		console.log(err);
 	}
-});	
+});
 ```
 
 
