@@ -116,45 +116,6 @@ class VIZ extends EventEmitter {
         }
     }
     return this.transport.send(api, data, cb);
-}
-
-  oldsend(api, data, callback) {
-    debugSetup('VIZ::send', api, data);
-    const id = data.id || this.id++;
-    const startP = this.start();
-
-    this.currentP = startP
-    .then(() => new Promise((resolve, reject) => {
-        if (!this.ws) {
-          reject(new Error('The WS connection was closed while this request was pending'));
-          return;
-        }
-
-        const payload = JSON.stringify({
-          id,
-          method: 'call',
-          jsonrpc: '2.0',
-          params: [
-            api,
-            data.method,
-            data.params,
-          ],
-        });
-
-        debugWs('Sending message', payload);
-        this.requests[id] = {
-          api,
-          data,
-          resolve,
-          reject,
-          start_time: Date.now()
-        };
-
-        this.ws.send(payload);
-      }))
-      .nodeify(callback);
-
-    return this.currentP;
   }
 
   streamBlockNumber(mode = 'head', callback, ts = 200) {
