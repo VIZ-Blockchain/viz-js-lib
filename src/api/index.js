@@ -7,26 +7,16 @@ import newDebug from 'debug';
 import config from '../config';
 import methods from './methods';
 import { camelCase } from '../utils';
+import transports from './transports';
 
 const debugEmitters = newDebug('viz:emitters');
 const debugProtocol = newDebug('viz:protocol');
 const debugSetup = newDebug('viz:setup');
 const debugWs = newDebug('viz:ws');
 
-let WebSocket;
-if (isNode) {
-  WebSocket = require('ws'); // eslint-disable-line global-require
-} else if (typeof window !== 'undefined') {
-  WebSocket = window.WebSocket;
-} else {
-  throw new Error('Couldn\'t decide on a `WebSocket` class');
-}
-
 const DEFAULTS = {
   id: 0,
 };
-
-const expectedResponseMs = process.env.EXPECTED_RESPONSE_MS || 2000;
 
 class VIZ extends EventEmitter {
   constructor(options = {}) {
@@ -41,74 +31,36 @@ class VIZ extends EventEmitter {
     this.requests = {};
   }
 
+  _setTransport(url) {
+      if (url && url.match('^((http|https)?:\/\/)')) {
+        this.transport = new transports.http();
+      } else if (url && url.match('^((ws|wss)?:\/\/)')) {
+        this.transport = new transports.ws();
+      } else {
+      throw Error("unknown transport! [" + url + "]");
+    }
+  }
+
   setWebSocket(url) {
     console.warn("viz.api.setWebSocket(url) is now deprecated instead use viz.config.set('websocket',url)");
     debugSetup('Setting WS', url);
     config.set('websocket', url);
+    this._setTransport(url);
     this.stop();
   }
 
   start() {
-    if (this.startP) {
-      return this.startP;
-    }
-
-    const startP = new Promise((resolve, reject) => {
-      if (startP !== this.startP) return;
-      const url = config.get('websocket');
-      this.ws = new WebSocket(url);
-
-      const releaseOpen = this.listenTo(this.ws, 'open', () => {
-        debugWs('Opened WS connection with', url);
-        this.isOpen = true;
-        releaseOpen();
-        resolve();
-      });
-
-      const releaseClose = this.listenTo(this.ws, 'close', () => {
-        debugWs('Closed WS connection with', url);
-        this.isOpen = false;
-        delete this.ws;
-        this.stop();
-
-        if (startP.isPending()) {
-          reject(new Error('The WS connection was closed before this operation was made'));
-        }
-      });
-
-      const releaseMessage = this.listenTo(this.ws, 'message', (message) => {
-        debugWs('Received message', message.data);
-        const data = JSON.parse(message.data);
-        const id = data.id;
-        const request = this.requests[id];
-        if (!request) {
-          debugWs('VIZ.onMessage error: unknown request ', id);
-          return;
-        }
-        delete this.requests[id];
-        this.onMessage(data, request);
-      });
-
-      this.releases = this.releases.concat([
-        releaseOpen,
-        releaseClose,
-        releaseMessage,
-      ]);
-    });
-
-    this.startP = startP;
-
-    return startP;
+    const url = config.get('websocket');
+    this._setTransport(url);
+    return this.transport.start();
   }
 
   stop() {
-    debugSetup('Stopping...');
-    if (this.ws) this.ws.close();
-    delete this.startP;
-    delete this.ws;
-    this.releases.forEach((release) => release());
-    this.releases = [];
+    const ret = this.transport.stop();
+    this.transport = null;
+    return ret;
   }
+
 
   listenTo(target, eventName, callback) {
     debugEmitters('Adding listener for', eventName, 'from', target.constructor.name);
@@ -144,6 +96,29 @@ class VIZ extends EventEmitter {
   }
 
   send(api, data, callback) {
+    if(!this.transport) {
+        this.start();
+    }
+    var cb = callback;
+    if (this.__logger) {
+        let id = Math.random();
+        let self = this;
+        this.log('xmit:' + id + ':', data)
+        cb = function(e, d) {
+            if (e) {
+                self.log('error', 'rsp:' + id + ':\n\n', e, d)
+            } else {
+                self.log('rsp:' + id + ':', d)
+            }
+            if (callback) {
+                callback.apply(self, arguments)
+            }
+        }
+    }
+    return this.transport.send(api, data, cb);
+}
+
+  oldsend(api, data, callback) {
     debugSetup('VIZ::send', api, data);
     const id = data.id || this.id++;
     const startP = this.start();
