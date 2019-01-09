@@ -56,7 +56,11 @@ ChainTypes.operations = {
   witness_reward: 42,
   create_invite: 43,
   claim_invite_balance: 44,
-  invite_registration: 45
+  invite_registration: 45,
+  versioned_chain_properties_update: 46,
+  award: 47,
+  receive_award: 48,
+  benefactor_award: 49
 };
 
 //types.hpp

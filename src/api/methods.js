@@ -338,32 +338,32 @@ module.exports = [
     "params": ["block"]
   },
   {
-    "api": "social_network",
+    "api": "committee_api",
     "method": "get_committee_request",
     "params": ["request_id","votes_count"]
   },
   {
-    "api": "social_network",
+    "api": "committee_api",
     "method": "get_committee_request_votes",
     "params": ["request_id"]
   },
   {
-    "api": "social_network",
+    "api": "committee_api",
     "method": "get_committee_requests_list",
     "params": ["status"]
   },
   {
-    "api": "social_network",
+    "api": "invite_api",
     "method": "get_invites_list",
     "params": ["status"]
   },
   {
-    "api": "social_network",
+    "api": "invite_api",
     "method": "get_invite_by_id",
     "params": ["id"]
   },
   {
-    "api": "social_network",
+    "api": "invite_api",
     "method": "get_invite_by_key",
     "params": ["invite_key"]
   }

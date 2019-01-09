@@ -363,5 +363,25 @@ module.exports = [
       "invite_secret",
       "new_account_key"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "versioned_chain_properties_update",
+    "params": [
+      "owner",
+      "props"
+    ]
+  },
+  {
+    "roles": ["posting"],
+    "operation": "award",
+    "params": [
+      "initiator",
+      "receiver",
+      "energy",
+      "custom_sequence",
+      "memo",
+      "beneficiaries"
+    ]
   }
 ]

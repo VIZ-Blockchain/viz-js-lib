@@ -237,8 +237,8 @@ let account_update = new Serializer(
     }
 );
 
-let chain_properties = new Serializer(
-    "chain_properties", {
+let chain_properties_init = new Serializer(
+    "chain_properties_init", {
         account_creation_fee: asset,
         maximum_block_size: uint32,
         create_account_delegation_ratio: uint32,
@@ -264,8 +264,8 @@ let witness_update = new Serializer(
 
 let chain_properties_update = new Serializer(
     "chain_properties_update", {
-    	owner: string,
-        props: chain_properties
+        owner: string,
+        props: chain_properties_init
     }
 );
 
@@ -610,6 +610,64 @@ let invite_registration = new Serializer(
     }
 );
 
+let award = new Serializer("award", {
+    initiator: string,
+    receiver: string,
+    energy: uint16,
+    custom_sequence: uint64,
+    memo: string,
+    beneficiaries: set(beneficiaries)
+});
+
+const chain_properties_hf4 = new Serializer(
+    1, {
+        account_creation_fee: asset,
+        maximum_block_size: uint32,
+        create_account_delegation_ratio: uint32,
+        create_account_delegation_time: uint32,
+        min_delegation: asset,
+        min_curation_percent: int16,
+        max_curation_percent: int16,
+        bandwidth_reserve_percent: int16,
+        bandwidth_reserve_below: asset,
+        flag_energy_additional_cost: int16,
+        vote_accounting_min_rshares: uint32,
+        committee_request_approve_min_percent: int16,
+        inflation_witness_percent: int16,
+        inflation_ratio_committee_vs_reward_fund: int16,
+        inflation_recalc_period: uint32
+  }
+);
+
+let versioned_chain_properties_update = new Serializer(
+    "versioned_chain_properties_update", {
+        owner: string,
+        props: static_variant([
+            chain_properties_init,
+            chain_properties_hf4
+        ])
+    }
+);
+
+let receive_award = new Serializer(
+    "receive_award", {
+        receiver: string,
+        custom_sequence: uint64,
+        memo: string,
+        shares: asset
+    }
+);
+
+let benefactor_award = new Serializer(
+    "benefactor_award", {
+        benefactor: string,
+        receiver: string,
+        custom_sequence: uint64,
+        memo: string,
+        shares: asset
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -656,7 +714,11 @@ operation.st_operations = [
     witness_reward,
     create_invite,
     claim_invite_balance,
-    invite_registration
+    invite_registration,
+    versioned_chain_properties_update,
+    award,
+    receive_award,
+    benefactor_award
 ];
 
 //# -------------------------------
