@@ -10,13 +10,12 @@
     - [Globals](#globals)
     - [Keys](#keys)
     - [Accounts](#accounts)
-    - [Market](#market)
     - [Authority / validation](#authority--validation)
     - [Votes](#votes)
-    - [Content](#content)
     - [Witnesses](#witnesses)
     - [Committee API](#committee-api)
     - [Invite API](#invite-api)
+    - Deprecated: [Content](#content)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
@@ -915,6 +914,7 @@ viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, e
 ```
 ### Content
 ```
+// deprecated
 viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
   console.log(err, result);
 });
@@ -997,6 +997,7 @@ viz.broadcast.custom(wif, requiredAuths, requiredPostingAuths, id, json, functio
 ```
 ### Delete Content
 ```
+// deprecated
 viz.broadcast.deleteContent(wif, author, permlink, function(err, result) {
   console.log(err, result);
 });
@@ -1088,6 +1089,7 @@ viz.broadcast.transferToVesting(wif, from, to, amount, function(err, result) {
 ```
 ### Vote
 ```
+// deprecated
 viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
   console.log(err, result);
 });
@@ -1124,10 +1126,47 @@ viz.broadcast.chainPropertiesUpdate(wif, owner, chain_properties, function(err, 
   console.log(err, result);
 });
 ```
+### Witness Versioned Chain Properties Update
+```
+var chain_properties_init = {
+  account_creation_fee:"1.000 VIZ",
+  create_account_delegation_ratio:10,
+  create_account_delegation_time:2592000,
+  maximum_block_size:131072,
+  min_delegation:"0.001 VIZ",
+  min_curation_percent:0,//deprecated
+  max_curation_percent:10000,//deprecated
+  bandwidth_reserve_percent:1000,
+  bandwidth_reserve_below:"500.000000 SHARES",
+  flag_energy_additional_cost:0,//deprecated
+  vote_accounting_min_rshares:500000,
+  committee_request_approve_min_percent:1000,
+};
+
+var chain_properties_hf4=chain_properties_init;
+chain_properties_hf4.inflation_witness_percent=2000;
+chain_properties_hf4.inflation_ratio_committee_vs_reward_fund=5000;
+chain_properties_hf4.inflation_recalc_period=2000;
+
+viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [1,chain_properties_hf4], function(err, result) {
+  console.log(err, result);
+});
+```
 ### Fill Vesting Withdraw
 ```
 viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
   console.log(err, result);
+});
+```
+### Award
+```
+var receiver='committee';
+var energy=2;//0.02%
+var custom_sequence=0;
+var memo='Hello';
+var beneficiaries=[]
+viz.broadcast.award(wif,initiator,receiver,energy,custom_sequence,memo,beneficiaries,function(err,result){
+  console.log(err,result)
 });
 ```
 
