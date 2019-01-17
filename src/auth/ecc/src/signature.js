@@ -63,7 +63,7 @@ class Signature {
         var _hash = hash.sha256(buf);
         return Signature.signBufferSha256(_hash, private_key)
     }
-    
+
     /** Sign a buffer of exactally 32 bytes in size (sha256(text))
         @param {Buffer} buf - 32 bytes binary
         @param {PrivateKey} private_key
@@ -146,6 +146,15 @@ class Signature {
         var buf;
         buf = new Buffer(hex, 'hex');
         return this.verifyBuffer(buf, public_key);
+    };
+
+    static verifyData(data, signature, public_key_str) {
+    	var data_buf = new Buffer(data);
+        var data_buf_hex = new Buffer(data_buf, 'hex');
+        var data_buf_hash = hash.sha256(data_buf_hex);
+        assert.equal(data_buf_hash.length, 32, "A SHA 256 should be 32 bytes long, instead got " + data_buf_hash.length);
+        var public_key=PublicKey.fromString(public_key_str);
+        return ecdsa.verify(curve, data_buf_hash, signature, public_key.Q);
     };
 
 }

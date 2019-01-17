@@ -14,6 +14,8 @@ var Auth = {};
 var transaction = operations.transaction;
 var signed_transaction = operations.signed_transaction;
 
+Auth.signature=Signature;
+
 Auth.verify = function (name, password, auths) {
 	var hasKey = false;
 	var roles = [];
