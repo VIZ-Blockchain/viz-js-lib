@@ -668,6 +668,38 @@ let benefactor_award = new Serializer(
     }
 );
 
+let set_paid_subscription = new Serializer("set_paid_subscription", {
+    account: string,
+    url: string,
+    levels: uint16,
+    amount: asset,
+    period: uint16
+});
+
+let paid_subscribe = new Serializer("paid_subscribe", {
+    subscriber: string,
+    account: string,
+    level: uint16,
+    amount: asset,
+    period: uint16,
+    auto_renewal: bool
+});
+
+let paid_subscription_action = new Serializer("paid_subscription_action", {
+    subscriber: string,
+    account: string,
+    level: uint16,
+    amount: asset,
+    period: uint16,
+    summary_duration_sec: uint64,
+    summary_amount: asset
+});
+
+let cancel_paid_subscription = new Serializer("cancel_paid_subscription", {
+    subscriber: string,
+    account: string
+});
+
 operation.st_operations = [
     vote,
     content,
@@ -718,7 +750,11 @@ operation.st_operations = [
     versioned_chain_properties_update,
     award,
     receive_award,
-    benefactor_award
+    benefactor_award,
+    set_paid_subscription,
+    paid_subscribe,
+    paid_subscription_action,
+    cancel_paid_subscription
 ];
 
 //# -------------------------------

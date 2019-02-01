@@ -383,5 +383,28 @@ module.exports = [
       "memo",
       "beneficiaries"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "set_paid_subscription",
+    "params": [
+      "account",
+      "url",
+      "levels",
+      "amount",
+      "period"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "paid_subscribe",
+    "params": [
+      "subscriber",
+      "account",
+      "level",
+      "amount",
+      "period",
+      "auto_renewal"
+    ]
   }
 ]

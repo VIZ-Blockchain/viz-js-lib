@@ -60,7 +60,11 @@ ChainTypes.operations = {
   versioned_chain_properties_update: 46,
   award: 47,
   receive_award: 48,
-  benefactor_award: 49
+  benefactor_award: 49,
+  set_paid_subscription: 50,
+  paid_subscribe: 51,
+  paid_subscription_action: 52,
+  cancel_paid_subscription: 53
 };
 
 //types.hpp

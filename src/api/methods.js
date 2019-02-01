@@ -366,5 +366,15 @@ module.exports = [
     "api": "invite_api",
     "method": "get_invite_by_key",
     "params": ["invite_key"]
+  },
+  {
+    "api": "paid_subscription_api",
+    "method": "get_paid_subscription_options",
+    "params": ["account"]
+  },
+  {
+    "api": "paid_subscription_api",
+    "method": "get_paid_subscription_status",
+    "params": ["subscriber","account"]
   }
 ]

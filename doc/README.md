@@ -15,6 +15,7 @@
     - [Witnesses](#witnesses)
     - [Committee API](#committee-api)
     - [Invite API](#invite-api)
+    - [Paid subscription API](#paid-subscription-api)
     - Deprecated: [Content](#content)
 - [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
@@ -609,6 +610,22 @@ viz.api.getInviteByKey(key, function(err, result) {
 });
 ```
 
+## Paid subscription API
+
+### Get paid subscription options
+```js
+viz.api.getPaidSubscriptionOptions(account, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get paid subscription status
+```js
+viz.api.getPaidSubscriptionStatus(subscriber, account, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Follow API
 
 ### Get Followers
@@ -772,6 +789,28 @@ viz.broadcast.claimInviteBalance(wif, initator, receiver, invite_secret, functio
 ### Invite registration
 ```js
 viz.broadcast.inviteRegistration(wif, initator, new_account_name, invite_secret, new_account_key, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Set paid subscription options
+```js
+var levels=2;
+var amount='5.000 VIZ';
+var period=30;//days
+var url='https://...';
+viz.broadcast.setPaidSubscription(wif, account, url, levels, amount, period, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Paid subscribe
+```js
+var levels=2;
+var amount='5.000 VIZ';
+var period=30;//days
+var auto_renewal=true;
+viz.broadcast.paidSubscribe(wif, subscriber, account, levels, amount, period, auto_renewal, function(err, result) {
   console.log(err, result);
 });
 ```
