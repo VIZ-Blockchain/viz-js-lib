@@ -104,7 +104,7 @@ Auth.isPubkey = function(pubkey, address_prefix) {
 	return PublicKey.fromString(pubkey, address_prefix) != null
 }
 
-Auth.signTransaction = function (trx, keys) {
+Auth.signTransaction = function (trx, keys, debug = false) {
 	var signatures = [];
 	if (trx.signatures) {
 		signatures = [].concat(trx.signatures);
@@ -113,9 +113,17 @@ Auth.signTransaction = function (trx, keys) {
 	var cid = new Buffer(config.get('chain_id'), 'hex');
 	var buf = transaction.toBuffer(trx);
 
+	if(debug){
+		console.log('transaction',transaction.fromBuffer(buf));
+		console.log('raw transaction',buf.toString('hex'));
+	}
+
 	for (var key in keys) {
 		var sig = Signature.signBuffer(Buffer.concat([cid, buf]), keys[key]);
 		signatures.push(sig.toBuffer())
+		if(debug){
+			console.log('signature',sig.toBuffer().toString('hex'));
+		}
 	}
 
 	return signed_transaction.toObject(Object.assign(trx, { signatures: signatures }))

@@ -626,6 +626,20 @@ viz.api.getPaidSubscriptionStatus(subscriber, account, function(err, result) {
 });
 ```
 
+### Get active paid subscriptions
+```js
+viz.api.getActivePaidSubscriptions(subscriber, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get inactive paid subscriptions
+```js
+viz.api.getInactivePaidSubscriptions(subscriber, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Follow API
 
 ### Get Followers
@@ -1306,7 +1320,8 @@ console.log('wifToPublic', resultWifToPublic);
 
 ### Sign Transaction
 ```
-viz.auth.signTransaction(trx, keys);
+// you can set debug to true for see in console transaction, raw transaction in hex and signature in hex
+viz.auth.signTransaction(trx, keys, debug);
 ```
 
 # Formatter

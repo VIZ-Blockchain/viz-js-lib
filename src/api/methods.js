@@ -376,5 +376,15 @@ module.exports = [
     "api": "paid_subscription_api",
     "method": "get_paid_subscription_status",
     "params": ["subscriber","account"]
+  },
+  {
+    "api": "paid_subscription_api",
+    "method": "get_active_paid_subscriptions",
+    "params": ["subscriber"]
+  },
+  {
+    "api": "paid_subscription_api",
+    "method": "get_inactive_paid_subscriptions",
+    "params": ["subscriber"]
   }
 ]
