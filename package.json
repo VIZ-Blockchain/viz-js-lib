@@ -1,7 +1,7 @@
 {
-  "name": "viz-world-js",
+  "name": "viz-js-lib",
   "version": "0.9.16",
-  "description": "viz.js the JavaScript API for VIZ blockchain",
+  "description": "viz.js the JavaScript Library with API support for VIZ blockchain",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -t 20000 --require babel-polyfill --require babel-register",
@@ -18,20 +18,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VIZ-World/viz-js.git"
+    "url": "git+https://github.com/VIZ-Blockchain/viz-js-lib.git"
   },
   "keywords": [
     "viz",
-    "VIZ World",
     "blockchain",
+    "viz-lib",
+    "viz-js-lib",
+    "viz-js",
     "vizjs"
   ],
   "author": "Fabien (https://github.com/bonustrack)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VIZ-World/viz-js/issues"
+    "url": "https://github.com/VIZ-Blockchain/viz-js-lib/issues"
   },
-  "homepage": "https://github.com/VIZ-World/viz-js#readme",
+  "homepage": "https://github.com/VIZ-Blockchain/viz-js-lib#readme",
   "dependencies": {
     "bigi": "^1.4.2",
     "bluebird": "^3.4.6",

@@ -1,16 +1,16 @@
 # viz.js
-viz.js the JavaScript API for VIZ blockchain
+viz.js the JavaScript Library with API Support for VIZ blockchain
 
-[![npm version](https://badge.fury.io/js/viz-world-js.svg)](https://badge.fury.io/js/viz-world-js)
+[![npm version](https://badge.fury.io/js/viz-js-lib.svg)](https://badge.fury.io/js/viz-js-lib)
 
 # Documentation
 
 Here is full documentation:
-https://github.com/VIZ-World/viz-world-js/tree/master/doc
+https://github.com/VIZ-Blockchain/viz-js-lib/tree/master/doc
 
 # Install
 ```
-$ npm install viz-world-js --save
+$ npm install viz-js-lib --save
 ```
 
 ## Browser
@@ -25,13 +25,13 @@ viz.api.getAccounts(['ned', 'dan'], function(err, response){
 
 ## Server
 
-## WebSockets
-wss://testnet.viz.world By Default<br/>
+## WebSockets and HTTP transport
+Library support 2 transport types: ws, wss for websocket and http, https for pure HTTP JSONRPC.<br/>
 
 ## Examples
 ### Broadcast Vote
 ```js
-var viz = require('viz');
+var viz = require('viz-js-lib');//nodejs lib
 
 var wif = viz.auth.toWif(username, password, 'posting');
 viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {

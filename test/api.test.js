@@ -32,7 +32,6 @@ describe('viz.api:', function () {
     it('works', () => {
       viz.setWebSocket('ws://localhost');
       config.get('websocket').should.be.eql('ws://localhost');
-      config.set('websocket', 'wss://testnet.viz.world')
     });
   });
 
