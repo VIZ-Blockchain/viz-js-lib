@@ -14,6 +14,7 @@ $ npm install viz-js-lib --save
 ```
 
 ## Browser
+Online library minify js available in [jsDelivr CND](https://cdn.jsdelivr.net/npm/viz-js-lib@latest/dist/viz.min.js) and [Unpkg CDN](https://unpkg.com/viz-js-lib@latest/dist/viz.min.js).
 ```html
 <script src="./viz.min.js"></script>
 <script>
