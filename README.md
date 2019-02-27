@@ -26,7 +26,12 @@ viz.api.getAccounts(['ned', 'dan'], function(err, response){
 ## Server
 
 ## WebSockets and HTTP transport
-Library support 2 transport types: ws, wss for websocket and http, https for pure HTTP JSONRPC.<br/>
+Library support 2 transport types: ws, wss for websocket and http, https for pure HTTP JSONRPC.
+Examples:
+```js
+viz.config.set('websocket','wss://viz.lexai.host/');
+viz.config.set('websocket','https://rpc.viz.ropox.app/');
+```
 
 ## Examples
 ### Broadcast Vote
