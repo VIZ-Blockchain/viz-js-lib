@@ -1201,7 +1201,12 @@ chain_properties_hf4.inflation_witness_percent=2000;
 chain_properties_hf4.inflation_ratio_committee_vs_reward_fund=5000;
 chain_properties_hf4.inflation_recalc_period=2000;
 
-viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [1,chain_properties_hf4], function(err, result) {
+var chain_properties_hf6=chain_properties_hf4;
+chain_properties_hf6.data_operations_cost_additional_bandwidth=0;
+chain_properties_hf6.witness_miss_penalty_percent=10;
+chain_properties_hf6.witness_miss_penalty_duration=86400;
+
+viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [2,chain_properties_hf6], function(err, result) {
   console.log(err, result);
 });
 ```

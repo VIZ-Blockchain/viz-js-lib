@@ -638,13 +638,36 @@ const chain_properties_hf4 = new Serializer(
         inflation_recalc_period: uint32
   }
 );
+const chain_properties_hf6 = new Serializer(
+    2, {
+    	account_creation_fee: asset,
+        maximum_block_size: uint32,
+        create_account_delegation_ratio: uint32,
+        create_account_delegation_time: uint32,
+        min_delegation: asset,
+        min_curation_percent: int16,
+        max_curation_percent: int16,
+        bandwidth_reserve_percent: int16,
+        bandwidth_reserve_below: asset,
+        flag_energy_additional_cost: int16,
+        vote_accounting_min_rshares: uint32,
+        committee_request_approve_min_percent: int16,
+        inflation_witness_percent: int16,
+        inflation_ratio_committee_vs_reward_fund: int16,
+        inflation_recalc_period: uint32,
+        data_operations_cost_additional_bandwidth: uint32,
+        witness_miss_penalty_percent: int16,
+        witness_miss_penalty_duration: uint32
+  }
+);
 
 let versioned_chain_properties_update = new Serializer(
     "versioned_chain_properties_update", {
         owner: string,
         props: static_variant([
             chain_properties_init,
-            chain_properties_hf4
+            chain_properties_hf4,
+            chain_properties_hf6
         ])
     }
 );
