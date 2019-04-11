@@ -24,6 +24,11 @@ module.exports = [
   },
   {
     "api": "witness_api",
+    "method": "get_witnesses_by_counted_vote",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "witness_api",
     "method": "get_witness_count"
   },
   {
