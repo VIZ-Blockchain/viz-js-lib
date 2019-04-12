@@ -1,6 +1,6 @@
 module.exports = [
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "vote",
     "params": [
       "voter",
@@ -10,7 +10,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "content",
     "params": [
       "parent_author",
@@ -25,7 +25,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active", "owner"],
+    "roles": ["active", "master"],
     "operation": "transfer",
     "params": [
       "from",
@@ -52,13 +52,13 @@ module.exports = [
     ]
   },
   {
-    "roles": ["owner", "active"],
+    "roles": ["master", "active"],
     "operation": "account_update",
     "params": [
       "account",
-      "owner",
+      "master",
       "active",
-      "posting",
+      "regular",
       "memo_key",
       "json_metadata"
     ]
@@ -73,7 +73,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["owner"],
+    "roles": ["active"],
     "operation": "chain_properties_update",
     "params": [
       "owner",
@@ -81,7 +81,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "account_witness_vote",
     "params": [
       "account",
@@ -90,7 +90,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "account_witness_proxy",
     "params": [
       "account",
@@ -98,7 +98,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "delete_content",
     "params": [
       "author",
@@ -106,11 +106,11 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting", "active"],
+    "roles": ["regular", "active"],
     "operation": "custom",
     "params": [
       "required_auths",
-      "required_posting_auths",
+      "required_regular_auths",
       "id",
       "json"
     ]
@@ -131,22 +131,22 @@ module.exports = [
     "params": [
       "recovery_account",
       "account_to_recover",
-      "new_owner_authority",
+      "new_master_authority",
       "extensions"
     ]
   },
   {
-    "roles": ["owner"],
+    "roles": ["master"],
     "operation": "recover_account",
     "params": [
       "account_to_recover",
-      "new_owner_authority",
-      "recent_owner_authority",
+      "new_master_authority",
+      "recent_master_authority",
       "extensions"
     ]
   },
   {
-    "roles": ["owner"],
+    "roles": ["master"],
     "operation": "change_recovery_account",
     "params": [
       "account_to_recover",
@@ -206,7 +206,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "claim_reward_balance",
     "params": [
       "account",
@@ -215,7 +215,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "content_reward",
     "params": [
       "author",
@@ -234,7 +234,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active", "owner"],
+    "roles": ["active", "master"],
     "operation": "delegate_vesting_shares",
     "params": [
       "delegator",
@@ -243,16 +243,16 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active", "owner"],
+    "roles": ["active", "master"],
     "operation": "account_create",
     "params": [
       "fee",
       "delegation",
       "creator",
       "new_account_name",
-      "owner",
+      "master",
       "active",
-      "posting",
+      "regular",
       "memo_key",
       "json_metadata",
       "referrer",
@@ -260,7 +260,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "account_metadata",
     "params": [
       "account",
@@ -268,7 +268,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["active", "owner"],
+    "roles": ["active", "master"],
     "operation": "proposal_create",
     "params": [
       "author",
@@ -281,24 +281,24 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting", "active", "owner"],
+    "roles": ["regular", "active", "master"],
     "operation": "proposal_update",
     "params": [
       "author",
       "title",
       "active_approvals_to_add",
       "active_approvals_to_remove",
-      "owner_approvals_to_add",
-      "owner_approvals_to_remove",
-      "posting_approvals_to_add",
-      "posting_approvals_to_remove",
+      "master_approvals_to_add",
+      "master_approvals_to_remove",
+      "regular_approvals_to_add",
+      "regular_approvals_to_remove",
       "key_approvals_to_add",
       "key_approvals_to_remove",
       "extensions"
     ]
   },
   {
-    "roles": ["active", "owner"],
+    "roles": ["active", "master"],
     "operation": "proposal_delete",
     "params": [
       "author",
@@ -308,7 +308,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "committee_worker_create_request",
     "params": [
       "creator",
@@ -320,7 +320,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "committee_worker_cancel_request",
     "params": [
       "creator",
@@ -328,7 +328,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "committee_vote_request",
     "params": [
       "voter",
@@ -373,7 +373,7 @@ module.exports = [
     ]
   },
   {
-    "roles": ["posting"],
+    "roles": ["regular"],
     "operation": "award",
     "params": [
       "initiator",

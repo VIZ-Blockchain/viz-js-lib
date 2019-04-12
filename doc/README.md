@@ -831,7 +831,7 @@ viz.broadcast.paidSubscribe(wif, subscriber, account, levels, amount, period, au
 
 ### Account Create
 ```
-viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, extensions, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, master, active, regular, memoKey, jsonMetadata, referer, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -843,9 +843,9 @@ viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner
  * @param {String} fee - the cost of creating an account. It will be listed by virtue of the voice of the new account
  * @param {String} creator - name of user who registers an account
  * @param {String} newAccountName - new account username
- * @param {Object} owner - object containing a new owner key
+ * @param {Object} master - object containing a new master key
  * @param {Object} active - object containing a active key
- * @param {Object} posting - object containing a posting key
+ * @param {Object} regular - object containing a regular key
  * @param {String} memoKey - new memo key
  * @param {String} jsonMetadata - additional data for a new account (avatar, location, etc.)
  * @param {String} referer - name of a referer user, can be empty
@@ -855,26 +855,26 @@ var fee = '10.000 VIZ';
 var delegation = '0.000000 SHARES';
 var creator = 'viz';
 var newAccountName = name;
-var owner = {
+var master = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.owner, 1]]
+  key_auths: [[newKeys.masterPubkey, 1]]
 };
 var active = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.active, 1]]
+  key_auths: [[newKeys.activePubkey, 1]]
 };
-var posting = {
+var regular = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.posting, 1]]
+  key_auths: [[newKeys.regularPubkey, 1]]
 };
 var memoKey = newKeys.memo;
 var jsonMetadata = '{}';
 var referer = '';
 var extensions = [];
-viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, referer, extensions, function(err, result) {
+viz.broadcast.accountCreate(wif, fee, delegation, creator, newAccountName, master, active, regular, memoKey, jsonMetadata, referer, extensions, function(err, result) {
   //console.log(err, result);
   if (!err) {
     console.log('accountCreate', result);
@@ -891,7 +891,7 @@ viz.broadcast.delegateVestingShares(wif, delegator, delegatee, vesting_shares, f
 ```
 ### Account Update
 ```
-viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
+viz.broadcast.accountUpdate(wif, account, master, active, regular, memoKey, jsonMetadata, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -899,40 +899,40 @@ viz.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonM
 
 ```js
 /**
- * @param {Base58} wif - private owner key
+ * @param {Base58} wif - private master key
  * @param {String} accountName - account username
- * @param {Object} owner - object containing a new owner key
+ * @param {Object} master - object containing a new master key
  * @param {Object} active - object containing a active key
- * @param {Object} posting - object containing a posting key
+ * @param {Object} regular - object containing a regular key
  * @param {String} memoKey - new memo key
  * @param {String} jsonMetadata - additional data for a new account (avatar, location, etc.)
 */
 
 var accountName = name;
-var ownerWif = '5J...'
+var masterWif = '5J...'
 
-var owner = {
+var master = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.owner, 1]]
+  key_auths: [[newKeys.masterPubkey, 1]]
 };
 
 var active = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.active, 1]]
+  key_auths: [[newKeys.activePubkey, 1]]
 };
 
-var posting = {
+var regular = {
   weight_threshold: 1,
   account_auths: [],
-  key_auths: [[newKeys.posting, 1]]
+  key_auths: [[newKeys.regularPubkey, 1]]
 };
 
 var memoKey = newKeys.memo;
 var jsonMetadata = account.json_metadata;
 
-viz.broadcast.accountUpdate(ownerWif, account, owner, active, posting,memoKey, json_met, function(err, result)
+viz.broadcast.accountUpdate(masterWif, account, master, active, regular, memoKey, json_met, function(err, result)
 {
 	if (!err)
 	{
@@ -976,7 +976,7 @@ viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title
 ```js
 /**
  * content() add a post
- * @param {Base58} wif - private posting key
+ * @param {Base58} wif - private regular key
  * @param {String} parentAuthor - for add a post, empty field
  * @param {String} parentPermlink - main tag
  * @param {String} author - author of the post
@@ -1008,7 +1008,7 @@ viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title
 ```js
 /**
  * content() add a content
- * @param {Base58} wif - private posting key
+ * @param {Base58} wif - private regular key
  * @param {String} parentAuthor - for add a content, author of the post
  * @param {String} parentPermlink - for add a content, url-address of the post
  * @param {String} author - author of the content
@@ -1044,7 +1044,7 @@ viz.broadcast.contentReward(wif, author, permlink, Payout, vestingPayout, functi
 
 ### Custom
 ```
-viz.broadcast.custom(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
+viz.broadcast.custom(wif, requiredAuths, requiredRegularAuths, id, json, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -1083,13 +1083,13 @@ viz.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposi
 
 ### Recover Account
 ```
-viz.broadcast.recoverAccount(wif, accountToRecover, newOwnerAuthority, recentOwnerAuthority, extensions, function(err, result) {
+viz.broadcast.recoverAccount(wif, accountToRecover, newMasterAuthority, recentMasterAuthority, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
 ### Request Account Recovery
 ```
-viz.broadcast.requestAccountRecovery(wif, recoveryAccount, accountToRecover, newOwnerAuthority, extensions, function(err, result) {
+viz.broadcast.requestAccountRecovery(wif, recoveryAccount, accountToRecover, newMasterAuthority, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -1115,8 +1115,8 @@ viz.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
 ```js
 /**
  * transfer() transfer VIZ
- * @param {Base58} wif - private owner key
- * @param {String} from - username who send, whose owner key
+ * @param {Base58} wif - private master key
+ * @param {String} from - username who send, whose master key
  * @param {String} to - username who get
  * @param {String} amount - number of coins in the format: 0.001 VIZ
  * @param {String} memo - a content
@@ -1238,9 +1238,9 @@ viz.auth.verify(name, password, auths);
 ```js
 var username = 'epexa';
 var password = 'P5...';  // master password
-// object in which the key type public key (active, memo, owner, posting), and the value of the array in the array itself is the public key
+// object in which the key type public key (active, memo, master, regular), and the value of the array in the array itself is the public key
 var auths = {
-  posting: [['VIZ...']]
+  regular: [['VIZ...']]
 };
 var verifyResult = viz.auth.verify(username, password, auths);
 console.log('verify', verifyResult);
@@ -1259,7 +1259,7 @@ viz.auth.generateKeys(name, password, roles);
 */
 var name = 'epexa4';
 var password = 'qwerty12345';
-var newKeys = viz.auth.generateKeys(name, password, ['owner', 'active', 'posting', 'memo']);
+var newKeys = viz.auth.generateKeys(name, password, ['master', 'active', 'regular', 'memo']);
 console.log('newKeys', newKeys);
 ```
 
@@ -1271,7 +1271,7 @@ viz.auth.getPrivateKeys(name, password, roles);
 ```js
 var username = 'epexa';
 var password = 'P5H...'; // master password
-var roles = ['owner', 'active', 'posting', 'memo']; // optional parameter, if not specify, then all keys will return
+var roles = ['master', 'active', 'regular', 'memo']; // optional parameter, if not specify, then all keys will return
 var keys = viz.auth.getPrivateKeys(username, password, roles);
 console.log('getPrivateKeys', keys);
 ```
@@ -1295,7 +1295,7 @@ viz.auth.toWif(name, password, role);
 ```js
 var username = 'epexa';
 var password = 'P5H...'; // master password
-var role = 'posting'; // private key type, one of owner, active, posting, memo
+var role = 'regular'; // private key type, one of master, active, regular, memo
 var privateKey = viz.auth.toWif(username, password, role);
 console.log('toWif', privateKey);
 ```

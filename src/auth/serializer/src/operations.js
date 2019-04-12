@@ -229,9 +229,9 @@ let authority = new Serializer(
 let account_update = new Serializer(
     "account_update", {
         account: string,
-        owner: optional(authority),
+        master: optional(authority),
         active: optional(authority),
-        posting: optional(authority),
+        regular: optional(authority),
         memo_key: public_key,
         json_metadata: string
     }
@@ -294,7 +294,7 @@ let delete_content = new Serializer(
 let custom = new Serializer(
     "custom", {
         required_auths: set(string),
-        required_posting_auths: set(string),
+        required_regular_auths: set(string),
         id: string,
         json: string
     }
@@ -313,7 +313,7 @@ let request_account_recovery = new Serializer(
     "request_account_recovery", {
         recovery_account: string,
         account_to_recover: string,
-        new_owner_authority: authority,
+        new_master_authority: authority,
         extensions: set(future_extensions)
     }
 );
@@ -321,8 +321,8 @@ let request_account_recovery = new Serializer(
 let recover_account = new Serializer(
     "recover_account", {
         account_to_recover: string,
-        new_owner_authority: authority,
-        recent_owner_authority: authority,
+        new_master_authority: authority,
+        recent_master_authority: authority,
         extensions: set(future_extensions)
     }
 );
@@ -396,9 +396,9 @@ let account_create = new Serializer(
         delegation: asset,
         creator: string,
         new_account_name: string,
-        owner: authority,
+        master: authority,
         active: authority,
-        posting: authority,
+        regular: authority,
         memo_key: public_key,
         json_metadata: string,
         referrer: string,
@@ -437,10 +437,10 @@ let proposal_update = new Serializer(
         title: string,
         active_approvals_to_add: set(string),
         active_approvals_to_remove: set(string),
-        owner_approvals_to_add: set(string),
-        owner_approvals_to_remove: set(string),
-        posting_approvals_to_add: set(string),
-        posting_approvals_to_remove: set(string),
+        master_approvals_to_add: set(string),
+        master_approvals_to_remove: set(string),
+        regular_approvals_to_add: set(string),
+        regular_approvals_to_remove: set(string),
         key_approvals_to_add: set(public_key),
         key_approvals_to_remove: set(public_key),
         extensions: set(future_extensions)

@@ -7,7 +7,7 @@ exports = module.exports = Broadcaster => {
     activeWif,
     username,
     authorizedUsername,
-    role = "posting",
+    role = "regular",
     cb
   ) => {
     api.getAccountsAsync([username]).then(([userAccount]) => {
@@ -23,16 +23,16 @@ exports = module.exports = Broadcaster => {
         return cb(null, null);
       }
       updatedAuthority.account_auths.push([authorizedUsername, defaultWeight]);
-      const owner = role === "owner" ? updatedAuthority : undefined;
+      const master = role === "master" ? updatedAuthority : undefined;
       const active = role === "active" ? updatedAuthority : undefined;
-      const posting = role === "posting" ? updatedAuthority : undefined;
+      const regular = role === "regular" ? updatedAuthority : undefined;
       /** Add authority on user account */
       Broadcaster.accountUpdate(
         activeWif,
         userAccount.name,
-        owner,
+        master,
         active,
-        posting,
+        regular,
         userAccount.memo_key,
         userAccount.json_metadata,
         cb
@@ -44,7 +44,7 @@ exports = module.exports = Broadcaster => {
     activeWif,
     username,
     authorizedUsername,
-    role = "posting",
+    role = "regular",
     cb
   ) => {
     api.getAccountsAsync([username]).then(([userAccount]) => {
@@ -62,16 +62,16 @@ exports = module.exports = Broadcaster => {
         return cb(null, null);
       }
 
-      const owner = role === "owner" ? updatedAuthority : undefined;
+      const master = role === "master" ? updatedAuthority : undefined;
       const active = role === "active" ? updatedAuthority : undefined;
-      const posting = role === "posting" ? updatedAuthority : undefined;
+      const regular = role === "regular" ? updatedAuthority : undefined;
 
       Broadcaster.accountUpdate(
         activeWif,
         userAccount.name,
-        owner,
+        master,
         active,
-        posting,
+        regular,
         userAccount.memo_key,
         userAccount.json_metadata,
         cb

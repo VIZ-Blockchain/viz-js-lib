@@ -53,7 +53,7 @@ Auth.generateKeys = function (name, password, roles) {
 	@arg {string} password - very strong password typically no shorter than a private key
 	@arg {array} roles - defaults to standard Golos blockchain-level roles
 */
-Auth.getPrivateKeys = function (name, password, roles = ['owner', 'active', 'posting', 'memo']) {
+Auth.getPrivateKeys = function (name, password, roles = ['master', 'active', 'regular', 'memo']) {
 	var privKeys = {};
 	roles.forEach(function (role) {
 		privKeys[role] = this.toWif(name, password, role);
