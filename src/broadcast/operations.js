@@ -109,7 +109,7 @@ module.exports = [
     "roles": ["regular", "active"],
     "operation": "custom",
     "params": [
-      "required_auths",
+      "required_active_auths",
       "required_regular_auths",
       "id",
       "json"

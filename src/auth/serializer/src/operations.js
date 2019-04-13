@@ -293,7 +293,7 @@ let delete_content = new Serializer(
 
 let custom = new Serializer(
     "custom", {
-        required_auths: set(string),
+        required_active_auths: set(string),
         required_regular_auths: set(string),
         id: string,
         json: string
