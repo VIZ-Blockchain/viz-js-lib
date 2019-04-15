@@ -43,10 +43,10 @@ viz.api.getAccounts(['viz','in'], function(err, response){
 ```
 
 ## Config
-Default config should not work with VIZ without websocket in config. However you can change it to work with any viz fork
+Default config should not work with VIZ without JSONRPC adress websocket in config. However you can change it to work with any viz fork
 as
 ```js
-viz.config.set('websocket','https://rpc.viz.ropox.app/'); // assuming transport is work at https://rpc.viz.ropox.app/
+viz.config.set('websocket','https://rpc.viz.lexai.host/'); // assuming JSONRPC transport is work at https://rpc.viz.lexai.host/
 viz.config.set('address_prefix','VIZ');
 viz.config.set('chain_id','2040effda178d4fffff5eab7a915d4019879f5205cc5392e4bcced2b6edda0cd');
 ```

@@ -31,7 +31,7 @@ Library support 2 transport types: ws, wss for websocket and http, https for pur
 Examples:
 ```js
 viz.config.set('websocket','wss://viz.lexai.host/');
-viz.config.set('websocket','https://rpc.viz.ropox.app/');
+viz.config.set('websocket','https://rpc.viz.lexai.host/');
 ```
 
 ## Examples
