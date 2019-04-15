@@ -25,7 +25,11 @@
 
 # Install
 ```
-$ npm install git+https://github.com/VIZ-World/viz-js --save
+$ npm install viz-js-lib --save
+```
+Or
+```
+$ npm install git+https://github.com/VIZ-Blockchain/viz-js-lib.git --save
 ```
 
 # Browser
@@ -42,7 +46,7 @@ viz.api.getAccounts(['viz','in'], function(err, response){
 Default config should not work with VIZ without websocket in config. However you can change it to work with any viz fork
 as
 ```js
-viz.config.set('websocket','wss://api.viz.blckchnd.com/ws'); // assuming websocket is work at api.viz.blckchnd.com/ws
+viz.config.set('websocket','https://rpc.viz.ropox.app/'); // assuming transport is work at https://rpc.viz.ropox.app/
 viz.config.set('address_prefix','VIZ');
 viz.config.set('chain_id','2040effda178d4fffff5eab7a915d4019879f5205cc5392e4bcced2b6edda0cd');
 ```
