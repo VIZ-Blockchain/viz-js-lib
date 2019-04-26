@@ -64,7 +64,11 @@ ChainTypes.operations = {
   set_paid_subscription: 50,
   paid_subscribe: 51,
   paid_subscription_action: 52,
-  cancel_paid_subscription: 53
+  cancel_paid_subscription: 53,
+  set_account_price: 54,
+  set_subaccount_price: 55,
+  buy_account: 56,
+  account_sale: 57
 };
 
 //types.hpp

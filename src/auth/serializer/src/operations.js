@@ -723,6 +723,43 @@ let cancel_paid_subscription = new Serializer("cancel_paid_subscription", {
     account: string
 });
 
+let set_account_price = new Serializer(
+    "set_account_price", {
+        account: string,
+        account_seller: string,
+        account_offer_price: asset,
+        account_on_sale: bool
+    }
+);
+
+let set_subaccount_price = new Serializer(
+    "set_subaccount_price", {
+        account: string,
+        subaccount_seller: string,
+        subaccount_offer_price: asset,
+        subaccount_on_sale: bool
+    }
+);
+
+let buy_account = new Serializer(
+    "buy_account", {
+        buyer: string,
+        account: string,
+        account_offer_price: asset,
+        account_authorities_key: public_key,
+        tokens_to_shares: asset
+    }
+);
+
+let account_sale = new Serializer(
+    "account_sale", {
+        account: string,
+        price: asset,
+        buyer: string,
+        seller: string
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -777,7 +814,11 @@ operation.st_operations = [
     set_paid_subscription,
     paid_subscribe,
     paid_subscription_action,
-    cancel_paid_subscription
+    cancel_paid_subscription,
+    set_account_price,
+    set_subaccount_price,
+    buy_account,
+    account_sale
 ];
 
 //# -------------------------------

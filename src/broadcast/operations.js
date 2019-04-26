@@ -406,5 +406,36 @@ module.exports = [
       "period",
       "auto_renewal"
     ]
+  },
+  {
+    "roles": ["master"],
+    "operation": "set_account_price",
+    "params": [
+      "account",
+      "account_seller",
+      "account_offer_price",
+      "account_on_sale"
+    ]
+  },
+  {
+    "roles": ["master"],
+    "operation": "set_subaccount_price",
+    "params": [
+      "account",
+      "subaccount_seller",
+      "subaccount_offer_price",
+      "subaccount_on_sale"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "buy_account",
+    "params": [
+      "buyer",
+      "account",
+      "account_offer_price",
+      "account_authorities_key",
+      "tokens_to_shares"
+    ]
   }
 ]
