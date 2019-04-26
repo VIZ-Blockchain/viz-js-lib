@@ -39,7 +39,7 @@ viz.config.set('websocket','https://rpc.viz.lexai.host/');
 ```js
 var viz = require('viz-js-lib');//nodejs lib
 
-var wif = viz.auth.toWif(username, password, 'posting');
+var wif = viz.auth.toWif(username, password, 'regular');
 viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
 	console.log(err, result);
 });

@@ -1231,6 +1231,31 @@ viz.broadcast.award(wif,initiator,receiver,energy,custom_sequence,memo,beneficia
   console.log(err,result)
 });
 ```
+### Set Account Price
+```
+var price='100.000 VIZ';
+var on_sale=true;
+viz.broadcast.setAccountPrice(master_wif,account_owner,account_seller,price,on_sale,function(err,result){
+  console.log(err,result)
+});
+```
+### Set Subaccount Price
+```
+var price='100.000 VIZ';
+var on_sale=true;
+viz.broadcast.setSubaccountPrice(master_wif,account_owner,subaccount_seller,price,on_sale,function(err,result){
+  console.log(err,result)
+});
+```
+### Buy Account
+```
+var price='100.000 VIZ';
+var token_to_shares='1.000 VIZ';//minimum account creation fee, will be converted in SHARES
+var new_authority_key='VIZ6qHF4v41yNf1nEyyzMFK9iC6uMs4fQVbj2e76iBhjZXFUaQiiz';
+viz.broadcast.buyAccount(active_wif,buyer_login,account_or_subaccount_to_buy,offer_price,new_authority_key,token_to_shares,function(err,result){
+  console.log(err,result)
+});
+```
 
 # Auth
 
