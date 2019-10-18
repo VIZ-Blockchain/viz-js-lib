@@ -1073,7 +1073,7 @@ viz.broadcast.escrowRelease(wif, from, to, agent, who, receiver, escrowId, Amoun
 ```
 ### Escrow Transfer
 ```
-viz.broadcast.escrowTransfer(wif, from, to, agent, escrowId, Amount, fee, ratificationDeadline, escrowExpiration, jsonMeta, function(err, result) {
+viz.broadcast.escrowTransfer(wif, from, to, Amount,escrowId, agent, fee, jsonMeta, ratificationDeadline, escrowExpiration, function(err, result) {
   console.log(err, result);
 });
 ```
