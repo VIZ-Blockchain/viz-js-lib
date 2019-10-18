@@ -164,9 +164,9 @@ module.exports = [
       "escrow_id",
       "agent",
       "fee",
-      "json_metadata"
+      "json_metadata",
       "ratification_deadline",
-      "escrow_expiration",
+      "escrow_expiration"
     ]
   },
   {
