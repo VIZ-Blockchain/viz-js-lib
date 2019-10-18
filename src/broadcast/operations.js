@@ -160,13 +160,13 @@ module.exports = [
     "params": [
       "from",
       "to",
-      "agent",
+      "token_amount",
       "escrow_id",
-      "amount",
+      "agent",
       "fee",
+      "json_metadata"
       "ratification_deadline",
       "escrow_expiration",
-      "json_meta"
     ]
   },
   {
@@ -190,7 +190,7 @@ module.exports = [
       "who",
       "receiver",
       "escrow_id",
-      "amount"
+      "token_amount"
     ]
   },
   {
