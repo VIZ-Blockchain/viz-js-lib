@@ -339,11 +339,11 @@ let escrow_transfer = new Serializer(
     "escrow_transfer", {
         from: string,
         to: string,
-        amount: asset,
+        token_amount: asset,
         escrow_id: uint32,
         agent: string,
         fee: asset,
-        json_meta: string,
+        json_metadata: string,
         ratification_deadline: time_point_sec,
         escrow_expiration: time_point_sec
     }
@@ -367,7 +367,7 @@ let escrow_release = new Serializer(
         who: string,
         receiver: string,
         escrow_id: uint32,
-        amount: asset
+        token_amount: asset
     }
 );
 
