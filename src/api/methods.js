@@ -273,6 +273,11 @@ module.exports = [
     "params": ["account", "from", "limit"]
   },
   {
+    "api": "database_api",
+    "method": "get_proposed_transactions",
+    "params": ["account", "from", "limit"]
+  },
+  {
     "api": "follow",
     "method": "get_followers",
     "params": ["following", "startFollower", "followType", "limit"]
