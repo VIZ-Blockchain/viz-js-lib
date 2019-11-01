@@ -278,6 +278,16 @@ module.exports = [
     "params": ["account", "from", "limit"]
   },
   {
+    "api": "database_api",
+    "method": "get_accounts_on_sale",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_subaccounts_on_sale",
+    "params": ["from", "limit"]
+  },
+  {
     "api": "follow",
     "method": "get_followers",
     "params": ["following", "startFollower", "followType", "limit"]

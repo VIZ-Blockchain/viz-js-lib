@@ -397,6 +397,19 @@ viz.api.getRecoveryRequest(account, function(err, result) {
   console.log(err, result);
 });
 ```
+### Get Accounts on sale
+```
+viz.api.getAccountsOnSale(from, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Subaccounts on sale
+```
+viz.api.getSubccountsOnSale(from, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Authority / validation
 
 ### Get Transaction Hex
