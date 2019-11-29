@@ -389,6 +389,11 @@ module.exports = [
   },
   {
     "api": "paid_subscription_api",
+    "method": "get_paid_subscriptions",
+    "params": ["from","limit"]
+  },
+  {
+    "api": "paid_subscription_api",
     "method": "get_paid_subscription_options",
     "params": ["account"]
   },
