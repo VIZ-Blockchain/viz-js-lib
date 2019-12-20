@@ -5,23 +5,23 @@
 - [Config](#config)
 - [Database API](#api)
     - [Subscriptions](#subscriptions)
-    - [Tags](#tags)
     - [Blocks and transactions](#blocks-and-transactions)
     - [Globals](#globals)
     - [Keys](#keys)
     - [Accounts](#accounts)
     - [Authority / validation](#authority--validation)
-    - [Votes](#votes)
     - [Witnesses](#witnesses)
     - [Committee API](#committee-api)
     - [Invite API](#invite-api)
     - [Paid subscription API](#paid-subscription-api)
-    - Deprecated: [Content](#content)
-- [Follow API](#follow-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
 - [Auth](#auth)
 - [Formatter](#formatter)
+    - Deprecated: [Content](#content)
+    - Deprecated: [Tags](#tags)
+- Deprecated: [Follow API](#follow-api)
+    - Deprecated: [Votes](#votes)
 
 # Install
 ```
@@ -84,124 +84,6 @@ viz.api.setBlockAppliedCallback(cb, function(err, result) {
 ### Cancel All Subscriptions
 ```
 viz.api.cancelAllSubscriptions(function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Tags
-
-### Get Trending Tags
-```
-viz.api.getTrendingTags(afterTag, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Trending
-```
-viz.api.getDiscussionsByTrending(query, function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example:
-```js
-/**
- * getDiscussionsByTrending() receiving posts by tags
- * @param {Object} query - A search object that includes tags and a limit or authors username and url-address of post
-*/
-var query = {
-  select_tags: ['dev', 'test'],
-  limit: 100,
-  //start_author: 'epexa',
-  //start_permlink: 'test-url'
-};
-viz.api.getDiscussionsByTrending(query, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    result.forEach(function(item) {
-      console.log('getDiscussionsByTrending', item.title);
-    });
-  }
-  else console.error(err);
-});
-```
-### Get Discussions By Created
-```
-viz.api.getDiscussionsByCreated(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Active
-```
-viz.api.getDiscussionsByActive(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Cashout
-```
-viz.api.getDiscussionsByCashout(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Payout
-```
-viz.api.getDiscussionsByPayout(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Votes
-```
-viz.api.getDiscussionsByVotes(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Children
-```
-viz.api.getDiscussionsByChildren(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Hot
-```
-viz.api.getDiscussionsByHot(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Feed
-```
-viz.api.getDiscussionsByFeed(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Blog
-```
-viz.api.getDiscussionsByBlog(query, function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example:
-```js
-/**
- * getDiscussionsByBlog() receiving posts by author and tag
- * @param {Object} query - search object that includes the author, tag, limit
-*/
-var query = {
-  select_authors: ['epexa'],
-  select_tags: ['dev'],
-  limit: 100
-};
-viz.api.getDiscussionsByBlog(query, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    result.forEach(function(item) {
-      console.log('getDiscussionsByBlog', item.title);
-    });
-  }
-  else console.error(err);
-});
-```
-### Get Discussions By Contents
-```
-viz.api.getDiscussionsByContents(query, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -445,86 +327,6 @@ viz.api.verifyAuthority(trx, function(err, result) {
 ### Verify Account Authority
 ```
 viz.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Votes
-
-### Get Active Votes
-```
-viz.api.getActiveVotes(author, permlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Account Votes
-```
-viz.api.getAccountVotes(voter, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Content
-
-
-### Get Content
-```
-viz.api.getContent(author, permlink, votes_count, function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example:
-```js
-/**
- * getContent() receiving a post
- * @param {String} author - author of the post
- * @param {String} permlink - url-address of the post
- * @param {Integer} votes_count - use -1 for showing all votes
-*/
-var author = 'viz';
-var permlink = 'test';
-viz.api.getContent(author, permlink, -1, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    console.log('getContent', result.title);
-  }
-  else console.error(err);
-});
-```
-### Get Content Replies
-```
-viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example:
-```js
-/**
- * getContentReplies() receiving a contents
- * @param {String} parent - author of the post
- * @param {String} parentPermlink - url-address of the post
-*/
-var parent = 'epexa';
-var parentPermlink = 'test-url';
-viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    result.forEach(function(item) {
-      console.log('getContentReplies', item.body);
-    });
-  }
-  else console.error(err);
-});
-```
-### Get Discussions By Author Before Date
-```
-viz.api.getDiscussionsByAuthorBeforeDate(author, startPermlink, beforeDate, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Replies By Last Update
-```
-viz.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -982,82 +784,6 @@ viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, e
   console.log(err, result);
 });
 ```
-### Content
-```
-// deprecated
-viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-#### Example add a post:
-```js
-/**
- * content() add a post
- * @param {Base58} wif - private regular key
- * @param {String} parentAuthor - for add a post, empty field
- * @param {String} parentPermlink - main tag
- * @param {String} author - author of the post
- * @param {String} permlink - url-address of the post
- * @param {String} title - header of the post
- * @param {String} body - text of the post
- * @param {String} jsonMetadata - meta-data of the post (images etc.)
- * @param {Array} extensions - example: [[ 0, {"beneficiaries":[{"account":"viz","weight":2000},{"account":"on1x","weight":1000}]} ]]
-*/
-var wif = '5K...';
-var parentAuthor = '';
-var parentPermlink = 'dev';
-var author = 'epexa';
-var permlink = 'test-url';
-var title = 'test';
-var body = 'test2';
-var curation_percent = 5000;//50%
-var jsonMetadata = '{}';
-var extensions = [];
-viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    console.log('content', result);
-  }
-  else console.error(err);
-});
-```
-#### Example add a content:
-```js
-/**
- * content() add a content
- * @param {Base58} wif - private regular key
- * @param {String} parentAuthor - for add a content, author of the post
- * @param {String} parentPermlink - for add a content, url-address of the post
- * @param {String} author - author of the content
- * @param {String} permlink - unique url-address of the content
- * @param {String} title - for create a content, empty field
- * @param {String} body - text of the content
- * @param {String} jsonMetadata - meta-data of the post (images etc.)
-*/
-var wif = '5K...';
-var parentAuthor = 'epexa';
-var parentPermlink = 'test-url';
-var author = 'epexa';
-var permlink = 're-' + parentAuthor + '-' + parentPermlink + '-' + Date.now(); // re-epexa-test-url-1517333064308
-var title = '';
-var body = 'hi!';
-var curation_percent = 5000;//50%
-var jsonMetadata = '{}';
-viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
-  //console.log(err, result);
-  if (!err) {
-    console.log('content', result);
-  }
-  else console.error(err);
-});
-```
-
-### Content Reward
-```
-viz.broadcast.contentReward(wif, author, permlink, Payout, vestingPayout, function(err, result) {
-  console.log(err, result);
-});
-```
 
 ### Custom
 ```
@@ -1065,13 +791,7 @@ viz.broadcast.custom(wif, requiredAuths, requiredRegularAuths, id, json, functio
   console.log(err, result);
 });
 ```
-### Delete Content
-```
-// deprecated
-viz.broadcast.deleteContent(wif, author, permlink, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Escrow Dispute
 ```
 viz.broadcast.escrowDispute(wif, from, to, agent, who, escrowId, function(err, result) {
@@ -1157,13 +877,7 @@ viz.broadcast.transferToVesting(wif, from, to, amount, function(err, result) {
   console.log(err, result);
 });
 ```
-### Vote
-```
-// deprecated
-viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
-  console.log(err, result);
-});
-```
+
 ### Withdraw Vesting
 ```
 viz.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result) {
@@ -1411,4 +1125,297 @@ console.log(isValidUsername);
 var isValidUsername = viz.utils.validateAccountName('a1');
 console.log(isValidUsername);
 // => 'Account name should be longer.'
+```
+
+# deprecated api methods
+## Content
+
+
+### Get Content
+```
+viz.api.getContent(author, permlink, votes_count, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+/**
+ * getContent() receiving a post
+ * @param {String} author - author of the post
+ * @param {String} permlink - url-address of the post
+ * @param {Integer} votes_count - use -1 for showing all votes
+*/
+var author = 'viz';
+var permlink = 'test';
+viz.api.getContent(author, permlink, -1, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    console.log('getContent', result.title);
+  }
+  else console.error(err);
+});
+```
+### Get Content Replies
+```
+viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+/**
+ * getContentReplies() receiving a contents
+ * @param {String} parent - author of the post
+ * @param {String} parentPermlink - url-address of the post
+*/
+var parent = 'epexa';
+var parentPermlink = 'test-url';
+viz.api.getContentReplies(parent, parentPermlink, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    result.forEach(function(item) {
+      console.log('getContentReplies', item.body);
+    });
+  }
+  else console.error(err);
+});
+```
+### Get Discussions By Author Before Date
+```
+viz.api.getDiscussionsByAuthorBeforeDate(author, startPermlink, beforeDate, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Replies By Last Update
+```
+viz.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+
+## Tags
+
+### Get Trending Tags
+```
+viz.api.getTrendingTags(afterTag, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Trending
+```
+viz.api.getDiscussionsByTrending(query, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+/**
+ * getDiscussionsByTrending() receiving posts by tags
+ * @param {Object} query - A search object that includes tags and a limit or authors username and url-address of post
+*/
+var query = {
+  select_tags: ['dev', 'test'],
+  limit: 100,
+  //start_author: 'epexa',
+  //start_permlink: 'test-url'
+};
+viz.api.getDiscussionsByTrending(query, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    result.forEach(function(item) {
+      console.log('getDiscussionsByTrending', item.title);
+    });
+  }
+  else console.error(err);
+});
+```
+### Get Discussions By Created
+```
+viz.api.getDiscussionsByCreated(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Active
+```
+viz.api.getDiscussionsByActive(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Cashout
+```
+viz.api.getDiscussionsByCashout(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Payout
+```
+viz.api.getDiscussionsByPayout(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Votes
+```
+viz.api.getDiscussionsByVotes(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Children
+```
+viz.api.getDiscussionsByChildren(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Hot
+```
+viz.api.getDiscussionsByHot(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Feed
+```
+viz.api.getDiscussionsByFeed(query, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Discussions By Blog
+```
+viz.api.getDiscussionsByBlog(query, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+/**
+ * getDiscussionsByBlog() receiving posts by author and tag
+ * @param {Object} query - search object that includes the author, tag, limit
+*/
+var query = {
+  select_authors: ['epexa'],
+  select_tags: ['dev'],
+  limit: 100
+};
+viz.api.getDiscussionsByBlog(query, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    result.forEach(function(item) {
+      console.log('getDiscussionsByBlog', item.title);
+    });
+  }
+  else console.error(err);
+});
+```
+### Get Discussions By Contents
+```
+viz.api.getDiscussionsByContents(query, function(err, result) {
+  console.log(err, result);
+});
+```
+
+## Votes
+
+### Get Active Votes
+```
+viz.api.getActiveVotes(author, permlink, function(err, result) {
+  console.log(err, result);
+});
+```
+### Get Account Votes
+```
+viz.api.getAccountVotes(voter, function(err, result) {
+  console.log(err, result);
+});
+```
+
+# deprecated broadcast
+### Content
+```
+// deprecated
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example add a post:
+```js
+/**
+ * content() add a post
+ * @param {Base58} wif - private regular key
+ * @param {String} parentAuthor - for add a post, empty field
+ * @param {String} parentPermlink - main tag
+ * @param {String} author - author of the post
+ * @param {String} permlink - url-address of the post
+ * @param {String} title - header of the post
+ * @param {String} body - text of the post
+ * @param {String} jsonMetadata - meta-data of the post (images etc.)
+ * @param {Array} extensions - example: [[ 0, {"beneficiaries":[{"account":"viz","weight":2000},{"account":"on1x","weight":1000}]} ]]
+*/
+var wif = '5K...';
+var parentAuthor = '';
+var parentPermlink = 'dev';
+var author = 'epexa';
+var permlink = 'test-url';
+var title = 'test';
+var body = 'test2';
+var curation_percent = 5000;//50%
+var jsonMetadata = '{}';
+var extensions = [];
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    console.log('content', result);
+  }
+  else console.error(err);
+});
+```
+#### Example add a content:
+```js
+/**
+ * content() add a content
+ * @param {Base58} wif - private regular key
+ * @param {String} parentAuthor - for add a content, author of the post
+ * @param {String} parentPermlink - for add a content, url-address of the post
+ * @param {String} author - author of the content
+ * @param {String} permlink - unique url-address of the content
+ * @param {String} title - for create a content, empty field
+ * @param {String} body - text of the content
+ * @param {String} jsonMetadata - meta-data of the post (images etc.)
+*/
+var wif = '5K...';
+var parentAuthor = 'epexa';
+var parentPermlink = 'test-url';
+var author = 'epexa';
+var permlink = 're-' + parentAuthor + '-' + parentPermlink + '-' + Date.now(); // re-epexa-test-url-1517333064308
+var title = '';
+var body = 'hi!';
+var curation_percent = 5000;//50%
+var jsonMetadata = '{}';
+viz.broadcast.content(wif, parentAuthor, parentPermlink, author, permlink, title, body, curation_percent, jsonMetadata, extensions, function(err, result) {
+  //console.log(err, result);
+  if (!err) {
+    console.log('content', result);
+  }
+  else console.error(err);
+});
+```
+
+### Content Reward
+```
+viz.broadcast.contentReward(wif, author, permlink, Payout, vestingPayout, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Delete Content
+```
+// deprecated
+viz.broadcast.deleteContent(wif, author, permlink, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Vote
+```
+// deprecated
+viz.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
+  console.log(err, result);
+});
 ```
