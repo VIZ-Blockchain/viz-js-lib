@@ -18,10 +18,10 @@
 - [Broadcast](#broadcast)
 - [Auth](#auth)
 - [Formatter](#formatter)
-    - Deprecated: [Content](#content)
-    - Deprecated: [Tags](#tags)
+- Deprecated: [Content](#content)
+- Deprecated: [Tags](#tags)
 - Deprecated: [Follow API](#follow-api)
-    - Deprecated: [Votes](#votes)
+- Deprecated: [Votes](#votes)
 
 # Install
 ```
