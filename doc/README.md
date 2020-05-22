@@ -619,6 +619,15 @@ viz.broadcast.claimInviteBalance(wif, initator, receiver, invite_secret, functio
 });
 ```
 
+### Use invite balance
+```js
+// initiator can be temp account with any wif
+// Using invite balance to receive shares
+viz.broadcast.useInviteBalance(wif, initator, receiver, invite_secret, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ### Invite registration
 ```js
 viz.broadcast.inviteRegistration(wif, initator, new_account_name, invite_secret, new_account_key, function(err, result) {
@@ -937,7 +946,16 @@ chain_properties_hf6.data_operations_cost_additional_bandwidth=0;
 chain_properties_hf6.witness_miss_penalty_percent=10;
 chain_properties_hf6.witness_miss_penalty_duration=86400;
 
-viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [2,chain_properties_hf6], function(err, result) {
+var chain_properties_hf9=chain_properties_hf6;
+chain_properties_hf9.create_invite_min_balance="10.000 VIZ";
+chain_properties_hf9.committee_create_request_fee="100.000 VIZ";
+chain_properties_hf9.create_paid_subscription_fee="100.000 VIZ";
+chain_properties_hf9.account_on_sale_fee="10.000 VIZ";
+chain_properties_hf9.subaccount_on_sale_fee="100.000 VIZ";
+chain_properties_hf9.witness_declaration_fee="10.000 VIZ";
+chain_properties_hf9.withdraw_intervals=28;
+
+viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [3,chain_properties_hf9], function(err, result) {
   console.log(err, result);
 });
 ```

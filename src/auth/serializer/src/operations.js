@@ -660,6 +660,17 @@ const chain_properties_hf6 = new Serializer(
         witness_miss_penalty_duration: uint32
   }
 );
+const chain_properties_hf9 = new Serializer(
+    3, {
+        create_invite_min_balance: asset,
+        committee_create_request_fee: asset,
+        create_paid_subscription_fee: asset,
+        account_on_sale_fee: asset,
+        subaccount_on_sale_fee: asset,
+        witness_declaration_fee: asset,
+        withdraw_intervals: uint16
+  }
+);
 
 let versioned_chain_properties_update = new Serializer(
     "versioned_chain_properties_update", {
@@ -667,7 +678,8 @@ let versioned_chain_properties_update = new Serializer(
         props: static_variant([
             chain_properties_init,
             chain_properties_hf4,
-            chain_properties_hf6
+            chain_properties_hf6,
+            chain_properties_hf9
         ])
     }
 );
@@ -760,6 +772,26 @@ let account_sale = new Serializer(
     }
 );
 
+let use_invite_balance = new Serializer(
+    "use_invite_balance", {
+        initiator: string,
+        receiver: string,
+        invite_secret: string
+    }
+);
+
+let expire_escrow_ratification = new Serializer(
+    "expire_escrow_ratification", {
+        from: string,
+        to: string,
+        agent: string,
+        escrow_id: uint32,
+        token_amount: asset,
+        fee: asset,
+        ratification_deadline: time_point_sec
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -818,7 +850,9 @@ operation.st_operations = [
     set_account_price,
     set_subaccount_price,
     buy_account,
-    account_sale
+    account_sale,
+    use_invite_balance,
+    expire_escrow_ratification
 ];
 
 //# -------------------------------

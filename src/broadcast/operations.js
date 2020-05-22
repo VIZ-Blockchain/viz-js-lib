@@ -437,5 +437,14 @@ module.exports = [
       "account_authorities_key",
       "tokens_to_shares"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "use_invite_balance",
+    "params": [
+      "initiator",
+      "receiver",
+      "invite_secret"
+    ]
   }
 ]

@@ -68,7 +68,9 @@ ChainTypes.operations = {
   set_account_price: 54,
   set_subaccount_price: 55,
   buy_account: 56,
-  account_sale: 57
+  account_sale: 57,
+  use_invite_balance: 58,
+  expire_escrow_ratification: 59
 };
 
 //types.hpp
