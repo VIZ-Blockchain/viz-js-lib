@@ -291,6 +291,25 @@ viz.api.getSubccountsOnSale(from, limit, function(err, result) {
   console.log(err, result);
 });
 ```
+### Get Account Custom Protocol data
+```
+viz.api.getAccount(name, custom_protocol_id, function(err, result) {
+  console.log(err, result);
+});
+```
+#### Example:
+```js
+var account='on1x';
+var custom_protocol_id='V';//Voice
+viz.api.getAccount(account, custom_protocol_id, function(err, response) {
+  if (!err) {
+      console.log(response);
+  }
+  else {
+      console.error(err);
+  }
+});
+```
 
 ## Authority / validation
 

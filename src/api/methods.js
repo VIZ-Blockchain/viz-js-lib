@@ -411,5 +411,10 @@ module.exports = [
     "api": "paid_subscription_api",
     "method": "get_inactive_paid_subscriptions",
     "params": ["subscriber"]
+  },
+  {
+    "api": "custom_protocol_api",
+    "method": "get_account",
+    "params": ["account","custom_protocol_id"]
   }
 ]
