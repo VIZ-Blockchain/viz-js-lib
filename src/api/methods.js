@@ -210,6 +210,16 @@ module.exports = [
   },
   {
     "api": "database_api",
+    "method": "get_master_history",
+    "params": ["account"]
+  },
+  {
+    "api": "database_api",
+    "method": "set_block_applied_callback",
+    "params": ["callback"]
+  },
+  {
+    "api": "database_api",
     "method": "get_recovery_request",
     "params": ["account"]
   },
@@ -431,5 +441,25 @@ module.exports = [
     "api": "custom_protocol_api",
     "method": "get_account",
     "params": ["account","custom_protocol_id"]
+  },
+  {
+    "api": "auth_util",
+    "method": "check_authority_signature",
+    "params": ["account_name","level","signatures"]
+  },
+  {
+    "api": "block_info",
+    "method": "get_block_info",
+    "params": ["start_block_num","count"]
+  },
+  {
+    "api": "block_info",
+    "method": "get_blocks_with_info",
+    "params": ["start_block_num","count"]
+  },
+  {
+    "api": "raw_block",
+    "method": "get_raw_block",
+    "params": ["block_num"]
   }
 ]
