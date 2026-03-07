@@ -6,6 +6,7 @@ const memo = require('./auth/memo');
 const aes = require('./auth/ecc/src/aes');
 const config = require('./config');
 const utils = require('./utils');
+const dns = require('./dns');
 
 module.exports = {
   api,
@@ -16,4 +17,5 @@ module.exports = {
   aes,
   config,
   utils,
+  dns,
 };
