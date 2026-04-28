@@ -73,6 +73,9 @@ function makeConfig(options) {
       filename: '[name].min.js',
     },
     plugins: makePlugins(options),
+    node: {
+      async_hooks: 'empty',
+    },
     module: {
       loaders: [
         {
