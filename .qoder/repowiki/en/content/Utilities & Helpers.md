@@ -21,7 +21,7 @@
 
 ## Update Summary
 **Changes Made**
-- Added comprehensive DNS Nameserver module documentation covering validation, record creation, parsing, and metadata manipulation
+- Added comprehensive DNS Nameserver module documentation covering validation functions, record creation, parsing, and manipulation capabilities for VIZ blockchain NS records (A and TXT)
 - Updated project structure to include DNS module integration
 - Enhanced core components section to reflect new decentralized domain name resolution capabilities
 - Added practical DNS usage examples and integration patterns
@@ -94,20 +94,20 @@ BRW --> BHL
 ```
 
 **Diagram sources**
-- [src/index.js](file://src/index.js#L1-L22)
-- [src/browser.js](file://src/browser.js#L1-L30)
-- [src/config.js](file://src/config.js#L1-L10)
-- [src/utils.js](file://src/utils.js#L1-L348)
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L1-L89)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L1-L57)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [src/utils.js:1-348](file://src/utils.js#L1-L348)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [src/auth/ecc/src/key_utils.js:1-89](file://src/auth/ecc/src/key_utils.js#L1-L89)
+- [src/auth/ecc/src/address.js:1-57](file://src/auth/ecc/src/address.js#L1-L57)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
 
 **Section sources**
-- [src/index.js](file://src/index.js#L1-L22)
-- [src/browser.js](file://src/browser.js#L1-L30)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
 
 ## Core Components
 - Configuration management: centralized getters/setters backed by a JSON configuration file
@@ -120,16 +120,16 @@ BRW --> BHL
 - **New**: DNS Nameserver helpers: validation functions, record creation, parsing, and metadata manipulation for decentralized domain resolution
 
 **Section sources**
-- [src/config.js](file://src/config.js#L1-L10)
-- [config.json](file://config.json#L1-L7)
-- [src/browser.js](file://src/browser.js#L1-L30)
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [src/utils.js](file://src/utils.js#L1-L348)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L1-L89)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L1-L57)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [config.json:1-7](file://config.json#L1-L7)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [src/utils.js:1-348](file://src/utils.js#L1-L348)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
+- [src/auth/ecc/src/key_utils.js:1-89](file://src/auth/ecc/src/key_utils.js#L1-L89)
+- [src/auth/ecc/src/address.js:1-57](file://src/auth/ecc/src/address.js#L1-L57)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 ## Architecture Overview
 The library exposes a cohesive API surface through two entry points:
@@ -160,13 +160,13 @@ BHL --> API
 ```
 
 **Diagram sources**
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/config.js](file://src/config.js#L1-L10)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L1-L89)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L1-L57)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [src/auth/ecc/src/key_utils.js:1-89](file://src/auth/ecc/src/key_utils.js#L1-L89)
+- [src/auth/ecc/src/address.js:1-57](file://src/auth/ecc/src/address.js#L1-L57)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 ## Detailed Component Analysis
 
@@ -184,12 +184,12 @@ Use --> End(["Done"])
 ```
 
 **Diagram sources**
-- [src/config.js](file://src/config.js#L1-L10)
-- [config.json](file://config.json#L1-L7)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [config.json:1-7](file://config.json#L1-L7)
 
 **Section sources**
-- [src/config.js](file://src/config.js#L1-L10)
-- [config.json](file://config.json#L1-L7)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [config.json:1-7](file://config.json#L1-L7)
 
 ### Environment Detection and Global Exposure
 - Purpose: ensure the library is usable in both browser and Node.js
@@ -210,12 +210,12 @@ Loader-->>Browser : exports viz
 ```
 
 **Diagram sources**
-- [src/browser.js](file://src/browser.js#L1-L30)
-- [src/index.js](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
 
 **Section sources**
-- [src/browser.js](file://src/browser.js#L1-L30)
-- [src/index.js](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
 
 ### Formatting Utilities (Currency, Numbers, Strings)
 - Currency-like formatting: adds thousands separators to numeric strings
@@ -237,11 +237,11 @@ Format --> End(["Return formatted value"])
 ```
 
 **Diagram sources**
-- [src/formatter.js](file://src/formatter.js#L19-L49)
+- [src/formatter.js:19-49](file://src/formatter.js#L19-L49)
 
 **Section sources**
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/utils.js](file://src/utils.js#L10-L47)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/utils.js:10-47](file://src/utils.js#L10-L47)
 
 ### Numeric Utilities (Implied Decimals)
 - Purpose: convert between human-readable numbers and implied-decimal strings for asset precision
@@ -261,11 +261,11 @@ Trim --> Out["Return combined string"]
 ```
 
 **Diagram sources**
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L10-L35)
+- [src/auth/serializer/src/number_utils.js:10-35](file://src/auth/serializer/src/number_utils.js#L10-L35)
 
 **Section sources**
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [test/number_utils.js](file://test/number_utils.js#L1-L29)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [test/number_utils.js:1-29](file://test/number_utils.js#L1-L29)
 
 ### String Processing and Validation
 - camelCase conversion: transforms snake_case identifiers to camelCase
@@ -284,10 +284,10 @@ OK --> |No| Err["Return violation message"]
 ```
 
 **Diagram sources**
-- [src/utils.js](file://src/utils.js#L10-L47)
+- [src/utils.js:10-47](file://src/utils.js#L10-L47)
 
 **Section sources**
-- [src/utils.js](file://src/utils.js#L1-L8)
+- [src/utils.js:1-8](file://src/utils.js#L1-L8)
 
 ### Broadcast Helpers (Authority Management)
 - Purpose: add/remove authorized accounts to a user's authority structures
@@ -309,10 +309,10 @@ Helper-->>Caller : invoke cb(null, result)
 ```
 
 **Diagram sources**
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L6-L41)
+- [src/broadcast/helpers.js:6-41](file://src/broadcast/helpers.js#L6-L41)
 
 **Section sources**
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
 
 ### Cryptographic Helpers (Entropy, Keys, Addresses)
 - Entropy and randomness: collects browser entropy, hashes buffers, and produces 32-byte random keys
@@ -327,11 +327,11 @@ Key --> End(["Return PrivateKey"])
 ```
 
 **Diagram sources**
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L29-L55)
+- [src/auth/ecc/src/key_utils.js:29-55](file://src/auth/ecc/src/key_utils.js#L29-L55)
 
 **Section sources**
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L1-L89)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L1-L57)
+- [src/auth/ecc/src/key_utils.js:1-89](file://src/auth/ecc/src/key_utils.js#L1-L89)
+- [src/auth/ecc/src/address.js:1-57](file://src/auth/ecc/src/address.js#L1-L57)
 
 ### Voice Utilities (Content Publishing)
 - Purpose: helpers for publishing text, encoded text, publications, and related operations
@@ -353,10 +353,10 @@ Utils-->>Caller : callback(!err)
 ```
 
 **Diagram sources**
-- [src/utils.js](file://src/utils.js#L84-L127)
+- [src/utils.js:84-127](file://src/utils.js#L84-L127)
 
 **Section sources**
-- [src/utils.js](file://src/utils.js#L49-L206)
+- [src/utils.js:49-206](file://src/utils.js#L49-L206)
 
 ## DNS Nameserver Module
 
@@ -457,8 +457,8 @@ The DNS module integrates seamlessly with VIZ blockchain operations:
 - Provides backward compatibility with existing account metadata
 
 **Section sources**
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
 
 ## Dependency Analysis
 Utilities depend on configuration, API clients, and cryptographic primitives. The formatter module depends on the API client to fetch global properties for estimations. The broadcast helpers depend on the API to retrieve account data and on the broadcaster to submit transactions. The DNS module operates independently but integrates with the existing module ecosystem.
@@ -476,20 +476,20 @@ DNS["dns.js"] --> FMT
 ```
 
 **Diagram sources**
-- [src/config.js](file://src/config.js#L1-L10)
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L1-L89)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L1-L57)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
-- [src/utils.js](file://src/utils.js#L1-L348)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [src/auth/ecc/src/key_utils.js:1-89](file://src/auth/ecc/src/key_utils.js#L1-L89)
+- [src/auth/ecc/src/address.js:1-57](file://src/auth/ecc/src/address.js#L1-L57)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
+- [src/utils.js:1-348](file://src/utils.js#L1-L348)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 **Section sources**
-- [src/formatter.js](file://src/formatter.js#L1-L87)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
-- [src/utils.js](file://src/utils.js#L1-L348)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [src/formatter.js:1-87](file://src/formatter.js#L1-L87)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
+- [src/utils.js:1-348](file://src/utils.js#L1-L348)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 ## Performance Considerations
 - Prefer precomputed or cached global properties when estimating account values to reduce API calls
@@ -511,12 +511,12 @@ DNS["dns.js"] --> FMT
 - **New**: SSL hash validation: remember that SSL hashes are automatically lowercased when created
 
 **Section sources**
-- [src/config.js](file://src/config.js#L1-L10)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L1-L54)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L1-L82)
-- [src/auth/ecc/src/key_utils.js](file://src/auth/ecc/src/key_utils.js#L66-L86)
-- [src/auth/ecc/src/address.js](file://src/auth/ecc/src/address.js#L19-L30)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [src/config.js:1-10](file://src/config.js#L1-L10)
+- [src/auth/serializer/src/number_utils.js:1-54](file://src/auth/serializer/src/number_utils.js#L1-L54)
+- [src/broadcast/helpers.js:1-82](file://src/broadcast/helpers.js#L1-L82)
+- [src/auth/ecc/src/key_utils.js:66-86](file://src/auth/ecc/src/key_utils.js#L66-L86)
+- [src/auth/ecc/src/address.js:19-30](file://src/auth/ecc/src/address.js#L19-L30)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 ## Conclusion
 The VIZ JavaScript library provides a robust set of utilities spanning configuration, formatting, numeric precision, string processing, broadcasting, cryptography, and now decentralized domain name resolution. The new DNS Nameserver module enhances the library's capabilities for blockchain-based applications requiring human-readable domain names. These modules are designed for cross-platform use and integrate cleanly with the API and broadcast layers. Following the patterns and guidelines outlined here ensures consistent behavior and maintainability across environments.
@@ -547,11 +547,11 @@ The VIZ JavaScript library provides a robust set of utilities spanning configura
   - Integrate with blockchain operations: store DNS metadata in account `json_metadata` field for decentralized domain resolution
 
 **Section sources**
-- [src/formatter.js](file://src/formatter.js#L19-L85)
-- [src/auth/serializer/src/number_utils.js](file://src/auth/serializer/src/number_utils.js#L10-L53)
-- [src/utils.js](file://src/utils.js#L10-L127)
-- [src/broadcast/helpers.js](file://src/broadcast/helpers.js#L6-L81)
-- [src/index.js](file://src/index.js#L1-L22)
-- [src/browser.js](file://src/browser.js#L1-L30)
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [examples/get-post-content.js](file://examples/get-post-content.js#L1-L5)
+- [src/formatter.js:19-85](file://src/formatter.js#L19-L85)
+- [src/auth/serializer/src/number_utils.js:10-53](file://src/auth/serializer/src/number_utils.js#L10-L53)
+- [src/utils.js:10-127](file://src/utils.js#L10-L127)
+- [src/broadcast/helpers.js:6-81](file://src/broadcast/helpers.js#L6-L81)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [examples/get-post-content.js:1-5](file://examples/get-post-content.js#L1-L5)
