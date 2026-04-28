@@ -47,39 +47,48 @@ Broadcaster.send = function Broadcaster$send(tx, privKeys, callback) {
 };
 
 Broadcaster._prepareTransaction = function Broadcaster$_prepareTransaction(tx) {
-  const propertiesP = nodeApi.getDynamicGlobalPropertiesAsync()
+  const propertiesP = nodeApi.getDynamicGlobalPropertiesAsync();
   return propertiesP
     .then((properties) => {
       // Set defaults on the transaction
       const chainDate = new Date(properties.time + 'Z');
-      let need_get_block=true;
-      if(typeof properties.last_irreversible_block_ref_num !== 'undefined') {
-        if(0 != properties.last_irreversible_block_ref_num){
-          need_get_block=false;
+      const expirationSeconds = config.get('tx_expiration_seconds') || 60;
+      const expiration = new Date(chainDate.getTime() + expirationSeconds * 1000);
+      const useIrreversible = config.get('reference_irreversible_block');
+
+      if (useIrreversible) {
+        if (typeof properties.last_irreversible_block_ref_num !== 'undefined'
+            && properties.last_irreversible_block_ref_num !== 0) {
           return Object.assign({
             ref_block_num: properties.last_irreversible_block_ref_num,
             ref_block_prefix: properties.last_irreversible_block_ref_prefix,
-            expiration: new Date(
-              chainDate.getTime() +
-              60 * 1000
-            ),
+            expiration,
           }, tx);
         }
       }
-      if(need_get_block){
-        const refBlockNum = (properties.head_block_number - 3) & 0xFFFF;
-        return nodeApi.getBlockAsync(properties.head_block_number - 2).then((block) => {
-          const headBlockId = block.previous;
-          return Object.assign({
-            ref_block_num: refBlockNum,
-            ref_block_prefix: new Buffer(headBlockId, 'hex').readUInt32LE(4),
-            expiration: new Date(
-              chainDate.getTime() +
-              60 * 1000
-            ),
-          }, tx);
-        });
+
+      // Default: use head block directly (cli_wallet behavior, no offset)
+      const refBlockNum = properties.head_block_number & 0xFFFF;
+
+      if (properties.head_block_id) {
+        const refBlockPrefix = new Buffer(properties.head_block_id, 'hex').readUInt32LE(4);
+        return Object.assign({
+          ref_block_num: refBlockNum,
+          ref_block_prefix: refBlockPrefix,
+          expiration,
+        }, tx);
       }
+
+      // Fallback for older nodes without head_block_id in dynamic global properties
+      const fallbackRefBlockNum = (properties.head_block_number - 3) & 0xFFFF;
+      return nodeApi.getBlockAsync(properties.head_block_number - 2).then((block) => {
+        const headBlockId = block.previous;
+        return Object.assign({
+          ref_block_num: fallbackRefBlockNum,
+          ref_block_prefix: new Buffer(headBlockId, 'hex').readUInt32LE(4),
+          expiration,
+        }, tx);
+      });
     });
 };
 

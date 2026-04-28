@@ -2,5 +2,7 @@
   "websocket": "",
   "address_prefix": "VIZ",
   "chain_id": "2040effda178d4fffff5eab7a915d4019879f5205cc5392e4bcced2b6edda0cd",
-  "broadcast_transaction_with_callback": false
+  "broadcast_transaction_with_callback": false,
+  "reference_irreversible_block": false,
+  "tx_expiration_seconds": 60
 }
