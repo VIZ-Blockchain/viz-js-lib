@@ -13,6 +13,7 @@
 - [src/auth/index.js](file://src/auth/index.js)
 - [src/broadcast/index.js](file://src/broadcast/index.js)
 - [src/dns.js](file://src/dns.js)
+- [src/browser.js](file://src/browser.js)
 - [test/test_helper.js](file://test/test_helper.js)
 - [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js)
 - [test/test.html](file://test/test.html)
@@ -27,11 +28,11 @@
 
 ## Update Summary
 **Changes Made**
-- Added comprehensive DNS module testing documentation covering validation functions, record creation, parsing, metadata manipulation, and validation
-- Updated Core Components section to include DNS module functionality
-- Enhanced Detailed Component Analysis with DNS-specific testing procedures
-- Added DNS module constants and error handling documentation
-- Updated Architecture Overview to include DNS module integration
+- Enhanced webpack configuration documentation to reflect async_hooks shim implementation for browser compatibility
+- Updated Browser Testing Procedures section to explain async_hooks module handling
+- Added Browser Compatibility Notes section explaining async_hooks shim configuration
+- Updated Cross-Browser Compatibility Testing section to include async_hooks considerations
+- Enhanced Build System Architecture diagram to show async_hooks shim integration
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -50,13 +51,13 @@
 14. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides comprehensive testing and development guidance for the VIZ JavaScript library. It covers the testing framework, unit test structure, browser testing procedures, continuous integration setup, and practical workflows for writing tests against API methods, authentication functions, broadcast operations, and the newly enhanced DNS module functionality. It also includes environment setup, mock data usage, debugging strategies, performance and security testing approaches, and cross-browser compatibility testing.
+This document provides comprehensive testing and development guidance for the VIZ JavaScript library. It covers the testing framework, unit test structure, browser testing procedures, continuous integration setup, and practical workflows for writing tests against API methods, authentication functions, broadcast operations, and the newly enhanced DNS module functionality. It also includes environment setup, mock data usage, debugging strategies, performance and security testing approaches, and cross-browser compatibility testing with special attention to async_hooks module handling for browser compatibility.
 
 ## Project Structure
 The repository is organized around a modular JavaScript library with dedicated test suites and build tooling:
 - Source code under src/ exposes the public API surface for API access, authentication, broadcasting, DNS functionality, formatters, and utilities.
 - Tests under test/ cover Node.js unit tests, browser-specific tests, and HTML-based test harnesses.
-- Build and packaging are handled via Webpack and NPM scripts.
+- Build and packaging are handled via Webpack and NPM scripts with enhanced async_hooks module compatibility.
 
 ```mermaid
 graph TB
@@ -65,6 +66,7 @@ SRC_API["src/api/index.js"]
 SRC_AUTH["src/auth/index.js"]
 SRC_BROADCAST["src/broadcast/index.js"]
 SRC_DNS["src/dns.js"]
+SRC_BROWSER["src/browser.js"]
 SRC_INDEX["src/index.js"]
 end
 subgraph "Tests"
@@ -89,6 +91,10 @@ SRC_INDEX --> SRC_API
 SRC_INDEX --> SRC_AUTH
 SRC_INDEX --> SRC_BROADCAST
 SRC_INDEX --> SRC_DNS
+SRC_BROWSER --> SRC_API
+SRC_BROWSER --> SRC_AUTH
+SRC_BROWSER --> SRC_BROADCAST
+SRC_BROWSER --> SRC_DNS
 T_API --> SRC_API
 T_BROADCAST --> SRC_BROADCAST
 T_METHODS --> SRC_API
@@ -103,72 +109,77 @@ PKG --> TRAVIS
 ```
 
 **Diagram sources**
-- [src/index.js](file://src/index.js#L1-L22)
-- [src/api/index.js](file://src/api/index.js#L1-L271)
-- [src/auth/index.js](file://src/auth/index.js#L1-L133)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137)
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [test/api.test.js](file://test/api.test.js#L1-L202)
-- [test/broadcast.test.js](file://test/broadcast.test.js#L1-L154)
-- [test/methods.test.js](file://test/methods.test.js#L1-L23)
-- [test/memo.test.js](file://test/memo.test.js#L1-L38)
-- [test/comment.test.js](file://test/comment.test.js#L1-L62)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
-- [test/test.html](file://test/test.html#L1-L14)
-- [webpack.config.js](file://webpack.config.js#L1-L3)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L1-L100)
-- [package.json](file://package.json#L1-L84)
-- [.travis.yml](file://.travis.yml#L1-L18)
-- [.eslintrc](file://.eslintrc#L1-L27)
-- [.editorconfig](file://.editorconfig#L1-L21)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/api/index.js:1-271](file://src/api/index.js#L1-L271)
+- [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133)
+- [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [test/api.test.js:1-202](file://test/api.test.js#L1-L202)
+- [test/broadcast.test.js:1-154](file://test/broadcast.test.js#L1-L154)
+- [test/methods.test.js:1-23](file://test/methods.test.js#L1-L23)
+- [test/memo.test.js:1-38](file://test/memo.test.js#L1-L38)
+- [test/comment.test.js:1-62](file://test/comment.test.js#L1-L62)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
+- [test/test.html:1-14](file://test/test.html#L1-L14)
+- [webpack.config.js:1-3](file://webpack.config.js#L1-L3)
+- [webpack/makeConfig.js:1-103](file://webpack/makeConfig.js#L1-L103)
+- [package.json:1-85](file://package.json#L1-L85)
+- [.travis.yml:1-18](file://.travis.yml#L1-L18)
+- [.eslintrc:1-27](file://.eslintrc#L1-L27)
+- [.editorconfig:1-21](file://.editorconfig#L1-L21)
 
 **Section sources**
-- [src/index.js](file://src/index.js#L1-L22)
-- [webpack.config.js](file://webpack.config.js#L1-L3)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L1-L100)
-- [package.json](file://package.json#L1-L84)
-- [.travis.yml](file://.travis.yml#L1-L18)
-- [.eslintrc](file://.eslintrc#L1-L27)
-- [.editorconfig](file://.editorconfig#L1-L21)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [webpack.config.js:1-3](file://webpack.config.js#L1-L3)
+- [webpack/makeConfig.js:1-103](file://webpack/makeConfig.js#L1-L103)
+- [package.json:1-85](file://package.json#L1-L85)
+- [.travis.yml:1-18](file://.travis.yml#L1-L18)
+- [.eslintrc:1-27](file://.eslintrc#L1-L27)
+- [.editorconfig:1-21](file://.editorconfig#L1-L21)
 
 ## Core Components
-- API client: Provides WebSocket/HTTP transport abstraction, streaming utilities, and generated API methods. See [src/api/index.js](file://src/api/index.js#L1-L271).
-- Authentication: Handles key derivation, WIF conversion, public key validation, and transaction signing. See [src/auth/index.js](file://src/auth/index.js#L1-L133).
-- Broadcast: Prepares transactions, signs them, and broadcasts to the network. See [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137).
-- DNS Module: Comprehensive DNS nameserver helpers for managing A and TXT records in VIZ blockchain account metadata. See [src/dns.js](file://src/dns.js#L1-L575).
-- Public facade: Exposes the library's public API surface including DNS functionality. See [src/index.js](file://src/index.js#L1-L22).
+- API client: Provides WebSocket/HTTP transport abstraction, streaming utilities, and generated API methods. See [src/api/index.js:1-271](file://src/api/index.js#L1-L271).
+- Authentication: Handles key derivation, WIF conversion, public key validation, and transaction signing. See [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133).
+- Broadcast: Prepares transactions, signs them, and broadcasts to the network. See [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137).
+- DNS Module: Comprehensive DNS nameserver helpers for managing A and TXT records in VIZ blockchain account metadata. See [src/dns.js:1-575](file://src/dns.js#L1-L575).
+- Browser Facade: Exposes the library's public API surface for browser environments with async_hooks shim handling. See [src/browser.js:1-30](file://src/browser.js#L1-L30).
+- Public facade: Exposes the library's public API surface including DNS functionality. See [src/index.js:1-22](file://src/index.js#L1-L22).
 
 Key testing coverage areas:
-- API methods and reconnection behavior: [test/api.test.js](file://test/api.test.js#L1-L202)
-- Broadcast operations and transaction preparation: [test/broadcast.test.js](file://test/broadcast.test.js#L1-L154), [test/comment.test.js](file://test/comment.test.js#L1-L62)
-- Generated methods completeness: [test/methods.test.js](file://test/methods.test.js#L1-L23)
-- Memo encryption/decryption: [test/memo.test.js](file://test/memo.test.js#L1-L38)
-- DNS module functionality: [test/dns.test.js](file://test/dns.test.js#L1-L396)
-- Browser crypto tests: [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
+- API methods and reconnection behavior: [test/api.test.js:1-202](file://test/api.test.js#L1-L202)
+- Broadcast operations and transaction preparation: [test/broadcast.test.js:1-154](file://test/broadcast.test.js#L1-L154), [test/comment.test.js:1-62](file://test/comment.test.js#L1-L62)
+- Generated methods completeness: [test/methods.test.js:1-23](file://test/methods.test.js#L1-L23)
+- Memo encryption/decryption: [test/memo.test.js:1-38](file://test/memo.test.js#L1-L38)
+- DNS module functionality: [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- Browser crypto tests: [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
 
 **Section sources**
-- [src/api/index.js](file://src/api/index.js#L1-L271)
-- [src/auth/index.js](file://src/auth/index.js#L1-L133)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137)
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [src/index.js](file://src/index.js#L1-L22)
-- [test/api.test.js](file://test/api.test.js#L1-L202)
-- [test/broadcast.test.js](file://test/broadcast.test.js#L1-L154)
-- [test/methods.test.js](file://test/methods.test.js#L1-L23)
-- [test/memo.test.js](file://test/memo.test.js#L1-L38)
-- [test/comment.test.js](file://test/comment.test.js#L1-L62)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
+- [src/api/index.js:1-271](file://src/api/index.js#L1-L271)
+- [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133)
+- [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [test/api.test.js:1-202](file://test/api.test.js#L1-L202)
+- [test/broadcast.test.js:1-154](file://test/broadcast.test.js#L1-L154)
+- [test/methods.test.js:1-23](file://test/methods.test.js#L1-L23)
+- [test/memo.test.js:1-38](file://test/memo.test.js#L1-L38)
+- [test/comment.test.js:1-62](file://test/comment.test.js#L1-L62)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
 
 ## Architecture Overview
-The testing architecture integrates Node.js unit tests with a browser test harness. Webpack bundles the library and test suite for browser execution.
+The testing architecture integrates Node.js unit tests with a browser test harness. Webpack bundles the library and test suite for browser execution with enhanced async_hooks module compatibility for browser environments.
 
 ```mermaid
 graph TB
 subgraph "Build"
 PKG_SCRIPTS["NPM Scripts<br/>test, build, build-browser, build-node"]
 WEBPACK["Webpack Config<br/>entry viz-tests"]
+ASYNC_HOOKS["Async Hooks Shim<br/>node.async_hooks: 'empty'"]
 end
 subgraph "Runtime"
 LIB["viz Library<br/>src/index.js"]
@@ -176,6 +187,7 @@ API["API Module<br/>src/api/index.js"]
 AUTH["Auth Module<br/>src/auth/index.js"]
 BROADCAST["Broadcast Module<br/>src/broadcast/index.js"]
 DNS["DNS Module<br/>src/dns.js"]
+BROWSER["Browser Facade<br/>src/browser.js"]
 end
 subgraph "Tests"
 NODE_TESTS["Node Tests<br/>Mocha + Babel"]
@@ -183,11 +195,13 @@ BROWSER_TESTS["Browser Harness<br/>test.html + BrowserTests.js"]
 DNS_TESTS["DNS Tests<br/>Comprehensive Validation Suite"]
 end
 PKG_SCRIPTS --> WEBPACK
-WEBPACK --> LIB
+WEBPACK --> ASYNC_HOOKS
+ASYNC_HOOKS --> LIB
 LIB --> API
 LIB --> AUTH
 LIB --> BROADCAST
 LIB --> DNS
+BROWSER --> LIB
 NODE_TESTS --> API
 NODE_TESTS --> AUTH
 NODE_TESTS --> BROADCAST
@@ -198,17 +212,18 @@ DNS_TESTS --> DNS
 ```
 
 **Diagram sources**
-- [package.json](file://package.json#L6-L13)
-- [webpack.config.js](file://webpack.config.js#L1-L3)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L67-L89)
-- [src/index.js](file://src/index.js#L1-L22)
-- [src/api/index.js](file://src/api/index.js#L1-L271)
-- [src/auth/index.js](file://src/auth/index.js#L1-L133)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137)
-- [src/dns.js](file://src/dns.js#L1-L575)
-- [test/test.html](file://test/test.html#L1-L14)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
+- [package.json:6-13](file://package.json#L6-L13)
+- [webpack.config.js:1-3](file://webpack.config.js#L1-L3)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [src/index.js:1-22](file://src/index.js#L1-L22)
+- [src/api/index.js:1-271](file://src/api/index.js#L1-L271)
+- [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133)
+- [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
+- [test/test.html:1-14](file://test/test.html#L1-L14)
+- [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
 
 ## Detailed Component Analysis
 
@@ -239,16 +254,16 @@ VIZ-->>Test : "resolve result"
 ```
 
 **Diagram sources**
-- [test/api.test.js](file://test/api.test.js#L14-L29)
-- [test/api.test.js](file://test/api.test.js#L42-L78)
-- [test/api.test.js](file://test/api.test.js#L80-L166)
-- [test/api.test.js](file://test/api.test.js#L168-L200)
-- [src/api/index.js](file://src/api/index.js#L52-L62)
-- [src/api/index.js](file://src/api/index.js#L98-L119)
+- [test/api.test.js:14-29](file://test/api.test.js#L14-L29)
+- [test/api.test.js:42-78](file://test/api.test.js#L42-L78)
+- [test/api.test.js:80-166](file://test/api.test.js#L80-L166)
+- [test/api.test.js:168-200](file://test/api.test.js#L168-L200)
+- [src/api/index.js:52-62](file://src/api/index.js#L52-L62)
+- [src/api/index.js:98-119](file://src/api/index.js#L98-L119)
 
 **Section sources**
-- [test/api.test.js](file://test/api.test.js#L1-L202)
-- [src/api/index.js](file://src/api/index.js#L1-L271)
+- [test/api.test.js:1-202](file://test/api.test.js#L1-L202)
+- [src/api/index.js:1-271](file://src/api/index.js#L1-L271)
 
 ### Authentication and Memo Encryption Testing
 - Purpose: Verify key derivation, WIF handling, public key parsing, and memo encryption/decryption.
@@ -270,12 +285,12 @@ Fallback --> Pass
 ```
 
 **Diagram sources**
-- [test/memo.test.js](file://test/memo.test.js#L6-L36)
-- [src/auth/index.js](file://src/auth/index.js#L56-L101)
+- [test/memo.test.js:6-36](file://test/memo.test.js#L6-L36)
+- [src/auth/index.js:56-101](file://src/auth/index.js#L56-L101)
 
 **Section sources**
-- [test/memo.test.js](file://test/memo.test.js#L1-L38)
-- [src/auth/index.js](file://src/auth/index.js#L1-L133)
+- [test/memo.test.js:1-38](file://test/memo.test.js#L1-L38)
+- [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133)
 
 ### Broadcast Operations Testing
 - Purpose: Validate transaction preparation, signing, and broadcasting for operations like vote, transfer, and content with beneficiaries.
@@ -304,16 +319,16 @@ Broadcast-->>Test : "return signed tx"
 ```
 
 **Diagram sources**
-- [test/broadcast.test.js](file://test/broadcast.test.js#L33-L52)
-- [test/broadcast.test.js](file://test/broadcast.test.js#L75-L120)
-- [test/comment.test.js](file://test/comment.test.js#L19-L60)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L49-L84)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L24-L47)
+- [test/broadcast.test.js:33-52](file://test/broadcast.test.js#L33-L52)
+- [test/broadcast.test.js:75-120](file://test/broadcast.test.js#L75-L120)
+- [test/comment.test.js:19-60](file://test/comment.test.js#L19-L60)
+- [src/broadcast/index.js:49-84](file://src/broadcast/index.js#L49-L84)
+- [src/broadcast/index.js:24-47](file://src/broadcast/index.js#L24-L47)
 
 **Section sources**
-- [test/broadcast.test.js](file://test/broadcast.test.js#L1-L154)
-- [test/comment.test.js](file://test/comment.test.js#L1-L62)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137)
+- [test/broadcast.test.js:1-154](file://test/broadcast.test.js#L1-L154)
+- [test/comment.test.js:1-62](file://test/comment.test.js#L1-L62)
+- [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137)
 
 ### DNS Module Testing
 - Purpose: Comprehensive validation of DNS nameserver helpers for managing A and TXT records in VIZ blockchain account metadata.
@@ -354,19 +369,22 @@ RemoveSSL --> SetTTL["setTtl"]
 ```
 
 **Diagram sources**
-- [test/dns.test.js](file://test/dns.test.js#L8-L396)
-- [src/dns.js](file://src/dns.js#L25-L575)
+- [test/dns.test.js:8-396](file://test/dns.test.js#L8-L396)
+- [src/dns.js:25-575](file://src/dns.js#L25-L575)
 
 **Section sources**
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
 
 ### Browser Testing Procedures
-- Purpose: Run browser-side crypto and encoding tests in a real browser environment.
+- Purpose: Run browser-side crypto and encoding tests in a real browser environment with async_hooks module compatibility.
 - Setup:
-  - Webpack bundles a test bundle named viz-tests.
+  - Webpack bundles a test bundle named viz-tests with async_hooks shim configuration.
   - The HTML harness loads Mocha and runs the test bundle.
   - Browser tests exercise ECC key generation, WIF parsing, and memo encryption/decryption.
+- Async Hooks Compatibility:
+  - The webpack configuration includes `node.async_hooks: 'empty'` to prevent async_hooks module from causing issues in browser environments.
+  - Package.json browser field disables async_hooks module for browser builds.
 
 ```mermaid
 sequenceDiagram
@@ -378,17 +396,21 @@ Browser->>Mocha : "load test.html"
 Mocha->>Bundle : "load viz-tests.min.js"
 Bundle->>Tests : "execute exported runTests()"
 Tests-->>Mocha : "report results/errors"
+Note over Bundle : "async_hooks shim enabled<br/>node.async_hooks : 'empty'"
 ```
 
 **Diagram sources**
-- [test/test.html](file://test/test.html#L1-L14)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L67-L70)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L8-L56)
+- [test/test.html:1-14](file://test/test.html#L1-L14)
+- [webpack/makeConfig.js:67-70](file://webpack/makeConfig.js#L67-L70)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
+- [test/browser/BrowserTests.js:8-56](file://test/browser/BrowserTests.js#L8-L56)
 
 **Section sources**
-- [test/test.html](file://test/test.html#L1-L14)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L1-L100)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
+- [test/test.html:1-14](file://test/test.html#L1-L14)
+- [webpack/makeConfig.js:1-103](file://webpack/makeConfig.js#L1-L103)
+- [package.json:15-19](file://package.json#L15-L19)
+- [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
 
 ## Dependency Analysis
 - Test runner and transpilation:
@@ -396,6 +418,7 @@ Tests-->>Mocha : "report results/errors"
   - ESLint enforces style and correctness rules across Node, browser, and Mocha environments.
 - Build-time dependencies:
   - Webpack bundles the library and test suite; production builds enable minification and deduplication.
+  - Async hooks shim configuration prevents module resolution conflicts in browser builds.
 - Runtime dependencies:
   - Bluebird for promises, cross-fetch for HTTP transport, debug for logging, and others for cryptography and serialization.
 
@@ -404,31 +427,37 @@ graph LR
 PKG["package.json"]
 ESL["ESLint (.eslintrc)"]
 WEB["Webpack (makeConfig.js)"]
+ASYNC_HOOKS["Async Hooks Shim<br/>node.async_hooks: 'empty'"]
 API["src/api/index.js"]
 AUTH["src/auth/index.js"]
 BROAD["src/broadcast/index.js"]
 DNS["src/dns.js"]
+BROWSER["src/browser.js"]
 PKG --> ESL
 PKG --> WEB
+WEB --> ASYNC_HOOKS
 WEB --> API
 WEB --> AUTH
 WEB --> BROAD
 WEB --> DNS
+WEB --> BROWSER
 ```
 
 **Diagram sources**
-- [package.json](file://package.json#L56-L75)
-- [.eslintrc](file://.eslintrc#L1-L27)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L1-L100)
-- [src/api/index.js](file://src/api/index.js#L1-L271)
-- [src/auth/index.js](file://src/auth/index.js#L1-L133)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L1-L137)
-- [src/dns.js](file://src/dns.js#L1-L575)
+- [package.json:56-75](file://package.json#L56-L75)
+- [package.json:15-19](file://package.json#L15-L19)
+- [.eslintrc:1-27](file://.eslintrc#L1-L27)
+- [webpack/makeConfig.js:1-103](file://webpack/makeConfig.js#L1-L103)
+- [src/api/index.js:1-271](file://src/api/index.js#L1-L271)
+- [src/auth/index.js:1-133](file://src/auth/index.js#L1-L133)
+- [src/broadcast/index.js:1-137](file://src/broadcast/index.js#L1-L137)
+- [src/dns.js:1-575](file://src/dns.js#L1-L575)
+- [src/browser.js:1-30](file://src/browser.js#L1-L30)
 
 **Section sources**
-- [package.json](file://package.json#L1-L84)
-- [.eslintrc](file://.eslintrc#L1-L27)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L1-L100)
+- [package.json:1-85](file://package.json#L1-L85)
+- [.eslintrc:1-27](file://.eslintrc#L1-L27)
+- [webpack/makeConfig.js:1-103](file://webpack/makeConfig.js#L1-L103)
 
 ## Performance Considerations
 - Streaming APIs:
@@ -437,19 +466,25 @@ WEB --> DNS
   - Broadcasting prepares transactions using dynamic global properties and block references. Tests ensure the presence of required fields and signatures.
 - DNS module operations:
   - DNS metadata parsing and validation operations are optimized for performance with regex-based validation and efficient array filtering.
+- Async Hooks Performance:
+  - The async_hooks shim prevents unnecessary module loading overhead in browser environments.
+  - Browser builds benefit from reduced bundle size due to async_hooks module exclusion.
 - Recommendations:
   - Use timeouts and resource cleanup in long-running streams.
   - Batch operations where appropriate to reduce network overhead.
   - Monitor performance metrics emitted by the API client during tests.
   - Optimize DNS metadata operations by caching validated results where appropriate.
+  - Leverage async_hooks shim for improved browser performance.
 
 **Section sources**
-- [src/api/index.js](file://src/api/index.js#L121-L235)
-- [test/api.test.js](file://test/api.test.js#L80-L166)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L49-L84)
-- [test/broadcast.test.js](file://test/broadcast.test.js#L33-L52)
-- [src/dns.js](file://src/dns.js#L19-L74)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
+- [src/api/index.js:121-235](file://src/api/index.js#L121-L235)
+- [test/api.test.js:80-166](file://test/api.test.js#L80-L166)
+- [src/broadcast/index.js:49-84](file://src/broadcast/index.js#L49-L84)
+- [test/broadcast.test.js:33-52](file://test/broadcast.test.js#L33-L52)
+- [src/dns.js:19-74](file://src/dns.js#L19-L74)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
 
 ## Security Testing
 - Key handling:
@@ -461,57 +496,75 @@ WEB --> DNS
   - Validate IPv4 addresses and SHA256 hashes to prevent injection attacks.
   - Ensure TXT record length validation prevents buffer overflow scenarios.
   - Test error handling for malformed DNS metadata to prevent crashes.
+- Async Hooks Security:
+  - The async_hooks shim prevents potential security issues from async_hooks module usage in browser environments.
+  - Browser builds exclude async_hooks module to reduce attack surface.
 - Recommendations:
   - Use deterministic seeds and known-good test vectors for cryptographic routines.
   - Avoid logging secrets; mask sensitive data in test logs.
   - Prefer environment variables for credentials in integration-style tests.
   - Implement comprehensive input sanitization for DNS metadata operations.
+  - Leverage async_hooks shim for enhanced browser security.
 
 **Section sources**
-- [src/auth/index.js](file://src/auth/index.js#L65-L101)
-- [test/memo.test.js](file://test/memo.test.js#L6-L36)
-- [src/broadcast/index.js](file://src/broadcast/index.js#L107-L130)
-- [test/broadcast.test.js](file://test/broadcast.test.js#L75-L120)
-- [src/dns.js](file://src/dns.js#L19-L74)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
+- [src/auth/index.js:65-101](file://src/auth/index.js#L65-L101)
+- [test/memo.test.js:6-36](file://test/memo.test.js#L6-L36)
+- [src/broadcast/index.js:107-130](file://src/broadcast/index.js#L107-L130)
+- [test/broadcast.test.js:75-120](file://test/broadcast.test.js#L75-L120)
+- [src/dns.js:19-74](file://src/dns.js#L19-L74)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
 
 ## Cross-Browser Compatibility Testing
 - Browser harness:
   - The browser test suite executes in a real browser using the bundled viz-tests.min.js and the Mocha HTML harness.
+  - Async hooks shim configuration ensures compatibility across modern browsers.
 - Practical steps:
   - Build the browser bundle and open the test page in target browsers.
   - Observe console output and error reporting from the browser test runner.
-- Notes:
-  - The library declares browser-specific shims in package.json to disable Node-only modules in the browser bundle.
+- Async Hooks Compatibility:
+  - The webpack configuration includes `node.async_hooks: 'empty'` to prevent async_hooks module resolution in browser builds.
+  - Package.json browser field disables async_hooks module for browser-specific builds.
+  - This prevents "Module not found" errors when async_hooks is referenced in dependencies.
 - DNS compatibility considerations:
   - DNS module operations rely on standard JavaScript APIs and should be compatible across modern browsers.
   - Regex validation functions are supported in all major browsers.
+- Recommendations:
+  - Test across multiple browser versions to ensure async_hooks shim compatibility.
+  - Verify that browser builds load without async_hooks-related errors.
+  - Test DNS module functionality in various browser environments.
 
 **Section sources**
-- [test/test.html](file://test/test.html#L1-L14)
-- [webpack/makeConfig.js](file://webpack/makeConfig.js#L67-L70)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L1-L56)
-- [package.json](file://package.json#L15-L18)
-- [src/dns.js](file://src/dns.js#L19-L74)
+- [test/test.html:1-14](file://test/test.html#L1-L14)
+- [webpack/makeConfig.js:67-70](file://webpack/makeConfig.js#L67-L70)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
+- [test/browser/BrowserTests.js:1-56](file://test/browser/BrowserTests.js#L1-L56)
+- [src/dns.js:19-74](file://src/dns.js#L19-L74)
 
 ## Development Workflow
 - Local setup:
   - Install dependencies and build artifacts using NPM scripts.
   - Run unit tests with Mocha and Babel transpilation.
+  - Build browser bundles with async_hooks shim configuration.
 - Writing tests:
   - Place new tests under test/ following existing patterns.
   - Use async/await or callbacks consistently.
   - Leverage helper assertions and stubs where applicable.
   - For DNS module testing, follow the established pattern of validation, creation, parsing, and manipulation functions.
+  - Test browser compatibility with async_hooks shim in place.
 - Running subsets:
   - Use NPM script aliases to run focused test suites (e.g., auth-related tests).
   - Run DNS-specific tests using: `npm test -- --grep 'DNS Helpers'`
+  - Test browser builds with: `npm run build-browser`
 - Continuous integration:
   - Travis CI runs tests on multiple Node.js versions and caches dependencies.
+  - Browser builds automatically include async_hooks shim configuration.
 
 **Section sources**
-- [package.json](file://package.json#L6-L13)
-- [.travis.yml](file://.travis.yml#L1-L18)
+- [package.json:6-13](file://package.json#L6-L13)
+- [.travis.yml:1-18](file://.travis.yml#L1-L18)
 
 ## Code Quality Standards
 - Linting:
@@ -523,28 +576,37 @@ WEB --> DNS
 - DNS module standards:
   - Comprehensive test coverage with validation functions, error handling, and edge case testing.
   - Consistent error message formatting and validation patterns.
+- Async Hooks Standards:
+  - Proper shim configuration in webpack for browser compatibility.
+  - Browser field configuration in package.json for module resolution control.
 
 **Section sources**
-- [.eslintrc](file://.eslintrc#L1-L27)
-- [.editorconfig](file://.editorconfig#L1-L21)
+- [.eslintrc:1-27](file://.eslintrc#L1-L27)
+- [.editorconfig:1-21](file://.editorconfig#L1-L21)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
 
 ## Contribution Guidelines
 - Testing requirements:
   - Add unit tests for new features and bug fixes.
   - Include browser tests for crypto-related functionality.
   - For DNS module contributions, ensure comprehensive test coverage following the established pattern.
+  - Verify browser compatibility with async_hooks shim when adding new functionality.
 - Pull requests:
   - Ensure tests pass locally and in CI.
   - Keep diffs minimal and focused.
   - Include DNS module tests for any DNS-related functionality changes.
+  - Test browser builds to ensure async_hooks compatibility.
 - Documentation:
   - Update inline documentation and examples where relevant.
   - Add test coverage for new DNS module functions following the existing test structure.
+  - Document any async_hooks-related changes in build configuration.
 
 ## Troubleshooting Guide
 - Test environment setup:
   - Ensure Node.js and dependencies are installed.
   - Use NPM scripts to run tests; verify Mocha and Babel are available.
+  - Check webpack configuration for async_hooks shim settings.
 - Mock data usage:
   - Utilize provided fixtures (e.g., test-post.json) to validate API responses.
   - For DNS testing, use the established test patterns and validation scenarios.
@@ -552,17 +614,24 @@ WEB --> DNS
   - Enable debug logging in the API client to inspect request/response timing and errors.
   - Inspect browser test console for stack traces and error messages.
   - Stub transports selectively to simulate network conditions in unit tests.
+  - Check for async_hooks-related errors in browser builds.
 - DNS-specific debugging:
   - Use the comprehensive validation functions to identify specific failure points.
   - Test individual DNS helper functions in isolation to pinpoint issues.
   - Leverage the extensive error messages in DNS validation functions.
+- Async Hooks debugging:
+  - Verify that webpack configuration includes `node.async_hooks: 'empty'`.
+  - Check package.json browser field for async_hooks module disabling.
+  - Test browser builds to ensure async_hooks shim is working correctly.
 
 **Section sources**
-- [test/test_helper.js](file://test/test_helper.js#L1-L19)
-- [test/test-post.json](file://test/test-post.json#L1-L14)
-- [src/api/index.js](file://src/api/index.js#L12-L15)
-- [test/browser/BrowserTests.js](file://test/browser/BrowserTests.js#L10-L22)
-- [test/dns.test.js](file://test/dns.test.js#L1-L396)
+- [test/test_helper.js:1-19](file://test/test_helper.js#L1-L19)
+- [test/test-post.json:1-14](file://test/test-post.json#L1-L14)
+- [src/api/index.js:12-15](file://src/api/index.js#L12-L15)
+- [test/browser/BrowserTests.js:10-22](file://test/browser/BrowserTests.js#L10-L22)
+- [test/dns.test.js:1-396](file://test/dns.test.js#L1-L396)
+- [webpack/makeConfig.js:76-78](file://webpack/makeConfig.js#L76-L78)
+- [package.json:15-19](file://package.json#L15-L19)
 
 ## Conclusion
-This guide consolidates testing and development practices for the VIZ JavaScript library, now enhanced with comprehensive DNS module testing. By leveraging the existing Mocha-based Node tests, browser harness, and Webpack build pipeline, contributors can confidently add new features, fix bugs, and maintain high-quality code. The addition of over 300 lines of DNS module test coverage ensures robust validation of all helper functions, edge cases, and error conditions. Adhering to linting standards, using mock data, following the outlined workflows, and maintaining comprehensive test coverage ensures reliable and secure integrations with the VIZ blockchain and DNS functionality.
+This guide consolidates testing and development practices for the VIZ JavaScript library, now enhanced with comprehensive DNS module testing and improved async_hooks module compatibility for browser environments. The enhanced webpack configuration with async_hooks shim (`node.async_hooks: 'empty'`) ensures seamless browser compatibility while maintaining Node.js functionality. By leveraging the existing Mocha-based Node tests, browser harness, and Webpack build pipeline with proper async_hooks handling, contributors can confidently add new features, fix bugs, and maintain high-quality code. The addition of over 300 lines of DNS module test coverage ensures robust validation of all helper functions, edge cases, and error conditions. Adhering to linting standards, using mock data, following the outlined workflows, and maintaining comprehensive test coverage ensures reliable and secure integrations with the VIZ blockchain and DNS functionality, while the async_hooks shim provides optimal browser compatibility.

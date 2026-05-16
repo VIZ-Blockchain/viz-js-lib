@@ -24,6 +24,7 @@
 - Added support for configurable transaction expiration times
 - Improved reference block selection logic with irreversible block support
 - Updated configuration system to support runtime customization of broadcast behavior
+- Added comprehensive documentation for new configuration options
 
 ## Table of Contents
 1. [Introduction](#introduction)
