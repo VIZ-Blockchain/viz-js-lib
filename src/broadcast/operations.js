@@ -470,5 +470,13 @@ module.exports = [
       "receiver",
       "invite_secret"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "set_reward_sharing",
+    "params": [
+      "owner",
+      "sharing_rate"
+    ]
   }
 ]

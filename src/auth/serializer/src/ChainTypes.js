@@ -74,7 +74,8 @@ ChainTypes.operations = {
   fixed_award: 60,
   target_account_sale: 61,
   bid: 62,
-  outbid: 63
+  outbid: 63,
+  set_reward_sharing: 64
 };
 
 //types.hpp

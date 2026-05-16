@@ -699,6 +699,36 @@ const chain_properties_hf9 = new Serializer(
         withdraw_intervals: uint16
   }
 );
+const chain_properties_hf13 = new Serializer(
+    4, {
+        account_creation_fee: asset,
+        maximum_block_size: uint32,
+        create_account_delegation_ratio: uint32,
+        create_account_delegation_time: uint32,
+        min_delegation: asset,
+        min_curation_percent: int16,
+        max_curation_percent: int16,
+        bandwidth_reserve_percent: int16,
+        bandwidth_reserve_below: asset,
+        flag_energy_additional_cost: int16,
+        vote_accounting_min_rshares: uint32,
+        committee_request_approve_min_percent: int16,
+        inflation_witness_percent: int16,
+        inflation_ratio_committee_vs_reward_fund: int16,
+        inflation_recalc_period: uint32,
+        data_operations_cost_additional_bandwidth: uint32,
+        witness_miss_penalty_percent: int16,
+        witness_miss_penalty_duration: uint32,
+        create_invite_min_balance: asset,
+        committee_create_request_fee: asset,
+        create_paid_subscription_fee: asset,
+        account_on_sale_fee: asset,
+        subaccount_on_sale_fee: asset,
+        witness_declaration_fee: asset,
+        withdraw_intervals: uint16,
+        distribution_epoch_length: uint32
+  }
+);
 
 let versioned_chain_properties_update = new Serializer(
     "versioned_chain_properties_update", {
@@ -707,7 +737,8 @@ let versioned_chain_properties_update = new Serializer(
             chain_properties_init,
             chain_properties_hf4,
             chain_properties_hf6,
-            chain_properties_hf9
+            chain_properties_hf9,
+            chain_properties_hf13
         ])
     }
 );
@@ -846,6 +877,13 @@ let outbid = new Serializer(
     }
 );
 
+let set_reward_sharing = new Serializer(
+    "set_reward_sharing", {
+        owner: string,
+        sharing_rate: uint16
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -910,7 +948,8 @@ operation.st_operations = [
     fixed_award,
     target_account_sale,
     bid,
-    outbid
+    outbid,
+    set_reward_sharing
 ];
 
 //# -------------------------------
