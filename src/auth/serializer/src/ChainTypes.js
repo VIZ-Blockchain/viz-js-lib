@@ -1,6 +1,6 @@
 "use strict";
 
-var ChainTypes;
+let ChainTypes;
 
 module.exports = ChainTypes = {};
 
@@ -76,12 +76,12 @@ ChainTypes.operations = {
   bid: 62,
   outbid: 63,
   set_reward_sharing: 64,
-  // Aliases for backward compatibility
+  // Aliases for backward compatibility (old witness names)
   witness_update: 6,
   account_witness_vote: 7,
   account_witness_proxy: 8,
   shutdown_witness: 30,
-  witness_reward: 42,
+  witness_reward: 42
 };
 
 //types.hpp
