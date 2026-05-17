@@ -29,13 +29,13 @@ const TEST = process.env.NODE_ENV === "test"
 */
 Types.asset = {
     fromByteBuffer(b){
-        let amount = b.readInt64()
-        let precision = b.readUint8()
-        let b_copy = b.copy(b.offset, b.offset + 7)
-        let symbol = new Buffer(b_copy.toBinary(), "binary").toString().replace(/\x00/g, "")
+        const amount = b.readInt64()
+        const precision = b.readUint8()
+        const b_copy = b.copy(b.offset, b.offset + 7)
+        const symbol = new Buffer(b_copy.toBinary(), "binary").toString().replace(/\x00/g, "")
         b.skip(7);
         // "1.000 VIZ" always written with full precision
-        let amount_string = fromImpliedDecimal(amount, precision)
+        const amount_string = fromImpliedDecimal(amount, precision)
         return amount_string + " " + symbol
     },
 
@@ -44,13 +44,13 @@ Types.asset = {
         if( ! /^[0-9]+\.?[0-9]* [A-Za-z0-9]+$/.test(object))
             throw new Error("Expecting amount like '99.000 SYMBOL', instead got '" + object + "'")
 
-        let [ amount, symbol ] = object.split(" ")
+        const [ amount, symbol ] = object.split(" ")
         if(symbol.length > 6)
             throw new Error("Symbols are not longer than 6 characters " + symbol + "-"+ symbol.length)
 
         b.writeInt64(v.to_long(amount.replace(".", "")))
-        let dot = amount.indexOf(".") // 0.000
-        let precision = dot === -1 ? 0 : amount.length - dot - 1
+        const dot = amount.indexOf(".") // 0.000
+        const precision = dot === -1 ? 0 : amount.length - dot - 1
         b.writeUint8(precision)
         b.append(symbol.toUpperCase(), 'binary')
         for(let i = 0; i < 7 - symbol.length; i++)
@@ -129,8 +129,8 @@ Types.uint32 =
     }
     };
 
-var MIN_SIGNED_32 = -1 * Math.pow(2,31);
-var MAX_SIGNED_32 = Math.pow(2,31) - 1;
+const MIN_SIGNED_32 = -1 * Math.pow(2,31);
+const MAX_SIGNED_32 = Math.pow(2,31) - 1;
 
 Types.varint32 =
     {fromByteBuffer(b){
@@ -242,8 +242,8 @@ Types.string =
 
 Types.string_binary =
     {fromByteBuffer(b){
-        var b_copy;
-        var len = b.readVarint32();
+        let b_copy;
+        const len = b.readVarint32();
         b_copy = b.copy(b.offset, b.offset + len), b.skip(len);
         return new Buffer(b_copy.toBinary(), 'binary');
 
@@ -267,7 +267,7 @@ Types.bytes = function(size){
     return {fromByteBuffer(b){
         if (size === undefined) {
             var b_copy;
-            var len = b.readVarint32();
+            const len = b.readVarint32();
             b_copy = b.copy(b.offset, b.offset + len), b.skip(len);
             return new Buffer(b_copy.toBinary(), 'binary');
         } else {
@@ -295,7 +295,7 @@ Types.bytes = function(size){
     },
     toObject(object, debug = {}){
         if (debug.use_default && object === undefined) {
-            var zeros=function(num){ return new Array( num ).join( "00" ); };
+            const zeros=function(num){ return new Array( num ).join( "00" ); };
             return zeros(size);
         }
         v.required(object);
@@ -342,12 +342,12 @@ Types.void =
 
 Types.array = function(st_operation){
     return {fromByteBuffer(b){
-        var size = b.readVarint32();
+        const size = b.readVarint32();
         if (HEX_DUMP) {
             console.log("varint32 size = " + size.toString(16));
         }
-        var result = [];
-        for (var i = 0; 0 < size ? i < size : i > size; 0 < size ? i++ : i++) {
+        const result = [];
+        for (let i = 0; 0 < size ? i < size : i > size; 0 < size ? i++ : i++) {
             result.push(st_operation.fromByteBuffer(b));
         }
         return sortOperation(result, st_operation);
@@ -364,7 +364,7 @@ Types.array = function(st_operation){
     fromObject(object){
         v.required(object)
         object = sortOperation(object, st_operation)
-        var result = [];
+        const result = [];
         for (var i = 0, o; i < object.length; i++) {
             o = object[i];
             result.push(st_operation.fromObject(o));
@@ -378,7 +378,7 @@ Types.array = function(st_operation){
         v.required(object)
         object = sortOperation(object, st_operation)
 
-        var result = [];
+        const result = [];
         for (var i = 0, o; i < object.length; i++) {
             o = object[i];
             result.push(st_operation.toObject(o, debug));
@@ -426,7 +426,7 @@ Types.time_point_sec = {
         if(object.getTime)
             return object.toISOString().split('.')[0]
 
-        var int = parseInt(object);
+        const int = parseInt(object);
         v.require_range(0,0xFFFFFFFF,int, `uint32 ${object}`);
         return (new Date( int * 1000 )).toISOString().split('.')[0];
     }
@@ -434,7 +434,7 @@ Types.time_point_sec = {
 
 Types.set = function(st_operation){
     return {validate(array){
-        var dup_map = {};
+        const dup_map = {};
         for (var i = 0, o; i < array.length; i++) {
             o = array[i];
             var ref;
@@ -448,13 +448,13 @@ Types.set = function(st_operation){
         return sortOperation(array, st_operation);
     },
     fromByteBuffer(b){
-        var size = b.readVarint32();
+        const size = b.readVarint32();
         if (HEX_DUMP) {
             console.log("varint32 size = " + size.toString(16));
         }
         return this.validate(((() => {
-            var result = [];
-            for (var i = 0; 0 < size ? i < size : i > size; 0 < size ? i++ : i++) {
+            const result = [];
+            for (let i = 0; 0 < size ? i < size : i > size; 0 < size ? i++ : i++) {
                 result.push(st_operation.fromByteBuffer(b));
             }
             return result;
@@ -463,7 +463,7 @@ Types.set = function(st_operation){
     appendByteBuffer(b, object){
         if (!object) { object = []; }
         b.writeVarint32(object.length);
-        var iterable = this.validate(object);
+        const iterable = this.validate(object);
         for (var i = 0, o; i < iterable.length; i++) {
             o = iterable[i];
             st_operation.appendByteBuffer(b, o);
@@ -473,7 +473,7 @@ Types.set = function(st_operation){
     fromObject(object){
         if (!object) { object = []; }
         return this.validate(((() => {
-            var result = [];
+            const result = [];
             for (var i = 0, o; i < object.length; i++) {
                 o = object[i];
                 result.push(st_operation.fromObject(o));
@@ -487,7 +487,7 @@ Types.set = function(st_operation){
         }
         if (!object) { object = []; }
         return this.validate(((() => {
-            var result = [];
+            const result = [];
             for (var i = 0, o; i < object.length; i++) {
                 o = object[i];
                 result.push(st_operation.toObject(o, debug));
@@ -502,7 +502,7 @@ Types.set = function(st_operation){
 Types.fixed_array = function(count, st_operation) {
   return {
     fromByteBuffer: function(b) {
-      var i, j, ref, results;
+      let i, j, ref, results;
       results = [];
       for (i = j = 0, ref = count; j < ref; i = j += 1) {
         results.push(st_operation.fromByteBuffer(b));
@@ -510,7 +510,7 @@ Types.fixed_array = function(count, st_operation) {
       return sortOperation(results, st_operation);
     },
     appendByteBuffer: function(b, object) {
-      var i, j, ref;
+      let i, j, ref;
       if (count !== 0) {
         v.required(object);
         object = sortOperation(object, st_operation)
@@ -520,7 +520,7 @@ Types.fixed_array = function(count, st_operation) {
       }
     },
     fromObject: function(object) {
-      var i, j, ref, results;
+      let i, j, ref, results;
       if (count !== 0) {
         v.required(object);
       }
@@ -531,7 +531,7 @@ Types.fixed_array = function(count, st_operation) {
       return results;
     },
     toObject: function(object, debug) {
-      var i, j, k, ref, ref1, results, results1;
+      let i, j, k, ref, ref1, results, results1;
       if (debug == null) {
         debug = {};
       }
@@ -556,7 +556,7 @@ Types.fixed_array = function(count, st_operation) {
 
 /* Supports instance numbers (11) or object types (1.2.11).  Object type
 validation is enforced when an object type is used. */
-var id_type = function(reserved_spaces, object_type){
+const id_type = function(reserved_spaces, object_type){
     v.required(reserved_spaces, "reserved_spaces");
     v.required(object_type, "object_type");
     return {fromByteBuffer(b){
@@ -581,7 +581,7 @@ var id_type = function(reserved_spaces, object_type){
         return v.get_instance(reserved_spaces, object_type, object);
     },
     toObject(object, debug = {}){
-        var object_type_id = chain_types.object_type[object_type];
+        const object_type_id = chain_types.object_type[object_type];
         if (debug.use_default && object === undefined) {
             return `${reserved_spaces}.${object_type_id}.0`;
         }
@@ -634,7 +634,7 @@ Types.vote_id =
     {TYPE: 0x000000FF,
     ID:   0xFFFFFF00,
     fromByteBuffer(b){
-        var value = b.readUint32();
+        const value = b.readUint32();
         return {
             type: value & this.TYPE,
             id: value & this.ID
@@ -645,7 +645,7 @@ Types.vote_id =
         if(object === "string")
             object = Types.vote_id.fromObject(object)
 
-        var value = object.id << 8 | object.type
+        const value = object.id << 8 | object.type
         b.writeUint32(value);
         return;
     },
@@ -657,7 +657,7 @@ Types.vote_id =
             return object
         }
         v.require_test(/^[0-9]+:[0-9]+$/, object, `vote_id format ${object}`);
-        var [type, id] = object.split(':');
+        const [type, id] = object.split(':');
         v.require_range(0,0xff,type,`vote type ${object}`);
         v.require_range(0,0xffffff,id,`vote id ${object}`);
         return { type, id };
@@ -702,7 +702,7 @@ Types.optional = function(st_operation){
     },
     toObject(object, debug = {}){
         // toObject is only null save if use_default is true
-        var result_object = (() => {
+        let result_object = (() => {
             if (!debug.use_default && object === undefined) {
                 return undefined;
             } else {
@@ -723,6 +723,14 @@ Types.optional = function(st_operation){
 };
 
 Types.static_variant = function(_st_operations){
+    // Witness-to-validator alias map for backward compatibility
+    const WITNESS_ALIAS_MAP = {
+        'witness_update': 'validator_update',
+        'account_witness_vote': 'account_validator_vote',
+        'account_witness_proxy': 'account_validator_proxy',
+        'shutdown_witness': 'shutdown_validator',
+        'witness_reward': 'validator_reward',
+    };
     return {
         nosort: true,
         st_operations: _st_operations,
@@ -731,20 +739,31 @@ Types.static_variant = function(_st_operations){
         if(typeof value === "number")
             type_id = value
         else {
-            for(let op of this.st_operations) {
+            for(const op of this.st_operations) {
                 if(op.operation_name === value) {
                     type_id = pos
                     break
                 }
                 pos++
             }
+            // Try alias lookup for old witness names
+            if(type_id === undefined && WITNESS_ALIAS_MAP[value]) {
+                pos = 0
+                for(const op of this.st_operations) {
+                    if(op.operation_name === WITNESS_ALIAS_MAP[value]) {
+                        type_id = pos
+                        break
+                    }
+                    pos++
+                }
+            }
         }
         return type_id
     },
 
     fromByteBuffer(b){
-        var type_id = b.readVarint32();
-        var st_operation = this.st_operations[type_id];
+        const type_id = b.readVarint32();
+        const st_operation = this.st_operations[type_id];
         if (HEX_DUMP) {
             console.error(`static_variant id 0x${type_id.toString(16)} (${type_id})`);
         }
@@ -757,8 +776,8 @@ Types.static_variant = function(_st_operations){
 
     appendByteBuffer(b, object){
         v.required(object);
-        var type_id = this.opTypeId(object[0]);
-        var st_operation = this.st_operations[type_id];
+        const type_id = this.opTypeId(object[0]);
+        const st_operation = this.st_operations[type_id];
         v.required(st_operation, `operation ${type_id}`);
         b.writeVarint32(type_id);
         st_operation.appendByteBuffer(b, object[1]);
@@ -767,8 +786,8 @@ Types.static_variant = function(_st_operations){
 
     fromObject(object){
         v.required(object);
-        let type_id = this.opTypeId(object[0]);
-        var st_operation = this.st_operations[type_id];
+        const type_id = this.opTypeId(object[0]);
+        const st_operation = this.st_operations[type_id];
         v.required(st_operation, `operation ${type_id}`);
         return [
             type_id,
@@ -781,8 +800,8 @@ Types.static_variant = function(_st_operations){
             return [this.st_operations[0].operation_name, this.st_operations[0].toObject(undefined, debug)];
         }
         v.required(object);
-        let type_id = this.opTypeId(object[0]);
-        var st_operation = this.st_operations[type_id];
+        const type_id = this.opTypeId(object[0]);
+        const st_operation = this.st_operations[type_id];
         v.required(st_operation, `operation ${type_id}`);
         return [
             st_operation.operation_name,
@@ -801,7 +820,7 @@ Types.map = function(key_st_operation, value_st_operation){
         if (!Array.isArray(array)) {
             throw new Error("expecting array");
         }
-        var dup_map = {};
+        const dup_map = {};
         for (var i = 0, o; i < array.length; i++) {
             o = array[i];
             var ref;
@@ -819,9 +838,9 @@ Types.map = function(key_st_operation, value_st_operation){
     },
 
     fromByteBuffer(b){
-        var result = [];
-        var end = b.readVarint32();
-        for (var i = 0; 0 < end ? i < end : i > end; 0 < end ? i++ : i++) {
+        const result = [];
+        const end = b.readVarint32();
+        for (let i = 0; 0 < end ? i < end : i > end; 0 < end ? i++ : i++) {
             result.push([
                 key_st_operation.fromByteBuffer(b),
                 value_st_operation.fromByteBuffer(b)
@@ -842,7 +861,7 @@ Types.map = function(key_st_operation, value_st_operation){
     },
     fromObject(object){
         v.required(object);
-        var result = [];
+        const result = [];
         for (var i = 0, o; i < object.length; i++) {
             o = object[i];
             result.push([
@@ -863,7 +882,7 @@ Types.map = function(key_st_operation, value_st_operation){
         }
         v.required(object);
         object = this.validate(object);
-        var result = []
+        const result = []
         for (var i = 0, o; i < object.length; i++) {
             o = object[i];
             result.push([
@@ -936,9 +955,9 @@ Types.address =
     }
 }
 
-let strCmp = (a, b) => a > b ? 1 : a < b ? -1 : 0
-let firstEl = el => Array.isArray(el) ? el[0] : el
-let sortOperation = (array, st_operation) => {
+const strCmp = (a, b) => a > b ? 1 : a < b ? -1 : 0
+const firstEl = el => Array.isArray(el) ? el[0] : el
+const sortOperation = (array, st_operation) => {
     // console.log('operation.nosort', st_operation.nosort)
     return st_operation.nosort ? array :
     st_operation.compare ?

@@ -17,9 +17,9 @@ ChainTypes.operations = {
   transfer_to_vesting: 3,
   withdraw_vesting: 4,
   account_update: 5,
-  witness_update: 6,
-  account_witness_vote: 7,
-  account_witness_proxy: 8,
+  validator_update: 6,
+  account_validator_vote: 7,
+  account_validator_proxy: 8,
   delete_content: 9,
   custom: 10,
   set_withdraw_vesting_route: 11,
@@ -41,7 +41,7 @@ ChainTypes.operations = {
   curation_reward: 27,
   content_reward: 28,
   fill_vesting_withdraw: 29,
-  shutdown_witness: 30,
+  shutdown_validator: 30,
   hardfork: 31,
   content_payout_update: 32,
   content_benefactor_reward: 33,
@@ -53,7 +53,7 @@ ChainTypes.operations = {
   committee_approve_request: 39,
   committee_payout_request: 40,
   committee_pay_request: 41,
-  witness_reward: 42,
+  validator_reward: 42,
   create_invite: 43,
   claim_invite_balance: 44,
   invite_registration: 45,
@@ -75,7 +75,13 @@ ChainTypes.operations = {
   target_account_sale: 61,
   bid: 62,
   outbid: 63,
-  set_reward_sharing: 64
+  set_reward_sharing: 64,
+  // Aliases for backward compatibility
+  witness_update: 6,
+  account_witness_vote: 7,
+  account_witness_proxy: 8,
+  shutdown_witness: 30,
+  witness_reward: 42,
 };
 
 //types.hpp

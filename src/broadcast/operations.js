@@ -65,6 +65,15 @@ module.exports = [
   },
   {
     "roles": ["active"],
+    "operation": "validator_update",
+    "params": [
+      "owner",
+      "url",
+      "block_signing_key"
+    ]
+  },
+  {
+    "roles": ["active"],
     "operation": "witness_update",
     "params": [
       "owner",
@@ -82,11 +91,28 @@ module.exports = [
   },
   {
     "roles": ["regular"],
+    "operation": "account_validator_vote",
+    "params": [
+      "account",
+      "validator",
+      "approve"
+    ]
+  },
+  {
+    "roles": ["regular"],
     "operation": "account_witness_vote",
     "params": [
       "account",
       "witness",
       "approve"
+    ]
+  },
+  {
+    "roles": ["regular"],
+    "operation": "account_validator_proxy",
+    "params": [
+      "account",
+      "proxy"
     ]
   },
   {

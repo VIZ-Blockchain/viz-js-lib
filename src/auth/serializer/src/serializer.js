@@ -63,7 +63,11 @@ class Serializer {
             for (var i = 0, field; i < iterable.length; i++) {
                 field = iterable[i];
                 var type = this.types[field];
-                type.appendByteBuffer(b, object[field]);
+                var value = object[field];
+                if (value === undefined && Serializer.field_aliases[field] !== undefined) {
+                    value = object[Serializer.field_aliases[field]];
+                }
+                type.appendByteBuffer(b, value);
             }
         
         } catch (error) {
@@ -85,6 +89,9 @@ class Serializer {
                 field = iterable[i];
                 var type = this.types[field];
                 var value = serialized_object[field];
+                if (value === undefined && Serializer.field_aliases[field] !== undefined) {
+                    value = serialized_object[Serializer.field_aliases[field]];
+                }
                 //DEBUG value = value.resolve if value.resolve
                 //DEBUG console.log('... value',field,value)
                 var object = type.fromObject(value);
@@ -191,5 +198,15 @@ class Serializer {
         return new Buffer(this.toByteBuffer(object).toBinary(), 'binary');
     }
 }
+
+// Map new field name → old field name for backward compat when input uses old names
+Serializer.field_aliases = {
+    'validator': 'witness',
+    'validator_signature': 'witness_signature',
+    'inflation_validator_percent': 'inflation_witness_percent',
+    'validator_miss_penalty_percent': 'witness_miss_penalty_percent',
+    'validator_miss_penalty_duration': 'witness_miss_penalty_duration',
+    'validator_declaration_fee': 'witness_declaration_fee',
+};
 
 module.exports = Serializer

@@ -1,43 +1,80 @@
 module.exports = [
   {
-    "api": "witness_api",
+    "api": "validator_api",
     "method": "get_miner_queue"
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validator_schedule"
+  },
+  {
+    "api": "validator_api",
     "method": "get_witness_schedule"
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validators",
+    "params": ["validatorIds"]
+  },
+  {
+    "api": "validator_api",
     "method": "get_witnesses",
     "params": ["witnessIds"]
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validator_by_account",
+    "params": ["accountName"]
+  },
+  {
+    "api": "validator_api",
     "method": "get_witness_by_account",
     "params": ["accountName"]
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validators_by_vote",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "validator_api",
     "method": "get_witnesses_by_vote",
     "params": ["from", "limit"]
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validators_by_counted_vote",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "validator_api",
     "method": "get_witnesses_by_counted_vote",
     "params": ["from", "limit"]
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_validator_count"
+  },
+  {
+    "api": "validator_api",
     "method": "get_witness_count"
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "lookup_validator_accounts",
+    "params": ["lowerBoundName", "limit"]
+  },
+  {
+    "api": "validator_api",
     "method": "lookup_witness_accounts",
     "params": ["lowerBoundName", "limit"]
   },
   {
-    "api": "witness_api",
+    "api": "validator_api",
+    "method": "get_active_validators"
+  },
+  {
+    "api": "validator_api",
     "method": "get_active_witnesses"
   },
   {

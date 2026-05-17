@@ -10,7 +10,7 @@
     - [Keys](#keys)
     - [Accounts](#accounts)
     - [Authority / validation](#authority--validation)
-    - [Witnesses](#witnesses)
+    - [Validators](#validators)
     - [Committee API](#committee-api)
     - [Invite API](#invite-api)
     - [Paid subscription API](#paid-subscription-api)
@@ -350,45 +350,73 @@ viz.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
 });
 ```
 
-## Witnesses
+## Validators
 
 
-### Get Witnesses
+### Get Validators
 ```
-viz.api.getWitnesses(witnessIds, function(err, result) {
+viz.api.getValidators(validatorIds, function(err, result) {
   console.log(err, result);
 });
 ```
-### Get Witness By Account
+Deprecated alias: `viz.api.getWitnesses(witnessIds, ...)`
+
+### Get Validator By Account
 ```
-viz.api.getWitnessByAccount(accountName, function(err, result) {
+viz.api.getValidatorByAccount(accountName, function(err, result) {
   console.log(err, result);
 });
 ```
-### Get Witnesses By Vote
+Deprecated alias: `viz.api.getWitnessByAccount(accountName, ...)`
+
+### Get Validators By Vote
 ```
-viz.api.getWitnessesByVote(from, limit, function(err, result) {
+viz.api.getValidatorsByVote(from, limit, function(err, result) {
   console.log(err, result);
 });
 ```
-### Lookup Witness Accounts
+Deprecated alias: `viz.api.getWitnessesByVote(from, limit, ...)`
+
+### Get Validators By Counted Vote
 ```
-viz.api.lookupWitnessAccounts(lowerBoundName, limit, function(err, result) {
+viz.api.getValidatorsByCountedVote(from, limit, function(err, result) {
   console.log(err, result);
 });
 ```
-### Get Witness Count
+Deprecated alias: `viz.api.getWitnessesByCountedVote(from, limit, ...)`
+
+### Lookup Validator Accounts
 ```
-viz.api.getWitnessCount(function(err, result) {
+viz.api.lookupValidatorAccounts(lowerBoundName, limit, function(err, result) {
   console.log(err, result);
 });
 ```
-### Get Active Witnesses
+Deprecated alias: `viz.api.lookupWitnessAccounts(lowerBoundName, limit, ...)`
+
+### Get Validator Count
 ```
-viz.api.getActiveWitnesses(function(err, result) {
+viz.api.getValidatorCount(function(err, result) {
   console.log(err, result);
 });
 ```
+Deprecated alias: `viz.api.getWitnessCount(...)`
+
+### Get Active Validators
+```
+viz.api.getActiveValidators(function(err, result) {
+  console.log(err, result);
+});
+```
+Deprecated alias: `viz.api.getActiveWitnesses(...)`
+
+### Get Validator Schedule
+```
+viz.api.getValidatorSchedule(function(err, result) {
+  console.log(err, result);
+});
+```
+Deprecated alias: `viz.api.getWitnessSchedule(...)`
+
 ### Get Miner Queue
 ```
 viz.api.getMinerQueue(function(err, result) {
@@ -793,19 +821,22 @@ viz.broadcast.accountUpdate(masterWif, account, master, active, regular, memoKey
 
 
 
-### Account Witness Proxy
+### Account Validator Proxy
 
 ```
-viz.broadcast.accountWitnessProxy(wif, account, proxy, function(err, result) {
+viz.broadcast.accountValidatorProxy(wif, account, proxy, function(err, result) {
   console.log(err, result);
 });
 ```
-### Account Witness Vote
+Deprecated alias: `viz.broadcast.accountWitnessProxy(wif, account, proxy, ...)`
+
+### Account Validator Vote
 ```
-viz.broadcast.accountWitnessVote(wif, account, witness, approve, function(err, result) {
+viz.broadcast.accountValidatorVote(wif, account, validator, approve, function(err, result) {
   console.log(err, result);
 });
 ```
+Deprecated alias: `viz.broadcast.accountWitnessVote(wif, account, witness, approve, ...)`
 ### Change Recovery Account
 ```
 viz.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, extensions, function(err, result) {
@@ -912,13 +943,15 @@ viz.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result)
   console.log(err, result);
 });
 ```
-### Witness Update
+### Validator Update
 ```
-viz.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, function(err, result) {
+viz.broadcast.validatorUpdate(wif, owner, url, blockSigningKey, function(err, result) {
   console.log(err, result);
 });
 ```
-### Witness Chain Properties Update
+Deprecated alias: `viz.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, ...)`
+
+### Validator Chain Properties Update
 ```
 let chain_properties = {
   account_creation_fee:"1.000 VIZ",
@@ -938,7 +971,7 @@ viz.broadcast.chainPropertiesUpdate(wif, owner, chain_properties, function(err, 
   console.log(err, result);
 });
 ```
-### Witness Versioned Chain Properties Update
+### Validator Versioned Chain Properties Update
 ```
 var chain_properties_init = {
   account_creation_fee:"1.000 VIZ",
@@ -956,14 +989,14 @@ var chain_properties_init = {
 };
 
 var chain_properties_hf4=chain_properties_init;
-chain_properties_hf4.inflation_witness_percent=2000;
+chain_properties_hf4.inflation_validator_percent=2000;
 chain_properties_hf4.inflation_ratio_committee_vs_reward_fund=5000;
 chain_properties_hf4.inflation_recalc_period=2000;
 
 var chain_properties_hf6=chain_properties_hf4;
 chain_properties_hf6.data_operations_cost_additional_bandwidth=0;
-chain_properties_hf6.witness_miss_penalty_percent=10;
-chain_properties_hf6.witness_miss_penalty_duration=86400;
+chain_properties_hf6.validator_miss_penalty_percent=10;
+chain_properties_hf6.validator_miss_penalty_duration=86400;
 
 var chain_properties_hf9=chain_properties_hf6;
 chain_properties_hf9.create_invite_min_balance="10.000 VIZ";
@@ -971,7 +1004,7 @@ chain_properties_hf9.committee_create_request_fee="100.000 VIZ";
 chain_properties_hf9.create_paid_subscription_fee="100.000 VIZ";
 chain_properties_hf9.account_on_sale_fee="10.000 VIZ";
 chain_properties_hf9.subaccount_on_sale_fee="100.000 VIZ";
-chain_properties_hf9.witness_declaration_fee="10.000 VIZ";
+chain_properties_hf9.validator_declaration_fee="10.000 VIZ";
 chain_properties_hf9.withdraw_intervals=28;
 
 viz.broadcast.versionedChainPropertiesUpdate(wif, owner, [3,chain_properties_hf9], function(err, result) {
