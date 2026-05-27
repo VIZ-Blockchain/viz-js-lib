@@ -137,7 +137,14 @@ function renderNodeSelector() {
 $nodeSelect.addEventListener('change', () => {
   setSelectedNode($nodeSelect.value);
   renderNodeSelector();
-  applyHash(); // re-render with new node
+  // Update hash with new node (triggers hashchange → applyHash)
+  const { plugin, method, args } = parseHash();
+  if (plugin) {
+    navigateTo(plugin, method, args);
+  } else {
+    // No method selected — just re-render, no hash to update
+    applyHash();
+  }
 });
 
 $addBtn.addEventListener('click', () => {
