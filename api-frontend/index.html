@@ -8,20 +8,25 @@
 </head>
 <body>
   <div id="header">
+    <button id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
     <div id="header-brand">VIZ API Explorer</div>
     <div id="header-node">
       <label for="node-select">Node:</label>
       <select id="node-select"></select>
       <input id="custom-node-input" type="text" placeholder="https://custom.node.url" />
-      <button id="add-node-btn">Add</button>
-      <button id="remove-node-btn">Remove</button>
+      <div class="node-btn-row">
+        <button id="add-node-btn">Add</button>
+        <button id="remove-node-btn">Remove</button>
+      </div>
       <button id="check-nodes-btn">Check nodes</button>
     </div>
+    <button id="server-toggle" aria-label="Select server">&#9881;</button>
     <div id="theme-toggle">
       <a href="#" data-theme="light" title="Light theme">&#9788;</a>
       <a href="#" data-theme="dark" title="Dark theme">&#9790;</a>
     </div>
   </div>
+  <div id="sidebar-backdrop"></div>
   <div id="node-status-panel" class="hidden"></div>
   <div id="app">
     <div id="sidebar"></div>

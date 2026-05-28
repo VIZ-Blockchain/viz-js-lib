@@ -132,6 +132,9 @@ function renderNodeSelector() {
   });
   // enable/disable remove button
   $removeBtn.disabled = DEFAULT_NODES.includes(selected);
+  // Highlight server toggle when a non-default node is active
+  const serverBtn = document.getElementById('server-toggle');
+  if (serverBtn) serverBtn.classList.toggle('node-active', !DEFAULT_NODES.includes(selected));
 }
 
 $nodeSelect.addEventListener('change', () => {
@@ -216,7 +219,7 @@ function renderNodeCards(results) {
     }
   });
 
-  $statusPanel.innerHTML = '';
+  $statusPanel.querySelectorAll('.node-card').forEach(function(c) { c.remove(); });
   results.forEach(r => {
     const card = document.createElement('div');
     card.className = 'node-card';
@@ -248,11 +251,23 @@ function renderNodeCards(results) {
 async function checkAllNodes() {
   const all = getAllNodes();
   $statusPanel.classList.remove('hidden');
+  // Add close button if not already present
+  if (!$statusPanel.querySelector('.panel-close-btn')) {
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'panel-close-btn';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.title = 'Close';
+    closeBtn.addEventListener('click', function() {
+      $statusPanel.classList.add('hidden');
+    });
+    $statusPanel.insertBefore(closeBtn, $statusPanel.firstChild);
+  }
   $checkBtn.disabled = true;
   $checkBtn.textContent = 'Checking...';
 
-  // Show checking state for all nodes
-  $statusPanel.innerHTML = '';
+  // Show checking state for all nodes (preserve close button)
+  const existingCards = $statusPanel.querySelectorAll('.node-card');
+  existingCards.forEach(function(c) { c.remove(); });
   all.forEach(url => {
     const card = document.createElement('div');
     card.className = 'node-card node-checking';
@@ -821,3 +836,46 @@ document.querySelectorAll('#theme-toggle a').forEach(a => {
 
 renderNodeSelector();
 applyHash();
+
+// ─── Mobile UI toggles ───────────────────────────────────────────────────────
+const $menuToggle   = document.getElementById('menu-toggle');
+const $serverToggle = document.getElementById('server-toggle');
+const $sidebarEl    = document.getElementById('sidebar');
+const $backdrop     = document.getElementById('sidebar-backdrop');
+const $headerNodeEl = document.getElementById('header-node');
+
+function isMobile() { return window.innerWidth <= 768; }
+
+function closeMobileSidebar() {
+  $sidebarEl.classList.remove('open');
+  $backdrop.classList.remove('open');
+  document.body.classList.remove('sidebar-open');
+}
+
+$menuToggle.addEventListener('click', function() {
+  const isOpen = $sidebarEl.classList.toggle('open');
+  $backdrop.classList.toggle('open', isOpen);
+  document.body.classList.toggle('sidebar-open', isOpen);
+});
+
+$serverToggle.addEventListener('click', function() {
+  $headerNodeEl.classList.toggle('open');
+});
+
+$backdrop.addEventListener('click', closeMobileSidebar);
+
+// Close sidebar when a method link is tapped on mobile (not plugin headers)
+$sidebar.addEventListener('click', function(e) {
+  const item = e.target.closest('.sidebar-item');
+  if (item && !item.classList.contains('sidebar-plugin') && isMobile()) {
+    closeMobileSidebar();
+  }
+});
+
+// Clean up mobile state when resizing to desktop
+window.addEventListener('resize', function() {
+  if (!isMobile()) {
+    closeMobileSidebar();
+    $headerNodeEl.classList.remove('open');
+  }
+});
