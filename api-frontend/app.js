@@ -1,7 +1,6 @@
 /* global viz */
 // ─── Methods tree (from src/api/methods.js) ─────────────────────────────────
 const METHODS = [
-  {api:"validator_api",method:"get_miner_queue"},
   {api:"validator_api",method:"get_validator_schedule"},
   {api:"validator_api",method:"get_validators",params:["validatorIds"]},
   {api:"validator_api",method:"get_validator_by_account",params:["accountName"]},
@@ -23,7 +22,6 @@ const METHODS = [
   {api:"database_api",method:"get_hardfork_version"},
   {api:"database_api",method:"get_next_scheduled_hardfork"},
   {api:"database_api",method:"get_account_count"},
-  {api:"database_api",method:"get_owner_history",params:["account"]},
   {api:"database_api",method:"get_master_history",params:["account"]},
   {api:"database_api",method:"set_block_applied_callback",params:["callback"]},
   {api:"database_api",method:"get_recovery_request",params:["account"]},
@@ -37,7 +35,6 @@ const METHODS = [
   {api:"database_api",method:"get_accounts",params:["accountNames"]},
   {api:"database_api",method:"lookup_account_names",params:["accountNames"]},
   {api:"database_api",method:"lookup_accounts",params:["lowerBoundName","limit"]},
-  {api:"database_api",method:"get_proposed_transaction",params:["account"]},
   {api:"database_api",method:"get_database_info"},
   {api:"database_api",method:"get_vesting_delegations",params:["account","from","limit","type"]},
   {api:"database_api",method:"get_expiring_vesting_delegations",params:["account","from","limit"]},
@@ -354,8 +351,7 @@ const SPEC = {
     get_validators_by_vote: {d:"Returns validators sorted by total votes (descending). Starts from a given account name. Max 100 results.",p:{from:{c:"From Account",d:"Account name to start from. Empty string starts from the top."},limit:{c:"Limit",d:"Maximum number of results (max 100)."}}},
     get_validators_by_counted_vote: {d:"Returns validators sorted by counted votes (descending). Max 100 results.",p:{from:{c:"From Account",d:"Account name to start from. Empty string starts from the top."},limit:{c:"Limit",d:"Maximum number of results (max 100)."}}},
     get_validator_count: {d:"Returns the total number of registered validators on the blockchain."},
-    lookup_validator_accounts: {d:"Looks up validator account names starting from a lower bound. Returns up to 1000 results.",p:{lowerBoundName:{c:"Lower Bound Name",d:"Lower bound of the first account name. Empty string starts from the beginning."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}},
-    get_miner_queue: {d:"Returns the current miner queue."}
+    lookup_validator_accounts: {d:"Looks up validator account names starting from a lower bound. Returns up to 1000 results.",p:{lowerBoundName:{c:"Lower Bound Name",d:"Lower bound of the first account name. Empty string starts from the beginning."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}}
   },
   account_history: {
     get_account_history: {d:"Returns a map of operations for a given account in the sequence range [from-limit, from]. Use from=-1 for the most recent operations.",p:{account:{c:"Account Name",d:"The account name whose operation history to retrieve."},from:{c:"From Sequence",d:"Absolute sequence number. Use -1 for the most recent operation."},limit:{c:"Limit",d:"Maximum number of operations to return (1-1000)."}}}
@@ -375,7 +371,6 @@ const SPEC = {
     get_hardfork_version: {d:"Returns the current hardfork version of the blockchain."},
     get_next_scheduled_hardfork: {d:"Returns the next scheduled hardfork version and the time it is planned to go live."},
     get_account_count: {d:"Returns the total number of accounts registered on the blockchain."},
-    get_owner_history: {d:"Returns the owner authority change history for a given account.",p:{account:{c:"Account Name",d:"The account name whose owner history to retrieve."}}},
     get_master_history: {d:"Returns the master authority change history for a given account.",p:{account:{c:"Account Name",d:"The account name whose master authority history to retrieve."}}},
     set_block_applied_callback: {d:"Sets a callback triggered on each newly generated block (WebSocket only).",p:{callback:{c:"Callback",d:"Callback function to invoke when a new block is applied."}}},
     get_recovery_request: {d:"Returns the current account recovery request for an account, if one exists.",p:{account:{c:"Account Name",d:"The account name whose recovery request to check."}}},
@@ -389,7 +384,6 @@ const SPEC = {
     get_accounts: {d:"Returns full account objects for a list of account names, including balances, vesting, authority, and validator votes.",p:{accountNames:{c:"Account Names",d:"Array of account names to look up.",t:"array"}}},
     lookup_account_names: {d:"Looks up accounts by their names. Returns null for accounts that do not exist.",p:{accountNames:{c:"Account Names",d:"Array of account names to look up.",t:"array"}}},
     lookup_accounts: {d:"Looks up account names starting from a lower bound in alphabetical order.",p:{lowerBoundName:{c:"Lower Bound Name",d:"Lower bound of the first account name."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}},
-    get_proposed_transaction: {d:"Returns proposed transactions (proposals) associated with a given account.",p:{account:{c:"Account Name",d:"The account name whose proposals to retrieve."}}},
     get_database_info: {d:"Returns database shared memory usage information including total size, free size, and per-index record counts."},
     get_vesting_delegations: {d:"Returns vesting delegation objects for a given account with pagination.",p:{account:{c:"Account Name",d:"The delegator or delegatee account name."},from:{c:"From",d:"Account name to start from for pagination."},limit:{c:"Limit",d:"Maximum number of results (default 100, max 1000)."},type:{c:"Delegation Type",d:"Filter: 'delegated' (sent) or 'received'."}}},
     get_expiring_vesting_delegations: {d:"Returns expiring vesting delegation objects for a given account.",p:{account:{c:"Account Name",d:"The delegator account name."},from:{c:"From Date",d:"Start date/time for expiration lookup (ISO timestamp)."},limit:{c:"Limit",d:"Maximum number of results (default 100, max 1000)."}}},
@@ -587,14 +581,29 @@ function renderMultiRow(paramName, caption, index, value, total) {
 }
 
 function bindMultiInputEvents(wrap) {
+  // Track whether the last input already had content (to avoid adding a row per keystroke)
+  let _lastInputHadValue = false;
+
+  wrap.addEventListener('focusin', function(e) {
+    // Reset tracking when focus enters any input in this wrap
+    if (e.target.classList.contains('mi-input')) {
+      const rows = wrap.querySelectorAll('.multi-input-row');
+      const lastRow = rows[rows.length - 1];
+      const lastInput = lastRow.querySelector('.mi-input');
+      _lastInputHadValue = (e.target === lastInput && lastInput.value !== '');
+    }
+  });
+
   wrap.addEventListener('input', function(e) {
     if (!e.target.classList.contains('mi-input')) return;
     const rows = wrap.querySelectorAll('.multi-input-row');
     const lastRow = rows[rows.length - 1];
     const lastInput = lastRow.querySelector('.mi-input');
-    // Auto-add row when typing in last input
-    if (e.target === lastInput && lastInput.value !== '') {
+    // Auto-add row only when the last input goes from empty → non-empty
+    if (e.target === lastInput && !_lastInputHadValue && lastInput.value !== '') {
+      _lastInputHadValue = true;
       addMultiRow(wrap);
+      // _lastInputHadValue resets on next focusin to the new last input
     }
   });
   wrap.addEventListener('click', function(e) {
