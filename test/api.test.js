@@ -6,7 +6,6 @@ import should from 'should';
 
 import viz, { VIZ } from '../src/api/index';
 import config from '../src/config';
-import testPost from './test-post.json';
 
 describe('viz.api:', function () {
   this.timeout(30 * 1000);
@@ -29,6 +28,11 @@ describe('viz.api:', function () {
   });
 
   describe('setWebSocket', () => {
+    const originalNode = config.get('websocket');
+    after(() => {
+      viz.setWebSocket(originalNode);
+    });
+
     it('works', () => {
       viz.setWebSocket('ws://localhost');
       config.get('websocket').should.be.eql('ws://localhost');
@@ -39,36 +43,13 @@ describe('viz.api:', function () {
     await viz.apiIdsP;
   });
 
-  describe('getFollowers', () => {
-    describe('getting viz\'s followers', () => {
+  describe('getAccounts', () => {
+    describe('getting viz\'s account', () => {
       it('works', async () => {
-        const followersCount = 1;
-        const result = await viz.getFollowersAsync('viz', 0, 'blog', followersCount);
-        assert(result, 'getFollowersAsync resoved to null?');
-        result.should.have.lengthOf(followersCount);
-      });
-
-      it('the startFollower parameter has an impact on the result', async () => {
-        const followersCount = 1;
-        // Get the first followersCount
-        const result1 = await viz.getFollowersAsync('viz', 0, 'blog', followersCount)
-        result1.should.have.lengthOf(followersCount);
-        const result2 = await viz.getFollowersAsync('viz', result1[result1.length - 1].follower, 'blog', followersCount)
-        result2.should.have.lengthOf(followersCount);
-        result1.should.not.be.eql(result2);
-      });
-
-      it('clears listeners', async () => {
-        viz.listeners('message').should.have.lengthOf(0);
-      });
-    });
-  });
-
-  describe('getContent', () => {
-    describe('getting a random post', () => {
-      it('works', async () => {
-        const result = await viz.getContentAsync('pal', '2scmtp-test');
-        result.should.have.properties(testPost);
+        const result = await viz.getAccountsAsync(['viz']);
+        assert(result, 'getAccountsAsync resolved to null?');
+        result.should.have.lengthOf(1);
+        result[0].should.have.property('name', 'viz');
       });
 
       it('clears listeners', async () => {
@@ -180,9 +161,8 @@ describe('viz.api:', function () {
       const viz = new VIZ();
       // console.log('RECONNECT TEST start');
       assert(!viz.ws, 'There was a websocket connection before a call?');
-      // console.log('RECONNECT TEST make followers call');
-      const followersCount = 1;
-      await viz.getFollowersAsync('viz', 0, 'blog', followersCount);
+      // console.log('RECONNECT TEST make accounts call');
+      await viz.getAccountsAsync(['viz']);
       assert(viz.ws, 'There was no websocket connection after a call?');
       // console.log('RECONNECT TEST wait 1s');
       await Promise.delay(1000);
@@ -192,8 +172,8 @@ describe('viz.api:', function () {
       assert(!viz.ws);
       assert(!viz.startP);
       assert(viz.stop.calledOnce, 'VIZ::stop wasn\'t called when the connection closed?');
-      // console.log('RECONNECT TEST make followers call');
-      await viz.getFollowersAsync('viz', 0, 'blog', followersCount);
+      // console.log('RECONNECT TEST make accounts call');
+      await viz.getAccountsAsync(['viz']);
       assert(viz.ws, 'There was no websocket connection after a call?');
       assert(viz.isOpen, 'There was no websocket connection after a call?');
     });

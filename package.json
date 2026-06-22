@@ -5,6 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -t 20000 --require babel-polyfill --require babel-register",
+    "test-ci": "npm test -- --fgrep 'viz.broadcast:' --invert",
+    "test-broadcast": "npm test -- --fgrep 'viz.broadcast:'",
     "test-auth": "npm test -- --grep 'viz.auth'",
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",

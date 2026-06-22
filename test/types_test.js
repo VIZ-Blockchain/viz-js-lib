@@ -57,9 +57,9 @@ describe("viz.auth: types", function() {
             ["VIZ8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
         ])
         let mapObject = mapType.toObject(map)
-        assert.deepEqual(mapObject, [ // sorted (uppercase comes first)
-            ["VIZ8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
+        assert.deepEqual(mapObject, [ // sorted ascending by string representation
             ["VIZ56ankGHKf6qUsQe7vPsXTSEqST6Dt1ff73aV3YQbedzRua8NLQ",0],
+            ["VIZ8me6d9PqzTgcoHxx6b4rnvWVTqz11kafidRAZwfacJkcJtfd75",0],
         ])
     })
 
