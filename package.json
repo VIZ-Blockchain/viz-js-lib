@@ -5,8 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -t 20000 --require babel-polyfill --require babel-register",
-    "test-ci": "npm test -- --fgrep 'viz.broadcast:' --invert",
-    "test-broadcast": "npm test -- --fgrep 'viz.broadcast:'",
+    "test-ci": "npm test -- --exclude test/broadcast.test.js --exclude test/comment.test.js --exclude test/api.ws.test.js",
+    "test-broadcast": "mocha -t 20000 --require babel-polyfill --require babel-register test/broadcast.test.js test/comment.test.js",
+    "test-ws": "mocha -t 30000 --require babel-polyfill --require babel-register test/api.ws.test.js",
     "test-auth": "npm test -- --grep 'viz.auth'",
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",
