@@ -118,6 +118,8 @@ ChainTypes.operations = {
   pm_unban: 99,
   // Prediction Markets (HF14) — ban expiry virtual operation
   pm_ban_expired: 100,
+  // Prediction Markets (HF14) — oracle-accept-window expiry virtual operation
+  pm_market_expired: 101,
   // Aliases for backward compatibility (old witness names)
   witness_update: 6,
   account_witness_vote: 7,

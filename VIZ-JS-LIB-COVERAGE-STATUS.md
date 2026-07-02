@@ -10,11 +10,11 @@
 | Category | Total | Implemented | Missing | Coverage |
 |----------|-------|-------------|---------|----------|
 | **Regular Operations** | 54 | 54 | 0 | 100% |
-| **Virtual Operations** | 35 | 35 | 0 | 100% |
+| **Virtual Operations** | 36 | 36 | 0 | 100% |
 | **Plugin API Methods** | 117 | 115 | 2 | 98% |
 
 Includes the HF14 Prediction Markets additions: 23 signed ops + `stakeholder_reward`
-and 12 PM virtual ops in the serializer, and 29 `prediction_market_api` read methods.
+and 13 PM virtual ops in the serializer, and 29 `prediction_market_api` read methods.
 
 **Overall Status:** ✅ **FULL COVERAGE**
 
@@ -22,7 +22,7 @@ and 12 PM virtual ops in the serializer, and 29 `prediction_market_api` read met
 
 ## Prediction Markets (Onix, HF14)
 
-Op-ids are the exact positions in the global `operation` static_variant (65–100),
+Op-ids are the exact positions in the global `operation` static_variant (65–101),
 so binary signing produces the correct varint tag. `stakeholder_reward` (65, virtual)
 was added to close the gap before the PM range.
 
@@ -60,7 +60,7 @@ was added to close the gap before the PM range.
 `pm_auto_payout` (86), `pm_dispute_finalize` (87), `pm_dispute_auto_close` (88),
 `pm_oracle_missed_penalty` (89), `pm_lazy_recall` (90), `pm_leverage_liquidate` (94),
 `pm_leverage_resolve` (95), `pm_market_accepted` (96), `pm_payout` (97),
-`pm_ban_expired` (100).
+`pm_ban_expired` (100), `pm_market_expired` (101).
 
 ### API read methods (`viz.api.*`, plugin `prediction_market_api`)
 
@@ -79,6 +79,22 @@ was added to close the gap before the PM range.
   carrying the PM governance parameters (spec §9).
 - `viz.formatter.predictionMarketCommitment(marketId, account, side, outcomeIndex, amount, minTokens, salt)`
   — byte-exact SHA-256 commitment for the commit-reveal flow.
+
+### Delta — 2026-07 (oracle-accept window + lazy-pool min-fee)
+
+Two consensus additions surfaced through existing read methods — no new signed op.
+The serializer gained one virtual op (`pm_market_expired`, 101, added above).
+
+- `getPmChainProperties` now also returns `pm_oracle_accept_window_sec` (uint32, seconds,
+  default 3600) and `pm_lazy_min_liquidity_fee_percent` (uint16, bp, default 200). These are
+  pass-through fields — no client code change needed to read them.
+- `pm_market_object` now carries a read-only `accept_deadline` (time): `created_time +
+  pm_oracle_accept_window_sec` on pending markets, `0` (epoch) on markets active at creation.
+  Surfaced pass-through via `getMarket`/`getMarketFull`.
+- `pm_market_expired` (vop 101): `oracle`, `creator`, `market_id` (int64),
+  `refunded_liquidity` (asset) — emitted when the oracle-accept window lapses and the cron
+  refunds the creator's seed liquidity (creation fee forfeited). A rejected market emits no
+  vop — detect via `status = -1`.
 
 ---
 

@@ -520,7 +520,10 @@ full object schemas and enums.
 ### Markets
 ```js
 viz.api.getMarket(market_id, function(err, result) { console.log(err, result); });
-// status: -1 deleted, 0 waiting, 1 active, 2 closed, 3 resolved
+// status: -1 deleted/rejected, 0 waiting, 1 active, 2 closed, 3 resolved
+// accept_deadline (time): on a pending market = created_time + pm_oracle_accept_window_sec
+//   (show as a countdown); 0/epoch on markets active at creation. If the oracle misses the
+//   window the cron refunds the creator's seed and emits pm_market_expired (vop 101).
 // show_risky (optional, default false): reveal under-collateralized markets
 viz.api.listMarkets(status, from, limit, show_risky, function(err, result) { console.log(err, result); });
 viz.api.listMarketsByOracle(oracle, from, limit, function(err, result) { console.log(err, result); });
@@ -567,7 +570,10 @@ viz.api.getLazyPool(function(err, result) { console.log(err, result); });
 viz.api.getLazyDeposit(account, function(err, result) { console.log(err, result); });
 viz.api.getLazyAllocations(from, limit, function(err, result) { console.log(err, result); });
 viz.api.getMarketLazyAllocation(market_id, function(err, result) { console.log(err, result); });
-// median (active, consensus) values of every PM governance parameter
+// median (active, consensus) values of every PM governance parameter.
+// Includes pm_oracle_accept_window_sec (uint32, seconds, default 3600) and
+// pm_lazy_min_liquidity_fee_percent (uint16, bp, default 200) — read them live,
+// don't hard-code. Below the lazy floor the lazy pool won't co-provide liquidity.
 viz.api.getPmChainProperties(function(err, result) { console.log(err, result); });
 ```
 

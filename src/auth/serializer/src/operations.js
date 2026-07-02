@@ -1400,6 +1400,16 @@ const pm_ban_expired = new Serializer(
     }
 );
 
+// 101 — pm_market_expired (virtual)
+const pm_market_expired = new Serializer(
+    "pm_market_expired", {
+        oracle: string,
+        creator: string,
+        market_id: int64,
+        refunded_liquidity: asset
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -1467,7 +1477,7 @@ operation.st_operations = [
     outbid,
     set_reward_sharing,
     stakeholder_reward,
-    // Prediction Markets (HF14) — op-ids 66..100, positional order is the tag
+    // Prediction Markets (HF14) — op-ids 66..101, positional order is the tag
     pm_oracle_register,
     pm_oracle_update,
     pm_create_market,
@@ -1502,7 +1512,8 @@ operation.st_operations = [
     pm_payout,
     pm_dispute_oracle_respond,
     pm_unban,
-    pm_ban_expired
+    pm_ban_expired,
+    pm_market_expired
 ];
 
 // Export old witness names as aliases for backward compatibility
