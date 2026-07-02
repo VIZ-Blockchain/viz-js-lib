@@ -19,6 +19,17 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org
 
+      - name: Verify version matches release tag
+        run: |
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          TAG="${{ github.event.release.tag_name }}"
+          TAG_VERSION="${TAG#v}"
+          echo "package.json: $PKG_VERSION, release tag: $TAG_VERSION"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match release tag ($TAG_VERSION). Tag the release on the commit that bumps the version."
+            exit 1
+          fi
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
