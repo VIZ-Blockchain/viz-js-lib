@@ -1,7 +1,7 @@
 # VIZ-JS-LIB Coverage Status
 
-**Date:** 03.03.2026
-**Based on:** viz-cpp-node documentation
+**Date:** 02.07.2026
+**Based on:** viz-cpp-node documentation + Prediction Markets (Onix, HF14) integration spec
 
 ---
 
@@ -9,11 +9,76 @@
 
 | Category | Total | Implemented | Missing | Coverage |
 |----------|-------|-------------|---------|----------|
-| **Regular Operations** | 31 | 31 | 0 | 100% |
-| **Virtual Operations** | 22 | 22 | 0 | 100% |
-| **Plugin API Methods** | 88 | 86 | 2 | 98% |
+| **Regular Operations** | 54 | 54 | 0 | 100% |
+| **Virtual Operations** | 35 | 35 | 0 | 100% |
+| **Plugin API Methods** | 117 | 115 | 2 | 98% |
+
+Includes the HF14 Prediction Markets additions: 23 signed ops + `stakeholder_reward`
+and 12 PM virtual ops in the serializer, and 29 `prediction_market_api` read methods.
 
 **Overall Status:** ✅ **FULL COVERAGE**
+
+---
+
+## Prediction Markets (Onix, HF14)
+
+Op-ids are the exact positions in the global `operation` static_variant (65–100),
+so binary signing produces the correct varint tag. `stakeholder_reward` (65, virtual)
+was added to close the gap before the PM range.
+
+### Signed operations (`viz.broadcast.*`) — auth: active, except `pmDisputeVote` (regular)
+
+| ID | Operation | Builder |
+|----|-----------|---------|
+| 66 | `pm_oracle_register` | `pmOracleRegister` |
+| 67 | `pm_oracle_update` | `pmOracleUpdate` |
+| 68 | `pm_create_market` | `pmCreateMarket` |
+| 69 | `pm_oracle_accept_market` | `pmOracleAcceptMarket` |
+| 70 | `pm_place_bet` | `pmPlaceBet` |
+| 71 | `pm_commit_bet` | `pmCommitBet` |
+| 72 | `pm_reveal_bet` | `pmRevealBet` |
+| 73 | `pm_cancel_bet` | `pmCancelBet` |
+| 74 | `pm_add_liquidity` | `pmAddLiquidity` |
+| 75 | `pm_withdraw_liquidity` | `pmWithdrawLiquidity` |
+| 76 | `pm_resolve_market` | `pmResolveMarket` |
+| 77 | `pm_no_contest` | `pmNoContest` |
+| 78 | `pm_dispute_create` | `pmDisputeCreate` |
+| 79 | `pm_dispute_vote` *(regular)* | `pmDisputeVote` |
+| 80 | `pm_dispute_resolve` | `pmDisputeResolve` |
+| 81 | `pm_transfer_position` | `pmTransferPosition` |
+| 82 | `pm_lazy_deposit` | `pmLazyDeposit` |
+| 83 | `pm_lazy_withdraw` | `pmLazyWithdraw` |
+| 91 | `pm_leverage_open` | `pmLeverageOpen` |
+| 92 | `pm_leverage_close` | `pmLeverageClose` |
+| 93 | `pm_leverage_convert` | `pmLeverageConvert` |
+| 98 | `pm_dispute_oracle_respond` | `pmDisputeOracleRespond` |
+| 99 | `pm_unban` | `pmUnban` |
+
+### Virtual operations (serializer decode only)
+
+`stakeholder_reward` (65), `pm_batch_settle` (84), `pm_commit_forfeit` (85),
+`pm_auto_payout` (86), `pm_dispute_finalize` (87), `pm_dispute_auto_close` (88),
+`pm_oracle_missed_penalty` (89), `pm_lazy_recall` (90), `pm_leverage_liquidate` (94),
+`pm_leverage_resolve` (95), `pm_market_accepted` (96), `pm_payout` (97),
+`pm_ban_expired` (100).
+
+### API read methods (`viz.api.*`, plugin `prediction_market_api`)
+
+`getMarket`, `listMarkets`, `listMarketsByOracle`, `listMarketsByCreator`,
+`getMarketOutcomes`, `getMarketWeightSums`, `getMarketBets`, `getAccountPositions`,
+`getMarketLiquidity`, `getMarketFull`, `getAccountLeveragePositions`,
+`getMarketLeveragePositions`, `getCreatorBan`, `getLeverageQuote`,
+`getLeverageClosePreview`, `getLeverageConvertPreview`, `getOracle`, `listOracles`,
+`getDispute`, `getDisputeVotes`, `getLazyPool`, `getLazyDeposit`, `getLazyAllocations`,
+`getMarketLazyAllocation`, `getPmChainProperties`, `getMarketMeta`,
+`listMarketsByCategory`, `getMarketCategories`, `getMarketKline`.
+
+### Chain properties & helpers
+
+- `versioned_chain_properties_update` gains a `chain_properties_hf14` variant (tag 5)
+  carrying the PM governance parameters (spec §9).
+- `viz.formatter.predictionMarketCommitment(marketId, account, side, outcomeIndex, amount, minTokens, salt)`
+  — byte-exact SHA-256 commitment for the commit-reveal flow.
 
 ---
 

@@ -21,7 +21,9 @@ import types from "./types"
 import SerializerImpl from "./serializer"
 
 const {
+    int8,
     int16,
+    int64,
     uint8,
     uint16,
     uint32,
@@ -730,6 +732,85 @@ const chain_properties_hf13 = new Serializer(
   }
 );
 
+// HF14: adds the Prediction-Market governance parameters (chain_properties_pm)
+// on top of every HF13 field. Field order and units follow the integration
+// spec §9 (get_pm_chain_properties). Percents that are plain-% or bp both fit
+// uint16; durations/counters use uint32; monetary knobs are asset (VIZ).
+const chain_properties_hf14 = new Serializer(
+    5, {
+        account_creation_fee: asset,
+        maximum_block_size: uint32,
+        create_account_delegation_ratio: uint32,
+        create_account_delegation_time: uint32,
+        min_delegation: asset,
+        min_curation_percent: int16,
+        max_curation_percent: int16,
+        bandwidth_reserve_percent: int16,
+        bandwidth_reserve_below: asset,
+        flag_energy_additional_cost: int16,
+        vote_accounting_min_rshares: uint32,
+        committee_request_approve_min_percent: int16,
+        inflation_validator_percent: int16,
+        inflation_ratio_committee_vs_reward_fund: int16,
+        inflation_recalc_period: uint32,
+        data_operations_cost_additional_bandwidth: uint32,
+        validator_miss_penalty_percent: int16,
+        validator_miss_penalty_duration: uint32,
+        create_invite_min_balance: asset,
+        committee_create_request_fee: asset,
+        create_paid_subscription_fee: asset,
+        account_on_sale_fee: asset,
+        subaccount_on_sale_fee: asset,
+        validator_declaration_fee: asset,
+        withdraw_intervals: uint16,
+        distribution_epoch_length: uint32,
+        // --- Prediction Markets (HF14) governance parameters ---
+        pm_oracle_registration_fee: asset,
+        pm_min_oracle_insurance: asset,
+        pm_market_creation_fee: asset,
+        pm_min_liquidity: asset,
+        pm_max_outcomes: uint16,
+        pm_max_market_duration: uint32,
+        pm_max_oracle_fee_percent: uint16,
+        pm_listing_min_coverage_percent: uint16,
+        pm_betting_min_coverage_percent: uint16,
+        pm_default_time_penalty_percent: uint16,
+        pm_max_time_penalty: uint32,
+        pm_dispute_fee: asset,
+        pm_dispute_grace_sec: uint32,
+        pm_oracle_dispute_response_sec: uint32,
+        pm_dispute_auto_close_sec: uint32,
+        pm_dispute_vote_period_sec: uint32,
+        pm_dispute_approve_min_percent: uint16,
+        pm_oracle_penalty_percent: uint16,
+        pm_no_contest_penalty_percent: uint16,
+        pm_dispute_reward_multiplier: uint32,
+        pm_batch_epoch_blocks: uint32,
+        pm_reveal_window_blocks: uint32,
+        pm_commit_no_reveal_penalty_percent: uint16,
+        pm_min_batch_bet: asset,
+        pm_commit_reveal_enabled: bool,
+        pm_processing_cap_per_block: uint32,
+        pm_lazy_pool_enabled: bool,
+        pm_lazy_alloc_percent: uint16,
+        pm_lazy_max_total_alloc_percent: uint16,
+        pm_lazy_lock_sec: uint32,
+        pm_lazy_recall_step_percent: uint16,
+        pm_lazy_emergency_penalty_percent: uint16,
+        pm_leverage_enabled: bool,
+        pm_leverage_fund_percent: uint16,
+        pm_leverage_max_per_position_bp: uint16,
+        pm_leverage_pool_profit_percent: uint16,
+        pm_leverage_safety_margin_percent: uint16,
+        pm_leverage_max_slippage_percent: uint16,
+        pm_leverage_min_market_liquidity: asset,
+        pm_leverage_max_position_ratio_percent: uint16,
+        pm_leverage_expiration_buffer_sec: uint32,
+        pm_leverage_m_factor_percent: uint16,
+        pm_conversion_profit_cost_percent: uint16
+  }
+);
+
 const versioned_chain_properties_update = new Serializer(
     "versioned_chain_properties_update", {
         owner: string,
@@ -738,7 +819,8 @@ const versioned_chain_properties_update = new Serializer(
             chain_properties_hf4,
             chain_properties_hf6,
             chain_properties_hf9,
-            chain_properties_hf13
+            chain_properties_hf13,
+            chain_properties_hf14
         ])
     }
 );
@@ -884,6 +966,440 @@ const set_reward_sharing = new Serializer(
     }
 );
 
+// ---------------------------------------------------------------------------
+//  Stakeholder reward (op-id 65) — virtual op, emitted per stakeholder per
+//  validator at each distribution epoch end. Parsed from history only.
+// ---------------------------------------------------------------------------
+const stakeholder_reward = new Serializer(
+    "stakeholder_reward", {
+        validator: string,
+        stakeholder: string,
+        shares: asset
+    }
+);
+
+// ===========================================================================
+//  Prediction Markets (Onix, HF14) — op-ids 66..100
+//  User ops end with `extensions` (empty set); virtual ops have none.
+//  Field order below is the declared (binary) order from the integration spec.
+//  share_type / pm_object_id_type fields are int64; percents are uint16 unless
+//  noted; `side` is int8; `commitment` is a 32-byte sha256 (bytes(32)).
+// ===========================================================================
+
+// 66 — pm_oracle_register (active: owner)
+const pm_oracle_register = new Serializer(
+    "pm_oracle_register", {
+        owner: string,
+        insurance: asset,
+        fee_percent: uint16,
+        fixed_fee: asset,
+        rules_url: string,
+        auto_accept_creator: string,
+        auto_accept_resolver: string,
+        auto_accept: bool,
+        extensions: set(future_extensions)
+    }
+);
+
+// 67 — pm_oracle_update (active: owner) — all change fields optional
+const pm_oracle_update = new Serializer(
+    "pm_oracle_update", {
+        owner: string,
+        insurance_delta: optional(asset),
+        fee_percent: optional(uint16),
+        fixed_fee: optional(asset),
+        rules_url: optional(string),
+        auto_accept_creator: optional(string),
+        auto_accept_resolver: optional(string),
+        auto_accept: optional(bool),
+        extensions: set(future_extensions)
+    }
+);
+
+// 68 — pm_create_market (active: creator)
+const pm_create_market = new Serializer(
+    "pm_create_market", {
+        creator: string,
+        oracle: string,
+        market_type: uint8,
+        outcomes: array(string),
+        url: string,
+        oracle_fee_percent: uint16,
+        oracle_fixed_fee: asset,
+        creator_fee_percent: uint16,
+        liquidity_fee_percent: uint16,
+        liquidity: asset,
+        lmsr_b: int64,
+        betting_expiration: time_point_sec,
+        result_expiration: time_point_sec,
+        time_penalty_type: uint8,
+        time_penalty_value: uint32,
+        penalty_curve_type: uint8,
+        allow_early_resolution: bool,
+        allow_cancellation: bool,
+        allow_batch: bool,
+        allow_instant_bet: bool,
+        endogeneity_tier: uint8,
+        dispute_mode: uint8,
+        dispute_resolver: string,
+        dispute_penalty_percent: int16,
+        metadata: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 69 — pm_oracle_accept_market (active: oracle)
+const pm_oracle_accept_market = new Serializer(
+    "pm_oracle_accept_market", {
+        oracle: string,
+        market_id: int64,
+        accept: bool,
+        oracle_fee_percent: uint16,
+        oracle_fixed_fee: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+// 70 — pm_place_bet (active: account)
+const pm_place_bet = new Serializer(
+    "pm_place_bet", {
+        account: string,
+        market_id: int64,
+        side: int8,
+        outcome_index: int16,
+        amount: asset,
+        min_tokens: int64,
+        mode: uint8,
+        extensions: set(future_extensions)
+    }
+);
+
+// 71 — pm_commit_bet (active: account)
+const pm_commit_bet = new Serializer(
+    "pm_commit_bet", {
+        account: string,
+        market_id: int64,
+        commitment: bytes(32),
+        escrow_amount: asset,
+        no_reveal_fee_percent: uint16,
+        extensions: set(future_extensions)
+    }
+);
+
+// 72 — pm_reveal_bet (active: account)
+const pm_reveal_bet = new Serializer(
+    "pm_reveal_bet", {
+        account: string,
+        commit_id: int64,
+        side: int8,
+        outcome_index: int16,
+        amount: asset,
+        salt: string,
+        min_tokens: int64,
+        extensions: set(future_extensions)
+    }
+);
+
+// 73 — pm_cancel_bet (active: account)
+const pm_cancel_bet = new Serializer(
+    "pm_cancel_bet", {
+        account: string,
+        bet_id: int64,
+        min_return: int64,
+        extensions: set(future_extensions)
+    }
+);
+
+// 74 — pm_add_liquidity (active: provider)
+const pm_add_liquidity = new Serializer(
+    "pm_add_liquidity", {
+        provider: string,
+        market_id: int64,
+        amount: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+// 75 — pm_withdraw_liquidity (active: provider)
+const pm_withdraw_liquidity = new Serializer(
+    "pm_withdraw_liquidity", {
+        provider: string,
+        liquidity_id: int64,
+        amount: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+// 76 — pm_resolve_market (active: oracle)
+const pm_resolve_market = new Serializer(
+    "pm_resolve_market", {
+        oracle: string,
+        market_id: int64,
+        winning_outcome: int16,
+        decision_url: string,
+        decision_reason: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 77 — pm_no_contest (active: oracle)
+const pm_no_contest = new Serializer(
+    "pm_no_contest", {
+        oracle: string,
+        market_id: int64,
+        reason: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 78 — pm_dispute_create (active: disputer)
+const pm_dispute_create = new Serializer(
+    "pm_dispute_create", {
+        disputer: string,
+        market_id: int64,
+        proposed_outcome: int16,
+        reason: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 79 — pm_dispute_vote (regular: voter)
+const pm_dispute_vote = new Serializer(
+    "pm_dispute_vote", {
+        voter: string,
+        market_id: int64,
+        vote_outcome: int16,
+        vote_percent: int16,
+        extensions: set(future_extensions)
+    }
+);
+
+// 80 — pm_dispute_resolve (active: resolver)
+const pm_dispute_resolve = new Serializer(
+    "pm_dispute_resolve", {
+        resolver: string,
+        market_id: int64,
+        correct_outcome: int16,
+        penalty_amount: asset,
+        ban_oracle: bool,
+        ban_oracle_until: time_point_sec,
+        ban_creator: bool,
+        ban_creator_until: time_point_sec,
+        extensions: set(future_extensions)
+    }
+);
+
+// 81 — pm_transfer_position (active: from)
+const pm_transfer_position = new Serializer(
+    "pm_transfer_position", {
+        from: string,
+        bet_id: int64,
+        to: string,
+        amount: int64,
+        memo: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 82 — pm_lazy_deposit (active: account)
+const pm_lazy_deposit = new Serializer(
+    "pm_lazy_deposit", {
+        account: string,
+        amount: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+// 83 — pm_lazy_withdraw (active: account)
+const pm_lazy_withdraw = new Serializer(
+    "pm_lazy_withdraw", {
+        account: string,
+        shares: int64,
+        emergency: bool,
+        extensions: set(future_extensions)
+    }
+);
+
+// 84 — pm_batch_settle (virtual)
+const pm_batch_settle = new Serializer(
+    "pm_batch_settle", {
+        market_id: int64,
+        epoch: uint32,
+        settled_bets: uint32
+    }
+);
+
+// 85 — pm_commit_forfeit (virtual)
+const pm_commit_forfeit = new Serializer(
+    "pm_commit_forfeit", {
+        account: string,
+        commit_id: int64,
+        market_id: int64,
+        penalty: asset,
+        refund: asset
+    }
+);
+
+// 86 — pm_auto_payout (virtual)
+const pm_auto_payout = new Serializer(
+    "pm_auto_payout", {
+        account: string,
+        market_id: int64,
+        bet_id: int64,
+        payout: asset
+    }
+);
+
+// 87 — pm_dispute_finalize (virtual)
+const pm_dispute_finalize = new Serializer(
+    "pm_dispute_finalize", {
+        market_id: int64,
+        winning_outcome: int16,
+        oracle_penalty: asset
+    }
+);
+
+// 88 — pm_dispute_auto_close (virtual)
+const pm_dispute_auto_close = new Serializer(
+    "pm_dispute_auto_close", {
+        market_id: int64,
+        oracle_penalty: asset
+    }
+);
+
+// 89 — pm_oracle_missed_penalty (virtual)
+const pm_oracle_missed_penalty = new Serializer(
+    "pm_oracle_missed_penalty", {
+        oracle: string,
+        market_id: int64,
+        slashed: asset
+    }
+);
+
+// 90 — pm_lazy_recall (virtual)
+const pm_lazy_recall = new Serializer(
+    "pm_lazy_recall", {
+        market_id: int64,
+        recalled: asset
+    }
+);
+
+// 91 — pm_leverage_open (active: account)
+const pm_leverage_open = new Serializer(
+    "pm_leverage_open", {
+        account: string,
+        market_id: int64,
+        outcome_index: int16,
+        collateral: asset,
+        loan: asset,
+        min_tokens: int64,
+        max_slippage_percent: uint16,
+        extensions: set(future_extensions)
+    }
+);
+
+// 92 — pm_leverage_close (active: account)
+const pm_leverage_close = new Serializer(
+    "pm_leverage_close", {
+        account: string,
+        position_id: int64,
+        min_return: int64,
+        extensions: set(future_extensions)
+    }
+);
+
+// 93 — pm_leverage_convert (active: account)
+const pm_leverage_convert = new Serializer(
+    "pm_leverage_convert", {
+        account: string,
+        position_id: int64,
+        conversion_profit_cost: uint16,
+        extensions: set(future_extensions)
+    }
+);
+
+// 94 — pm_leverage_liquidate (virtual)
+const pm_leverage_liquidate = new Serializer(
+    "pm_leverage_liquidate", {
+        account: string,
+        position_id: int64,
+        market_id: int64,
+        cancel_value: asset,
+        pool_received: asset,
+        bettor_received: asset,
+        reason: uint8
+    }
+);
+
+// 95 — pm_leverage_resolve (virtual)
+const pm_leverage_resolve = new Serializer(
+    "pm_leverage_resolve", {
+        account: string,
+        position_id: int64,
+        market_id: int64,
+        won: bool,
+        pool_received: asset,
+        bettor_received: asset,
+        outcome_index: int16,
+        leverage: uint16
+    }
+);
+
+// 96 — pm_market_accepted (virtual)
+const pm_market_accepted = new Serializer(
+    "pm_market_accepted", {
+        oracle: string,
+        creator: string,
+        market_id: int64,
+        oracle_fee_percent: uint16,
+        oracle_fixed_fee: asset,
+        self_oracle: bool
+    }
+);
+
+// 97 — pm_payout (virtual)
+const pm_payout = new Serializer(
+    "pm_payout", {
+        account: string,
+        market_id: int64,
+        bet_id: int64,
+        side: int8,
+        outcome_index: int16,
+        amount: asset,
+        payout: asset
+    }
+);
+
+// 98 — pm_dispute_oracle_respond (active: oracle)
+const pm_dispute_oracle_respond = new Serializer(
+    "pm_dispute_oracle_respond", {
+        oracle: string,
+        market_id: int64,
+        response: string,
+        extensions: set(future_extensions)
+    }
+);
+
+// 99 — pm_unban (active: resolver)
+const pm_unban = new Serializer(
+    "pm_unban", {
+        resolver: string,
+        target: string,
+        unban_oracle: bool,
+        unban_creator: bool,
+        extensions: set(future_extensions)
+    }
+);
+
+// 100 — pm_ban_expired (virtual)
+const pm_ban_expired = new Serializer(
+    "pm_ban_expired", {
+        account: string,
+        oracle: bool,
+        creator: bool
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -949,7 +1465,44 @@ operation.st_operations = [
     target_account_sale,
     bid,
     outbid,
-    set_reward_sharing
+    set_reward_sharing,
+    stakeholder_reward,
+    // Prediction Markets (HF14) — op-ids 66..100, positional order is the tag
+    pm_oracle_register,
+    pm_oracle_update,
+    pm_create_market,
+    pm_oracle_accept_market,
+    pm_place_bet,
+    pm_commit_bet,
+    pm_reveal_bet,
+    pm_cancel_bet,
+    pm_add_liquidity,
+    pm_withdraw_liquidity,
+    pm_resolve_market,
+    pm_no_contest,
+    pm_dispute_create,
+    pm_dispute_vote,
+    pm_dispute_resolve,
+    pm_transfer_position,
+    pm_lazy_deposit,
+    pm_lazy_withdraw,
+    pm_batch_settle,
+    pm_commit_forfeit,
+    pm_auto_payout,
+    pm_dispute_finalize,
+    pm_dispute_auto_close,
+    pm_oracle_missed_penalty,
+    pm_lazy_recall,
+    pm_leverage_open,
+    pm_leverage_close,
+    pm_leverage_convert,
+    pm_leverage_liquidate,
+    pm_leverage_resolve,
+    pm_market_accepted,
+    pm_payout,
+    pm_dispute_oracle_respond,
+    pm_unban,
+    pm_ban_expired
 ];
 
 // Export old witness names as aliases for backward compatibility

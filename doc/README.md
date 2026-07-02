@@ -14,8 +14,10 @@
     - [Committee API](#committee-api)
     - [Invite API](#invite-api)
     - [Paid subscription API](#paid-subscription-api)
+    - [Prediction Markets API](#prediction-markets-api)
 - [Broadcast API](#broadcast-api)
 - [Broadcast](#broadcast)
+    - [Prediction Markets](#prediction-markets)
 - [Auth](#auth)
 - [Formatter](#formatter)
 - Deprecated: [Content](#content)
@@ -504,6 +506,79 @@ viz.api.getActivePaidSubscriptions(subscriber, function(err, result) {
 viz.api.getInactivePaidSubscriptions(subscriber, function(err, result) {
   console.log(err, result);
 });
+```
+
+## Prediction Markets API
+
+Read methods of the `prediction_market_api` plugin (Onix, HF14). All ids
+(`market_id`, `bet_id`, `liquidity_id`, `position_id`, `commit_id`) are plain
+numeric instances. Pagination is `(…key, from, limit)` with `limit ≤ 1000`.
+Monetary fields inside returned objects are `share_type` integers (raw, ×1000);
+`asset` fields are strings like `"10.000 VIZ"`. See the integration spec for the
+full object schemas and enums.
+
+### Markets
+```js
+viz.api.getMarket(market_id, function(err, result) { console.log(err, result); });
+// status: -1 deleted, 0 waiting, 1 active, 2 closed, 3 resolved
+// show_risky (optional, default false): reveal under-collateralized markets
+viz.api.listMarkets(status, from, limit, show_risky, function(err, result) { console.log(err, result); });
+viz.api.listMarketsByOracle(oracle, from, limit, function(err, result) { console.log(err, result); });
+viz.api.listMarketsByCreator(creator, from, limit, function(err, result) { console.log(err, result); });
+viz.api.getMarketOutcomes(market_id, function(err, result) { console.log(err, result); });
+viz.api.getMarketWeightSums(market_id, function(err, result) { console.log(err, result); });
+viz.api.getMarketBets(market_id, from, limit, function(err, result) { console.log(err, result); });
+viz.api.getAccountPositions(account, from, limit, function(err, result) { console.log(err, result); });
+viz.api.getMarketLiquidity(market_id, from, limit, function(err, result) { console.log(err, result); });
+// One-call enriched view; account is optional (adds that account's bets/leverage/LP on the market)
+viz.api.getMarketFull(market_id, account, function(err, result) { console.log(err, result); });
+```
+
+### Leverage
+```js
+viz.api.getAccountLeveragePositions(account, from, limit, function(err, result) { console.log(err, result); });
+viz.api.getMarketLeveragePositions(market_id, from, limit, function(err, result) { console.log(err, result); });
+viz.api.getCreatorBan(account, function(err, result) { console.log(err, result); });
+// collateral is a share_type integer (milli-VIZ)
+viz.api.getLeverageQuote(market_id, outcome_index, collateral, function(err, result) { console.log(err, result); });
+viz.api.getLeverageClosePreview(position_id, function(err, result) { console.log(err, result); });
+viz.api.getLeverageConvertPreview(position_id, function(err, result) { console.log(err, result); });
+```
+> The three leverage previews are **non-consensus quotes** at the head block — always
+> send the on-chain slippage guards (`min_tokens` / `min_return` / `conversion_profit_cost`)
+> in the matching broadcast op.
+
+### Oracles
+```js
+viz.api.getOracle(owner, function(err, result) { console.log(err, result); });
+viz.api.listOracles(from, limit, function(err, result) { console.log(err, result); });
+```
+
+### Disputes
+```js
+viz.api.getDispute(market_id, function(err, result) { console.log(err, result); });
+// live ballots + stake-weighted projection of the finalize cron
+viz.api.getDisputeVotes(market_id, function(err, result) { console.log(err, result); });
+```
+
+### Lazy pool & chain properties
+```js
+viz.api.getLazyPool(function(err, result) { console.log(err, result); });
+viz.api.getLazyDeposit(account, function(err, result) { console.log(err, result); });
+viz.api.getLazyAllocations(from, limit, function(err, result) { console.log(err, result); });
+viz.api.getMarketLazyAllocation(market_id, function(err, result) { console.log(err, result); });
+// median (active, consensus) values of every PM governance parameter
+viz.api.getPmChainProperties(function(err, result) { console.log(err, result); });
+```
+
+### Metadata & charts
+```js
+viz.api.getMarketMeta(market_id, function(err, result) { console.log(err, result); });
+// optional: jurisdiction (ISO code), subcategory, tag, sort (newest|oldest|volume|expiration)
+viz.api.listMarketsByCategory(category, from, limit, jurisdiction, subcategory, tag, sort, function(err, result) { console.log(err, result); });
+viz.api.getMarketCategories(function(err, result) { console.log(err, result); });
+// kline pagination is offset-from-newest: from skips the newest N points
+viz.api.getMarketKline(market_id, from, limit, function(err, result) { console.log(err, result); });
 ```
 
 ## Follow API
@@ -1054,6 +1129,75 @@ viz.broadcast.buyAccount(active_wif,buyer_login,account_or_subaccount_to_buy,off
 });
 ```
 
+## Prediction Markets
+
+Builders for the 23 signed prediction-market operations (Onix, HF14). Every op
+ends with an `extensions` argument — pass `[]`. Signer authority is **active**
+for all of them **except** `pmDisputeVote`, which is signed with the **regular**
+key. `market_id` / `bet_id` / `liquidity_id` / `position_id` / `commit_id` are
+plain numeric instances; `amount`/`insurance`/`liquidity`/… are VIZ asset strings
+(`"10.000 VIZ"`); `min_tokens` / `min_return` / `shares` and other `share_type`
+values are raw ×1000 integers; percent fields are basis points (`10000 = 100%`)
+unless noted.
+
+### Oracle registration & market lifecycle
+```js
+// side: binary 0/1, multi -1 | outcome_index: multi 0..N-1, binary -1
+viz.broadcast.pmOracleRegister(wif, owner, insurance, fee_percent, fixed_fee, rules_url, auto_accept_creator, auto_accept_resolver, auto_accept, [], function(err, result) { console.log(err, result); });
+// pmOracleUpdate: pass null for any field you want to leave unchanged
+viz.broadcast.pmOracleUpdate(wif, owner, insurance_delta, fee_percent, fixed_fee, rules_url, auto_accept_creator, auto_accept_resolver, auto_accept, [], function(err, result) { console.log(err, result); });
+// market_type: 0 binary (CPMM), 1 multi (LMSR); outcomes: string[]; lmsr_b: 0 for binary
+viz.broadcast.pmCreateMarket(wif, creator, oracle, market_type, outcomes, url, oracle_fee_percent, oracle_fixed_fee, creator_fee_percent, liquidity_fee_percent, liquidity, lmsr_b, betting_expiration, result_expiration, time_penalty_type, time_penalty_value, penalty_curve_type, allow_early_resolution, allow_cancellation, allow_batch, allow_instant_bet, endogeneity_tier, dispute_mode, dispute_resolver, dispute_penalty_percent, metadata, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmOracleAcceptMarket(wif, oracle, market_id, accept, oracle_fee_percent, oracle_fixed_fee, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmResolveMarket(wif, oracle, market_id, winning_outcome, decision_url, decision_reason, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmNoContest(wif, oracle, market_id, reason, [], function(err, result) { console.log(err, result); });
+```
+
+### Betting
+```js
+// mode: 0 instant, 1 batch (queued to next epoch)
+viz.broadcast.pmPlaceBet(wif, account, market_id, side, outcome_index, amount, min_tokens, mode, [], function(err, result) { console.log(err, result); });
+// commit-reveal: compute commitment with viz.formatter.predictionMarketCommitment (see Formatter)
+viz.broadcast.pmCommitBet(wif, account, market_id, commitment, escrow_amount, no_reveal_fee_percent, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmRevealBet(wif, account, commit_id, side, outcome_index, amount, salt, min_tokens, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmCancelBet(wif, account, bet_id, min_return, [], function(err, result) { console.log(err, result); });
+// reassign bet weight to another account; amount 0 = full; no market impact
+viz.broadcast.pmTransferPosition(wif, from, bet_id, to, amount, memo, [], function(err, result) { console.log(err, result); });
+```
+
+### Liquidity & lazy pool
+```js
+viz.broadcast.pmAddLiquidity(wif, provider, market_id, amount, [], function(err, result) { console.log(err, result); });
+// amount 0 = withdraw full LP position
+viz.broadcast.pmWithdrawLiquidity(wif, provider, liquidity_id, amount, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmLazyDeposit(wif, account, amount, [], function(err, result) { console.log(err, result); });
+// shares 0 = all; emergency true = withdraw before lock ends (penalty on locked-share profit)
+viz.broadcast.pmLazyWithdraw(wif, account, shares, emergency, [], function(err, result) { console.log(err, result); });
+```
+
+### Disputes & bans
+```js
+// proposed_outcome: outcome claimed correct, -1 = void/no-contest challenge
+viz.broadcast.pmDisputeCreate(wif, disputer, market_id, proposed_outcome, reason, [], function(err, result) { console.log(err, result); });
+// committee mode — signed with the REGULAR key. vote_outcome -1 = uphold oracle
+viz.broadcast.pmDisputeVote(regular_wif, voter, market_id, vote_outcome, vote_percent, [], function(err, result) { console.log(err, result); });
+// account mode — verdict by the market's configured dispute_resolver
+viz.broadcast.pmDisputeResolve(wif, resolver, market_id, correct_outcome, penalty_amount, ban_oracle, ban_oracle_until, ban_creator, ban_creator_until, [], function(err, result) { console.log(err, result); });
+// oracle posts a public rebuttal onto the open dispute
+viz.broadcast.pmDisputeOracleRespond(wif, oracle, market_id, response, [], function(err, result) { console.log(err, result); });
+// lift a ban set by that resolver; at least one of unban_oracle/unban_creator must be true
+viz.broadcast.pmUnban(wif, resolver, target, unban_oracle, unban_creator, [], function(err, result) { console.log(err, result); });
+```
+
+### Leverage (gated by `pm_leverage_enabled`)
+```js
+// binary CPMM only; outcome_index is the side 0/1
+viz.broadcast.pmLeverageOpen(wif, account, market_id, outcome_index, collateral, loan, min_tokens, max_slippage_percent, [], function(err, result) { console.log(err, result); });
+viz.broadcast.pmLeverageClose(wif, account, position_id, min_return, [], function(err, result) { console.log(err, result); });
+// conversion_profit_cost MUST equal median(pm_conversion_profit_cost_percent) — see getLeverageConvertPreview
+viz.broadcast.pmLeverageConvert(wif, account, position_id, conversion_profit_cost, [], function(err, result) { console.log(err, result); });
+```
+
 # Auth
 
 ### Verify
@@ -1182,6 +1326,23 @@ var VIZPower = viz.formatter.estimateAccountValue(account);
 ```
 var shares = viz.formatter.sharesToVIZ(vestingShares, totalVestingShares, totalVestingFund);
 console.log(shares);
+```
+
+### Prediction Market Commitment
+Builds the byte-exact SHA-256 commitment for the commit-reveal flow
+(`pmCommitBet` → `pmRevealBet`). The node recomputes this hash in the reveal
+evaluator and **forfeits the escrow on any mismatch**, so the same
+`side` / `outcome_index` / `amount` / `min_tokens` / `salt` MUST be re-supplied
+to `pmRevealBet`. `amount` may be a milli-VIZ integer or a 3-decimal VIZ asset
+string (`"10.000 VIZ"`).
+```js
+// (marketId, account, side, outcomeIndex, amount, minTokens, salt)
+var salt = '...'; // random per-commit entropy, kept secret until reveal
+var commitment = viz.formatter.predictionMarketCommitment(5, 'alice', 0, -1, '10.000 VIZ', 0, salt);
+// => 64-char hex, e.g. 'acc2fbc9e024509a529584baba41dc2eabdb82c3c107dc041d37c94b24f4b3c0'
+viz.broadcast.pmCommitBet(wif, 'alice', 5, commitment, '10.000 VIZ', 2000, [], function(err, result) {
+  console.log(err, result);
+});
 ```
 
 # Utils

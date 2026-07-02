@@ -504,5 +504,294 @@ module.exports = [
       "owner",
       "sharing_rate"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_oracle_register",
+    "params": [
+      "owner",
+      "insurance",
+      "fee_percent",
+      "fixed_fee",
+      "rules_url",
+      "auto_accept_creator",
+      "auto_accept_resolver",
+      "auto_accept",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_oracle_update",
+    "params": [
+      "owner",
+      "insurance_delta",
+      "fee_percent",
+      "fixed_fee",
+      "rules_url",
+      "auto_accept_creator",
+      "auto_accept_resolver",
+      "auto_accept",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_create_market",
+    "params": [
+      "creator",
+      "oracle",
+      "market_type",
+      "outcomes",
+      "url",
+      "oracle_fee_percent",
+      "oracle_fixed_fee",
+      "creator_fee_percent",
+      "liquidity_fee_percent",
+      "liquidity",
+      "lmsr_b",
+      "betting_expiration",
+      "result_expiration",
+      "time_penalty_type",
+      "time_penalty_value",
+      "penalty_curve_type",
+      "allow_early_resolution",
+      "allow_cancellation",
+      "allow_batch",
+      "allow_instant_bet",
+      "endogeneity_tier",
+      "dispute_mode",
+      "dispute_resolver",
+      "dispute_penalty_percent",
+      "metadata",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_oracle_accept_market",
+    "params": [
+      "oracle",
+      "market_id",
+      "accept",
+      "oracle_fee_percent",
+      "oracle_fixed_fee",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_place_bet",
+    "params": [
+      "account",
+      "market_id",
+      "side",
+      "outcome_index",
+      "amount",
+      "min_tokens",
+      "mode",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_commit_bet",
+    "params": [
+      "account",
+      "market_id",
+      "commitment",
+      "escrow_amount",
+      "no_reveal_fee_percent",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_reveal_bet",
+    "params": [
+      "account",
+      "commit_id",
+      "side",
+      "outcome_index",
+      "amount",
+      "salt",
+      "min_tokens",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_cancel_bet",
+    "params": [
+      "account",
+      "bet_id",
+      "min_return",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_add_liquidity",
+    "params": [
+      "provider",
+      "market_id",
+      "amount",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_withdraw_liquidity",
+    "params": [
+      "provider",
+      "liquidity_id",
+      "amount",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_resolve_market",
+    "params": [
+      "oracle",
+      "market_id",
+      "winning_outcome",
+      "decision_url",
+      "decision_reason",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_no_contest",
+    "params": [
+      "oracle",
+      "market_id",
+      "reason",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_dispute_create",
+    "params": [
+      "disputer",
+      "market_id",
+      "proposed_outcome",
+      "reason",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["regular"],
+    "operation": "pm_dispute_vote",
+    "params": [
+      "voter",
+      "market_id",
+      "vote_outcome",
+      "vote_percent",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_dispute_resolve",
+    "params": [
+      "resolver",
+      "market_id",
+      "correct_outcome",
+      "penalty_amount",
+      "ban_oracle",
+      "ban_oracle_until",
+      "ban_creator",
+      "ban_creator_until",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_transfer_position",
+    "params": [
+      "from",
+      "bet_id",
+      "to",
+      "amount",
+      "memo",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_lazy_deposit",
+    "params": [
+      "account",
+      "amount",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_lazy_withdraw",
+    "params": [
+      "account",
+      "shares",
+      "emergency",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_leverage_open",
+    "params": [
+      "account",
+      "market_id",
+      "outcome_index",
+      "collateral",
+      "loan",
+      "min_tokens",
+      "max_slippage_percent",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_leverage_close",
+    "params": [
+      "account",
+      "position_id",
+      "min_return",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_leverage_convert",
+    "params": [
+      "account",
+      "position_id",
+      "conversion_profit_cost",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_dispute_oracle_respond",
+    "params": [
+      "oracle",
+      "market_id",
+      "response",
+      "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "pm_unban",
+    "params": [
+      "resolver",
+      "target",
+      "unban_oracle",
+      "unban_creator",
+      "extensions"
+    ]
   }
 ]
