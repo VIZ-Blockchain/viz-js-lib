@@ -89,6 +89,27 @@ Types.uint8 = {
     }
     };
 
+Types.int8 = {
+
+    fromByteBuffer(b){
+        return b.readInt8();
+    },
+    appendByteBuffer(b, object){
+        v.require_range(-128,127,object, `int8 ${object}`);
+        b.writeInt8(object);
+        return;
+    },
+    fromObject(object){
+        v.require_range(-128,127,object, `int8 ${object}`);
+        return object;
+    },
+    toObject(object, debug = {}){
+        if (debug.use_default && object === undefined) { return 0; }
+        v.require_range(-128,127,object, `int8 ${object}`);
+        return parseInt(object);
+    }
+    };
+
 Types.uint16 =
     {fromByteBuffer(b){
         return b.readUint16();

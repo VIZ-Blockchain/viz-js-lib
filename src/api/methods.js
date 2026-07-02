@@ -335,5 +335,147 @@ module.exports = [
     "api": "raw_block",
     "method": "get_raw_block",
     "params": ["block_num"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "list_markets",
+    "params": ["status", "from", "limit", "show_risky"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "list_markets_by_oracle",
+    "params": ["oracle", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "list_markets_by_creator",
+    "params": ["creator", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_outcomes",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_weight_sums",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_bets",
+    "params": ["market_id", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_account_positions",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_liquidity",
+    "params": ["market_id", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_full",
+    "params": ["market_id", "account"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_account_leverage_positions",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_leverage_positions",
+    "params": ["market_id", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_creator_ban",
+    "params": ["account"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_leverage_quote",
+    "params": ["market_id", "outcome_index", "collateral"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_leverage_close_preview",
+    "params": ["position_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_leverage_convert_preview",
+    "params": ["position_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_oracle",
+    "params": ["owner"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "list_oracles",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_dispute",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_dispute_votes",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_lazy_pool"
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_lazy_deposit",
+    "params": ["account"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_lazy_allocations",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_lazy_allocation",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_pm_chain_properties"
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_meta",
+    "params": ["market_id"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "list_markets_by_category",
+    "params": ["category", "from", "limit", "jurisdiction", "subcategory", "tag", "sort"]
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_categories"
+  },
+  {
+    "api": "prediction_market_api",
+    "method": "get_market_kline",
+    "params": ["market_id", "from", "limit"]
   }
 ]
