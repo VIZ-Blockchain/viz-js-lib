@@ -1348,6 +1348,691 @@
           }
         }
       ]
+    },
+    {
+      "name": "prediction_market_api",
+      "description": "Read-only access to HF14 prediction markets: markets, outcomes, bets, positions, liquidity, leverage positions and previews, oracles, disputes, the lazy pool, off-chain market metadata/taxonomy, k-line series, and PM governance chain properties.",
+      "methods": [
+        {
+          "method": "get_market",
+          "description": "Returns the prediction market object for the given ID. Throws if the market does not exist.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_market_object."
+          }
+        },
+        {
+          "method": "list_markets",
+          "description": "Lists markets filtered by status, paginated. show_risky reveals under-insured markets.",
+          "params": [
+            {
+              "name": "status",
+              "caption": "Status",
+              "description": "Market status filter (numeric enum).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "show_risky",
+              "caption": "Show risky",
+              "description": "Include under-insured (risky) markets; defaults to false.",
+              "type": "boolean",
+              "required": false
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_market_object."
+          }
+        },
+        {
+          "method": "list_markets_by_oracle",
+          "description": "Lists markets assigned to the given oracle account, paginated.",
+          "params": [
+            {
+              "name": "oracle",
+              "caption": "Oracle",
+              "description": "Oracle account name.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_market_object."
+          }
+        },
+        {
+          "method": "list_markets_by_creator",
+          "description": "Lists markets created by the given account, paginated.",
+          "params": [
+            {
+              "name": "creator",
+              "caption": "Creator",
+              "description": "Market creator account name.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_market_object."
+          }
+        },
+        {
+          "method": "get_market_outcomes",
+          "description": "Returns the outcome objects of a market (empty for binary markets).",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_outcome_object."
+          }
+        },
+        {
+          "method": "get_market_weight_sums",
+          "description": "Returns per-outcome amount and curve weight sums for a market.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_market_weight_sums_api_object."
+          }
+        },
+        {
+          "method": "get_market_bets",
+          "description": "Lists the bets placed on a market, paginated.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_bet_object."
+          }
+        },
+        {
+          "method": "get_account_positions",
+          "description": "Returns an account's market positions (bet, expected_payout, market_status, resolved_outcome), paginated.",
+          "params": [
+            {
+              "name": "account",
+              "caption": "Account",
+              "description": "VIZ account name.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_position_api_object."
+          }
+        },
+        {
+          "method": "get_market_liquidity",
+          "description": "Lists liquidity-provider entries for a market, paginated.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_liquidity_object."
+          }
+        },
+        {
+          "method": "get_market_full",
+          "description": "Enriched market view (market, outcomes, weight_sums, oracle, meta); when an account is given, also that account's positions, leverage and LP.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "account",
+              "caption": "Account",
+              "description": "VIZ account name.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_market_full_api_object."
+          }
+        },
+        {
+          "method": "get_account_leverage_positions",
+          "description": "Lists an account's leverage positions, paginated.",
+          "params": [
+            {
+              "name": "account",
+              "caption": "Account",
+              "description": "VIZ account name.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_leverage_position_object."
+          }
+        },
+        {
+          "method": "get_market_leverage_positions",
+          "description": "Lists leverage positions open on a market, paginated.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_leverage_position_object."
+          }
+        },
+        {
+          "method": "get_creator_ban",
+          "description": "Returns the market-creation ban record for an account. Throws if there is none.",
+          "params": [
+            {
+              "name": "account",
+              "caption": "Account",
+              "description": "VIZ account name.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_creator_ban_object."
+          }
+        },
+        {
+          "method": "get_leverage_quote",
+          "description": "Read-only projection of leverage margin math: max leverage, up to 12 slider stops, and failed_constraints.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "outcome_index",
+              "caption": "Outcome index",
+              "description": "Index of the outcome within the market.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "collateral",
+              "caption": "Collateral",
+              "description": "Collateral amount (integer shares).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_leverage_quote_api_object."
+          }
+        },
+        {
+          "method": "get_leverage_close_preview",
+          "description": "Read-only preview of closing a leverage position.",
+          "params": [
+            {
+              "name": "position_id",
+              "caption": "Position ID",
+              "description": "Leverage position object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_leverage_close_preview_api_object."
+          }
+        },
+        {
+          "method": "get_leverage_convert_preview",
+          "description": "Read-only preview of converting a leverage position.",
+          "params": [
+            {
+              "name": "position_id",
+              "caption": "Position ID",
+              "description": "Leverage position object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_leverage_convert_preview_api_object."
+          }
+        },
+        {
+          "method": "get_oracle",
+          "description": "Returns an oracle account with its non-consensus reliability_score (basis points). Throws if there is none.",
+          "params": [
+            {
+              "name": "owner",
+              "caption": "Owner",
+              "description": "Oracle owner account name.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_oracle_api_object."
+          }
+        },
+        {
+          "method": "list_oracles",
+          "description": "Lists registered oracle accounts, paginated.",
+          "params": [
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_oracle_object."
+          }
+        },
+        {
+          "method": "get_dispute",
+          "description": "Returns the dispute object for a market. Throws if there is none.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_dispute_object."
+          }
+        },
+        {
+          "method": "get_dispute_votes",
+          "description": "Returns dispute votes with legacy tally and a stake-weighted quorum/verdict projection; returns a default object when there is no dispute.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_dispute_votes_api_object."
+          }
+        },
+        {
+          "method": "get_lazy_pool",
+          "description": "Returns the global lazy pool object.",
+          "params": [],
+          "returns": {
+            "type": "object",
+            "description": "pm_lazy_pool_object."
+          }
+        },
+        {
+          "method": "get_lazy_deposit",
+          "description": "Returns an account's lazy deposit. Throws if there is none.",
+          "params": [
+            {
+              "name": "account",
+              "caption": "Account",
+              "description": "VIZ account name.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_lazy_deposit_object."
+          }
+        },
+        {
+          "method": "get_lazy_allocations",
+          "description": "Lists lazy-pool allocations, paginated.",
+          "params": [
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_lazy_allocation_object."
+          }
+        },
+        {
+          "method": "get_market_lazy_allocation",
+          "description": "Returns the lazy allocation for a market. Throws if there is none.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_lazy_allocation_object."
+          }
+        },
+        {
+          "method": "get_pm_chain_properties",
+          "description": "Returns the median-voted prediction-market governance chain properties.",
+          "params": [],
+          "returns": {
+            "type": "object",
+            "description": "chain_properties_pm."
+          }
+        },
+        {
+          "method": "get_market_meta",
+          "description": "Returns the off-chain (non-consensus, prunable) metadata for a market. Throws if there is none.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "object",
+            "description": "pm_market_meta_object."
+          }
+        },
+        {
+          "method": "list_markets_by_category",
+          "description": "Lists markets in a taxonomy category with optional jurisdiction/subcategory/tag filters and sort order.",
+          "params": [
+            {
+              "name": "category",
+              "caption": "Category",
+              "description": "Taxonomy category name.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "jurisdiction",
+              "caption": "Jurisdiction",
+              "description": "Optional jurisdiction filter; defaults to empty.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "subcategory",
+              "caption": "Subcategory",
+              "description": "Optional subcategory filter; defaults to empty.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "tag",
+              "caption": "Tag",
+              "description": "Optional tag filter; defaults to empty.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "sort",
+              "caption": "Sort",
+              "description": "Sort order: newest | oldest | volume | expiration; defaults to newest.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_market_meta_object."
+          }
+        },
+        {
+          "method": "get_market_categories",
+          "description": "Returns market categories and subcategory counts plus the top-20 hot tags.",
+          "params": [],
+          "returns": {
+            "type": "object",
+            "description": "pm_market_categories_api_object."
+          }
+        },
+        {
+          "method": "get_market_kline",
+          "description": "Returns time-series weight snapshots (k-line) for a market, paged offset-from-newest.",
+          "params": [
+            {
+              "name": "market_id",
+              "caption": "Market ID",
+              "description": "Prediction market object ID.",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "from",
+              "caption": "From",
+              "description": "Pagination start offset (0-based).",
+              "type": "integer",
+              "required": false
+            },
+            {
+              "name": "limit",
+              "caption": "Limit",
+              "description": "Maximum rows to return (≤ 1000).",
+              "type": "integer",
+              "required": false
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of pm_kline_api_object."
+          }
+        }
+      ]
     }
   ]
 }
