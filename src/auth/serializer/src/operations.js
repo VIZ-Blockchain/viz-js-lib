@@ -769,9 +769,10 @@ const chain_properties_hf14 = new Serializer(
         pm_min_oracle_insurance: asset,
         pm_market_creation_fee: asset,
         pm_min_liquidity: asset,
-        pm_max_outcomes: uint16,
+        pm_max_outcomes: uint8,
         pm_max_market_duration: uint32,
         pm_max_oracle_fee_percent: uint16,
+        pm_oracle_accept_window_sec: uint32,
         pm_listing_min_coverage_percent: uint16,
         pm_betting_min_coverage_percent: uint16,
         pm_default_time_penalty_percent: uint16,
@@ -797,6 +798,7 @@ const chain_properties_hf14 = new Serializer(
         pm_lazy_lock_sec: uint32,
         pm_lazy_recall_step_percent: uint16,
         pm_lazy_emergency_penalty_percent: uint16,
+        pm_lazy_min_liquidity_fee_percent: uint16,
         pm_leverage_enabled: bool,
         pm_leverage_fund_percent: uint16,
         pm_leverage_max_per_position_bp: uint16,
@@ -807,7 +809,8 @@ const chain_properties_hf14 = new Serializer(
         pm_leverage_max_position_ratio_percent: uint16,
         pm_leverage_expiration_buffer_sec: uint32,
         pm_leverage_m_factor_percent: uint16,
-        pm_conversion_profit_cost_percent: uint16
+        pm_conversion_profit_cost_percent: uint16,
+        pm_closed_market_retention_sec: uint32
   }
 );
 
