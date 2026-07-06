@@ -459,6 +459,37 @@ const SPEC = {
   },
   raw_block: {
     get_raw_block: {d:"Returns a raw block by block number, including the base64-encoded serialized binary.",p:{block_num:{c:"Block Number",d:"Height of the block to retrieve in raw form."}}}
+  },
+  prediction_market_api: {
+    get_market: {d:"Returns the prediction market object for the given ID. Throws if the market does not exist.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    list_markets: {d:"Lists markets filtered by status, paginated. show_risky reveals under-insured markets.",p:{status:{c:"Status",d:"Market status filter (numeric enum).",t:"integer"},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"},show_risky:{c:"Show risky",d:"Include under-insured (risky) markets; defaults to false.",t:"boolean"}}},
+    list_markets_by_oracle: {d:"Lists markets assigned to the given oracle account, paginated.",p:{oracle:{c:"Oracle",d:"Oracle account name."},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    list_markets_by_creator: {d:"Lists markets created by the given account, paginated.",p:{creator:{c:"Creator",d:"Market creator account name."},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_market_outcomes: {d:"Returns the outcome objects of a market (empty for binary markets).",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    get_market_weight_sums: {d:"Returns per-outcome amount and curve weight sums for a market.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    get_market_bets: {d:"Lists the bets placed on a market, paginated.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_account_positions: {d:"Returns an account's market positions (bet, expected_payout, market_status, resolved_outcome), paginated.",p:{account:{c:"Account",d:"VIZ account name."},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_market_liquidity: {d:"Lists liquidity-provider entries for a market, paginated.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_market_full: {d:"Enriched market view (market, outcomes, weight_sums, oracle, meta); when an account is given, also that account's positions, leverage and LP.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},account:{c:"Account",d:"VIZ account name."}}},
+    get_account_leverage_positions: {d:"Lists an account's leverage positions, paginated.",p:{account:{c:"Account",d:"VIZ account name."},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_market_leverage_positions: {d:"Lists leverage positions open on a market, paginated.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_creator_ban: {d:"Returns the market-creation ban record for an account. Throws if there is none.",p:{account:{c:"Account",d:"VIZ account name."}}},
+    get_leverage_quote: {d:"Read-only projection of leverage margin math: max leverage, up to 12 slider stops, and failed_constraints.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},outcome_index:{c:"Outcome index",d:"Index of the outcome within the market.",t:"integer"},collateral:{c:"Collateral",d:"Collateral amount (integer shares).",t:"integer"}}},
+    get_leverage_close_preview: {d:"Read-only preview of closing a leverage position.",p:{position_id:{c:"Position ID",d:"Leverage position object ID.",t:"integer"}}},
+    get_leverage_convert_preview: {d:"Read-only preview of converting a leverage position.",p:{position_id:{c:"Position ID",d:"Leverage position object ID.",t:"integer"}}},
+    get_oracle: {d:"Returns an oracle account with its non-consensus reliability_score (basis points). Throws if there is none.",p:{owner:{c:"Owner",d:"Oracle owner account name."}}},
+    list_oracles: {d:"Lists registered oracle accounts, paginated.",p:{from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_dispute: {d:"Returns the dispute object for a market. Throws if there is none.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    get_dispute_votes: {d:"Returns dispute votes with legacy tally and a stake-weighted quorum/verdict projection; returns a default object when there is no dispute.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    get_lazy_pool: {d:"Returns the global lazy pool object."},
+    get_lazy_deposit: {d:"Returns an account's lazy deposit. Throws if there is none.",p:{account:{c:"Account",d:"VIZ account name."}}},
+    get_lazy_allocations: {d:"Lists lazy-pool allocations, paginated.",p:{from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}},
+    get_market_lazy_allocation: {d:"Returns the lazy allocation for a market. Throws if there is none.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    get_pm_chain_properties: {d:"Returns the median-voted prediction-market governance chain properties."},
+    get_market_meta: {d:"Returns the off-chain (non-consensus, prunable) metadata for a market. Throws if there is none.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"}}},
+    list_markets_by_category: {d:"Lists markets in a taxonomy category with optional jurisdiction/subcategory/tag filters and sort order.",p:{category:{c:"Category",d:"Taxonomy category name."},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"},jurisdiction:{c:"Jurisdiction",d:"Optional jurisdiction filter; defaults to empty."},subcategory:{c:"Subcategory",d:"Optional subcategory filter; defaults to empty."},tag:{c:"Tag",d:"Optional tag filter; defaults to empty."},sort:{c:"Sort",d:"Sort order: newest | oldest | volume | expiration; defaults to newest."}}},
+    get_market_categories: {d:"Returns market categories and subcategory counts plus the top-20 hot tags."},
+    get_market_kline: {d:"Returns time-series weight snapshots (k-line) for a market, paged offset-from-newest.",p:{market_id:{c:"Market ID",d:"Prediction market object ID.",t:"integer"},from:{c:"From",d:"Pagination start offset (0-based).",t:"integer"},limit:{c:"Limit",d:"Maximum rows to return (≤ 1000).",t:"integer"}}}
   }
 };
 function getMethodSpec(plugin, method) {
