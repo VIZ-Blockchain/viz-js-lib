@@ -1,6 +1,6 @@
 {
   "name": "viz-js-lib",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "description": "viz.js the JavaScript Library with API support for VIZ blockchain",
   "main": "lib/index.js",
   "scripts": {

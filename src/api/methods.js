@@ -353,6 +353,11 @@ module.exports = [
   },
   {
     "api": "prediction_market_api",
+    "method": "list_markets_awaiting_resolution",
+    "params": ["oracle", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
     "method": "list_markets_by_creator",
     "params": ["creator", "from", "limit"]
   },
