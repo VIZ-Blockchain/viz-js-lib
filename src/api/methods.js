@@ -344,7 +344,7 @@ module.exports = [
   {
     "api": "prediction_market_api",
     "method": "list_markets",
-    "params": ["status", "from", "limit", "show_risky"]
+    "params": ["status", "from", "limit", "show_risky", "order"]
   },
   {
     "api": "prediction_market_api",
