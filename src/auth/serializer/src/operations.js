@@ -809,6 +809,7 @@ const chain_properties_hf14 = new Serializer(
         pm_leverage_max_position_ratio_percent: uint16,
         pm_leverage_expiration_buffer_sec: uint32,
         pm_leverage_m_factor_percent: uint16,
+        pm_leverage_funding_rate_ppm_per_day: uint32,
         pm_conversion_profit_cost_percent: uint16,
         pm_closed_market_retention_sec: uint32
   }

@@ -99,6 +99,10 @@ viz.api.getMarketKline(5, 0, 1000, cb);     // chart series (offset from newest)
 - **disputes**: `pmDisputeCreate` → `pmDisputeVote` (**regular** key!) / `pmDisputeResolve`,
   oracle rebuttal `pmDisputeOracleRespond`, `pmUnban`.
 - **leverage** (gated by `pm_leverage_enabled`): `pmLeverageOpen/Close/Convert`.
+  A **funding** carry cost accrues on the loan every 24h (`pm_leverage_funding_rate_ppm_per_day`,
+  ppm of the loan/day; default `50` = 0.005%/day). Charged from the bettor's collateral, it raises
+  the effective liquidation point and can trigger liquidation (chain sweep). Positions expose
+  `funding_paid` + `funding_due_time`; `0` disables funding.
 - **multi-outcome (LMSR)** market: `market_type=1`, `outcomes=['A','B','C']`,
   `outcome_index` 0..N-1, `lmsr_b>0`, `side=-1`.
 
