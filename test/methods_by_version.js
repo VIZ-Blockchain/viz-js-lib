@@ -72,6 +72,7 @@ export const methods_test = [
     "get_market",
     "list_markets",
     "list_markets_by_oracle",
+    "list_markets_awaiting_resolution",
     "list_markets_by_creator",
     "get_market_outcomes",
     "get_market_weight_sums",
@@ -96,6 +97,7 @@ export const methods_test = [
     "get_pm_chain_properties",
     "get_market_meta",
     "list_markets_by_category",
+    "list_markets_by_event",
     "get_market_categories",
     "get_market_kline",
 ]
