@@ -476,6 +476,11 @@ module.exports = [
   },
   {
     "api": "prediction_market_api",
+    "method": "list_markets_by_event",
+    "params": ["event", "from", "limit"]
+  },
+  {
+    "api": "prediction_market_api",
     "method": "get_market_categories"
   },
   {
