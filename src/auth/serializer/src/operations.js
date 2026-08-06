@@ -1257,6 +1257,7 @@ const pm_auto_payout = new Serializer(
 // 87 — pm_dispute_finalize (virtual)
 const pm_dispute_finalize = new Serializer(
     "pm_dispute_finalize", {
+        oracle: string,
         market_id: int64,
         winning_outcome: int16,
         oracle_penalty: asset
@@ -1266,8 +1267,19 @@ const pm_dispute_finalize = new Serializer(
 // 88 — pm_dispute_auto_close (virtual)
 const pm_dispute_auto_close = new Serializer(
     "pm_dispute_auto_close", {
+        oracle: string,
         market_id: int64,
         oracle_penalty: asset
+    }
+);
+
+// 102 — pm_dispute_opened (virtual)
+const pm_dispute_opened = new Serializer(
+    "pm_dispute_opened", {
+        oracle: string,
+        disputer: string,
+        market_id: int64,
+        proposed_outcome: int16
     }
 );
 
@@ -1517,7 +1529,8 @@ operation.st_operations = [
     pm_dispute_oracle_respond,
     pm_unban,
     pm_ban_expired,
-    pm_market_expired
+    pm_market_expired,
+    pm_dispute_opened
 ];
 
 // Export old witness names as aliases for backward compatibility
