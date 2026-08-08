@@ -1026,7 +1026,10 @@ const pm_create_market = new Serializer(
         creator: string,
         oracle: string,
         market_type: uint8,
-        outcomes: array(string),
+        // Order is positional: outcome_index/side map to the array index on-chain.
+        // C++ stores outcomes as a std::vector (order preserved), so the JS
+        // serializer must NOT sort them (Types.array sorts unless nosort).
+        outcomes: array(types.nosort(string)),
         url: string,
         oracle_fee_percent: uint16,
         oracle_fixed_fee: asset,
