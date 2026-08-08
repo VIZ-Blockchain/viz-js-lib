@@ -990,3 +990,15 @@ const sortOperation = (array, st_operation) => {
         strCmp(firstEl(a).toString(), firstEl(b).toString())
     )
 }
+
+/**
+ * Order-preserving variant of a base type for use inside `array(...)`.
+ *
+ * `Types.array` sorts its elements via `sortOperation` unless the element type
+ * carries `nosort: true`. Order is significant for some protocol fields
+ * (e.g. `pm_create_market.outcomes` — outcome_index/side are positional),
+ * so callers wrap the base type with `nosort(...)` to keep submission order.
+ */
+Types.nosort = function (base) {
+    return Object.assign({}, base, { nosort: true });
+};
