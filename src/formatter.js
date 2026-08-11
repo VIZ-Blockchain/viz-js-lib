@@ -6,10 +6,13 @@ module.exports = VIZ_API => {
   // Convert an amount to raw milli-VIZ (share_type). Accepts a raw integer
   // (number/string of milli-VIZ) or a 3-decimal VIZ asset string ("10.000 VIZ").
   function toMilliVIZ(amount) {
+    // Returns a plain integer Number (milli-VIZ fits well within 2^53). Kept BigInt-free so the public
+    // helper doesn't hand callers a BigInt (BigInt+Number throws) and to stay parseable by the ancient
+    // build Babel (no BigInt literals anywhere). The commitment writer floors/mods this by hand.
     if (typeof amount === "string" && amount.indexOf(" ") !== -1) {
-      return BigInt(Math.round(parseFloat(amount.trim().split(" ")[0]) * 1000));
+      return Math.round(parseFloat(amount.trim().split(" ")[0]) * 1000);
     }
-    return BigInt(amount);
+    return Math.round(Number(amount));
   }
   function numberWithCommas(x) {
     return x.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
