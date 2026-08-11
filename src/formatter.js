@@ -113,12 +113,19 @@ module.exports = VIZ_API => {
       marketId, account, side, outcomeIndex, amount, minTokens, salt
     ) {
       const fixed = Buffer.alloc(59);
-      fixed.writeBigInt64LE(BigInt(marketId), 0);
+      // Portable little-endian int64 writer. The bundled buffer polyfill (buffer@5.0.x) predates
+      // Buffer.writeBigInt64LE (added in 5.2.0), so calling it throws in the browser build. Write the
+      // 8 bytes by hand — byte-identical to writeBigInt64LE for our non-negative values.
+      const writeI64LE = (buf, val, off) => {
+        let v = BigInt(val);
+        for (let k = 0; k < 8; k++) { buf[off + k] = Number(v & 0xFFn); v >>= 8n; }
+      };
+      writeI64LE(fixed, marketId, 0);
       Buffer.from(String(account), "ascii").copy(fixed, 8, 0, 32);
       fixed.writeInt8(side, 40);
       fixed.writeInt16LE(outcomeIndex, 41);
-      fixed.writeBigInt64LE(toMilliVIZ(amount), 43);
-      fixed.writeBigInt64LE(BigInt(minTokens), 51);
+      writeI64LE(fixed, toMilliVIZ(amount), 43);
+      writeI64LE(fixed, minTokens, 51);
       const preimage = Buffer.concat([fixed, Buffer.from(salt, "utf8")]);
       return hash.sha256(preimage, "hex");
     },
