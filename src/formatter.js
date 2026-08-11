@@ -115,10 +115,13 @@ module.exports = VIZ_API => {
       const fixed = Buffer.alloc(59);
       // Portable little-endian int64 writer. The bundled buffer polyfill (buffer@5.0.x) predates
       // Buffer.writeBigInt64LE (added in 5.2.0), so calling it throws in the browser build. Write the
-      // 8 bytes by hand — byte-identical to writeBigInt64LE for our non-negative values.
+      // 8 bytes by hand with plain Number math (%256 / floor, NOT bitwise — `&` coerces to int32 and
+      // would corrupt bytes above 2^31). No BigInt: the ancient build Babel (preset-es2015) can't parse
+      // BigInt literals (`8n`). Byte-identical to writeBigInt64LE for our non-negative values < 2^53
+      // (market id / milliVIZ amount / min_tokens are all well within the safe-integer range).
       const writeI64LE = (buf, val, off) => {
-        let v = BigInt(val);
-        for (let k = 0; k < 8; k++) { buf[off + k] = Number(v & 0xFFn); v >>= 8n; }
+        let v = Math.floor(Number(val));
+        for (let k = 0; k < 8; k++) { buf[off + k] = v % 256; v = Math.floor(v / 256); }
       };
       writeI64LE(fixed, marketId, 0);
       Buffer.from(String(account), "ascii").copy(fixed, 8, 0, 32);
