@@ -812,7 +812,12 @@ const chain_properties_hf14 = new Serializer(
         pm_leverage_funding_rate_ppm_per_day: uint32,
         pm_conversion_profit_cost_percent: uint16,
         pm_closed_market_retention_sec: uint32,
-        pm_early_exit_reward_cap_percent: uint16
+        pm_early_exit_reward_cap_percent: uint16,
+        // #432: minimum bet of the instant path and the per-block row budget of the incremental
+        // settlement sweep. Appended at the END, matching FC_REFLECT_DERIVED(chain_properties_pm)
+        // in the node — the field order IS the wire format here.
+        pm_min_bet: asset,
+        pm_settle_rows_per_block: uint32
   }
 );
 
