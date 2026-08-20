@@ -122,6 +122,10 @@ ChainTypes.operations = {
   pm_market_expired: 101,
   // Prediction Markets (HF14) — dispute-opened virtual operation (oracle history)
   pm_dispute_opened: 102,
+  // Prediction Markets (HF14) — early-exit deferred claim payout (F1/#300)
+  pm_early_exit_claim_paid: 103,
+  // Prediction Markets (HF14) — settlement-time direct LP return (goal #442)
+  pm_lp_payout: 104,
   // Aliases for backward compatibility (old witness names)
   witness_update: 6,
   account_witness_vote: 7,

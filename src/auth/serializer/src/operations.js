@@ -1435,6 +1435,29 @@ const pm_market_expired = new Serializer(
     }
 );
 
+// 103 — pm_early_exit_claim_paid (virtual)
+const pm_early_exit_claim_paid = new Serializer(
+    "pm_early_exit_claim_paid", {
+        account: string,
+        market_id: int64,
+        kind: uint8,
+        outcome_index: uint8,
+        claimed: asset,
+        paid: asset
+    }
+);
+
+// 104 — pm_lp_payout (virtual)
+const pm_lp_payout = new Serializer(
+    "pm_lp_payout", {
+        account: string,
+        market_id: int64,
+        principal: asset,
+        income: asset,
+        charge: asset
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -1539,7 +1562,9 @@ operation.st_operations = [
     pm_unban,
     pm_ban_expired,
     pm_market_expired,
-    pm_dispute_opened
+    pm_dispute_opened,
+    pm_early_exit_claim_paid,
+    pm_lp_payout
 ];
 
 // Export old witness names as aliases for backward compatibility
