@@ -814,10 +814,16 @@ const chain_properties_hf14 = new Serializer(
         pm_closed_market_retention_sec: uint32,
         pm_early_exit_reward_cap_percent: uint16,
         // #432: minimum bet of the instant path and the per-block row budget of the incremental
-        // settlement sweep. Appended at the END, matching FC_REFLECT_DERIVED(chain_properties_pm)
-        // in the node — the field order IS the wire format here.
+        // settlement sweep. #689: the four vote caps (committee + dispute) follow at the very end.
+        // All appended at the END, matching FC_REFLECT_DERIVED(chain_properties_pm) in the node —
+        // the field order IS the wire format. The committee caps live here (not in hf9) so the
+        // already-live hf9 wire layout stays untouched and pre-HF14 validator votes are preserved.
         pm_min_bet: asset,
-        pm_settle_rows_per_block: uint32
+        pm_settle_rows_per_block: uint32,
+        committee_votes_per_request: uint32,
+        committee_vote_min_vesting: asset,
+        pm_dispute_votes_per_market: uint32,
+        pm_dispute_vote_min_vesting: asset
   }
 );
 
