@@ -690,9 +690,7 @@ function addMultiRow(wrap) {
   div.innerHTML = renderMultiRow(paramName, caption, idx, '', idx + 1);
   wrap.appendChild(div.firstElementChild);
   updateRemoveButtons(wrap);
-  // Focus new input
-  const newInput = wrap.querySelector('.multi-input-row:last-child .mi-input');
-  if (newInput) newInput.focus();
+  updatePlaceholders(wrap);
 }
 
 function updateRemoveButtons(wrap) {
