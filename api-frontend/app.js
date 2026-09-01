@@ -661,12 +661,9 @@ function bindMultiInputEvents(wrap) {
     const rows = wrap.querySelectorAll('.multi-input-row');
     const lastRow = rows[rows.length - 1];
     const lastInput = lastRow.querySelector('.mi-input');
-    // Auto-add row only when the last input goes from empty → non-empty
-    if (e.target === lastInput && !_lastInputHadValue && lastInput.value !== '') {
-      _lastInputHadValue = true;
+    // Auto-add row only when the last input already had value and now has more (debounce first keystroke)
+    if (e.target === lastInput && _lastInputHadValue && lastInput.value !== '') {
       addMultiRow(wrap);
-      // Reset flag for newly added row so it can trigger next auto-add
-      _lastInputHadValue = false;
     }
   });
   wrap.addEventListener('click', function(e) {
