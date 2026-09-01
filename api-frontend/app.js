@@ -665,7 +665,8 @@ function bindMultiInputEvents(wrap) {
     if (e.target === lastInput && !_lastInputHadValue && lastInput.value !== '') {
       _lastInputHadValue = true;
       addMultiRow(wrap);
-      // _lastInputHadValue resets on next focusin to the new last input
+      // Reset flag for newly added row so it can trigger next auto-add
+      _lastInputHadValue = false;
     }
   });
   wrap.addEventListener('click', function(e) {
