@@ -643,26 +643,22 @@ function renderMultiRow(paramName, caption, index, value, total) {
 }
 
 function bindMultiInputEvents(wrap) {
-  // Track whether the last input already had content (to avoid adding a row per keystroke)
-  let _lastInputHadValue = false;
-
-  wrap.addEventListener('focusin', function(e) {
-    // Reset tracking when focus enters any input in this wrap
-    if (e.target.classList.contains('mi-input')) {
-      const rows = wrap.querySelectorAll('.multi-input-row');
-      const lastRow = rows[rows.length - 1];
-      const lastInput = lastRow.querySelector('.mi-input');
-      _lastInputHadValue = (e.target === lastInput && lastInput.value !== '');
-    }
-  });
+  // Track last length of each input to detect transition from empty→non-empty
+  const lastLengths = new Map();
 
   wrap.addEventListener('input', function(e) {
     if (!e.target.classList.contains('mi-input')) return;
+
+    const currentLength = e.target.value.length;
+    const prevLength = lastLengths.get(e.target) || 0;
+    lastLengths.set(e.target, currentLength);
+
     const rows = wrap.querySelectorAll('.multi-input-row');
     const lastRow = rows[rows.length - 1];
     const lastInput = lastRow.querySelector('.mi-input');
-    // Auto-add row only when the last input already had value and now has more (debounce first keystroke)
-    if (e.target === lastInput && _lastInputHadValue && lastInput.value !== '') {
+
+    // Auto-add only when: (1) typing in last input, (2) field goes from empty→non-empty
+    if (e.target === lastInput && prevLength === 0 && currentLength > 0) {
       addMultiRow(wrap);
     }
   });
