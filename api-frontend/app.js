@@ -39,9 +39,9 @@ const METHODS = [
   {api:"database_api",method:"get_vesting_delegations",params:["account","from","limit","type"]},
   {api:"database_api",method:"get_expiring_vesting_delegations",params:["account","from","limit"]},
   {api:"database_api",method:"get_proposed_transactions",params:["account","from","limit"]},
-  {api:"database_api",method:"get_accounts_on_sale",params:["from","limit"]},
-  {api:"database_api",method:"get_accounts_on_auction",params:["from","limit"]},
-  {api:"database_api",method:"get_subaccounts_on_sale",params:["from","limit"]},
+  {api:"database_api",method:"get_accounts_on_sale",params:["from","limit","name_prefix"]},
+  {api:"database_api",method:"get_accounts_on_auction",params:["from","limit","name_prefix"]},
+  {api:"database_api",method:"get_subaccounts_on_sale",params:["from","limit","name_prefix"]},
   {api:"account_by_key",method:"get_key_references",params:["account_name_type"]},
   {api:"network_broadcast_api",method:"broadcast_transaction",params:["trx"]},
   {api:"network_broadcast_api",method:"broadcast_transaction_with_callback",params:["confirmationCallback","trx"]},
@@ -53,7 +53,7 @@ const METHODS = [
   {api:"invite_api",method:"get_invites_list",params:["status"]},
   {api:"invite_api",method:"get_invite_by_id",params:["id"]},
   {api:"invite_api",method:"get_invite_by_key",params:["invite_key"]},
-  {api:"paid_subscription_api",method:"get_paid_subscriptions",params:["from","limit"]},
+  {api:"paid_subscription_api",method:"get_paid_subscriptions",params:["from","limit","creator_prefix"]},
   {api:"paid_subscription_api",method:"get_paid_subscription_options",params:["account"]},
   {api:"paid_subscription_api",method:"get_paid_subscription_status",params:["subscriber","account"]},
   {api:"paid_subscription_api",method:"get_active_paid_subscriptions",params:["subscriber"]},
@@ -418,9 +418,9 @@ const SPEC = {
     get_vesting_delegations: {d:"Returns vesting delegation objects for a given account with pagination.",p:{account:{c:"Account Name",d:"The delegator or delegatee account name."},from:{c:"From",d:"Account name to start from for pagination."},limit:{c:"Limit",d:"Maximum number of results (default 100, max 1000)."},type:{c:"Delegation Type",d:"Filter: 'delegated' (sent) or 'received'."}}},
     get_expiring_vesting_delegations: {d:"Returns expiring vesting delegation objects for a given account.",p:{account:{c:"Account Name",d:"The delegator account name."},from:{c:"From Date",d:"Start date/time for expiration lookup (ISO timestamp)."},limit:{c:"Limit",d:"Maximum number of results (default 100, max 1000)."}}},
     get_proposed_transactions: {d:"Returns proposed transactions (proposals) associated with a given account.",p:{account:{c:"Account Name",d:"The account name whose proposals to retrieve."},from:{c:"From Offset",d:"Offset for pagination (number of results to skip)."},limit:{c:"Limit",d:"Maximum number of proposals to return (max 100)."}}},
-    get_accounts_on_sale: {d:"Returns accounts currently on sale (direct sale, not auction).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}},
-    get_accounts_on_auction: {d:"Returns accounts currently on auction (no target buyer set).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}},
-    get_subaccounts_on_sale: {d:"Returns subaccounts currently on sale.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}}
+    get_accounts_on_sale: {d:"Returns accounts currently on sale (direct sale, not auction).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds accounts past the first page. Empty or omitted returns all."}}},
+    get_accounts_on_auction: {d:"Returns accounts currently on auction (no target buyer set).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds accounts past the first page. Empty or omitted returns all."}}},
+    get_subaccounts_on_sale: {d:"Returns subaccounts currently on sale.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only subaccounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds subaccounts past the first page. Empty or omitted returns all."}}}
   },
   account_by_key: {
     get_key_references: {d:"Returns all account names that reference the given public keys in their authority.",p:{account_name_type:{c:"Public Keys",d:"Array of public keys to look up.",t:"array"}}}
@@ -442,7 +442,7 @@ const SPEC = {
     get_invite_by_key: {d:"Returns an invite object by its public key.",p:{invite_key:{c:"Invite Key",d:"The public key associated with the invite."}}}
   },
   paid_subscription_api: {
-    get_paid_subscriptions: {d:"Returns a paginated list of all paid subscription objects.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."}}},
+    get_paid_subscriptions: {d:"Returns a paginated list of all paid subscription objects.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},creator_prefix:{c:"Creator Prefix",d:"Optional. Only subscriptions whose creator account name starts with this prefix. Matched against the creator index, so it searches the whole set and finds subscriptions past the first page. Empty or omitted returns all."}}},
     get_paid_subscription_options: {d:"Returns the paid subscription settings for a given account (creator).",p:{account:{c:"Account Name",d:"The account name of the subscription creator."}}},
     get_paid_subscription_status: {d:"Returns the subscription status of a specific subscriber for a given creator.",p:{subscriber:{c:"Subscriber",d:"The account name of the subscriber."},account:{c:"Creator Account",d:"The account name of the subscription creator."}}},
     get_active_paid_subscriptions: {d:"Returns creator accounts that a given subscriber has active subscriptions to.",p:{subscriber:{c:"Subscriber",d:"The account name of the subscriber."}}},
