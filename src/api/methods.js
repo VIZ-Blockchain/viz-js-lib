@@ -219,17 +219,17 @@ module.exports = [
   {
     "api": "database_api",
     "method": "get_accounts_on_sale",
-    "params": ["from", "limit"]
+    "params": ["from", "limit", "name_prefix"]
   },
   {
     "api": "database_api",
     "method": "get_accounts_on_auction",
-    "params": ["from", "limit"]
+    "params": ["from", "limit", "name_prefix"]
   },
   {
     "api": "database_api",
     "method": "get_subaccounts_on_sale",
-    "params": ["from", "limit"]
+    "params": ["from", "limit", "name_prefix"]
   },
   {
     "api": "account_by_key",
@@ -289,7 +289,7 @@ module.exports = [
   {
     "api": "paid_subscription_api",
     "method": "get_paid_subscriptions",
-    "params": ["from","limit"]
+    "params": ["from","limit","creator_prefix"]
   },
   {
     "api": "paid_subscription_api",

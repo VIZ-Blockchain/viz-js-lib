@@ -775,6 +775,13 @@
               "type": "integer",
               "required": true,
               "maximum": 1000
+            },
+            {
+              "name": "name_prefix",
+              "caption": "Name Prefix",
+              "description": "Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set rather than the page you are on — an account past the first \"limit\" entries is still found. Empty or omitted returns everything, which is the behaviour without this argument.",
+              "type": "string",
+              "required": false
             }
           ],
           "returns": {
@@ -800,6 +807,13 @@
               "type": "integer",
               "required": true,
               "maximum": 1000
+            },
+            {
+              "name": "name_prefix",
+              "caption": "Name Prefix",
+              "description": "Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set rather than the page you are on — an account past the first \"limit\" entries is still found. Empty or omitted returns everything, which is the behaviour without this argument.",
+              "type": "string",
+              "required": false
             }
           ],
           "returns": {
@@ -825,6 +839,13 @@
               "type": "integer",
               "required": true,
               "maximum": 1000
+            },
+            {
+              "name": "name_prefix",
+              "caption": "Name Prefix",
+              "description": "Optional. Only subaccounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set rather than the page you are on — a subaccount past the first \"limit\" entries is still found. Empty or omitted returns everything, which is the behaviour without this argument.",
+              "type": "string",
+              "required": false
             }
           ],
           "returns": {
@@ -1123,6 +1144,13 @@
               "type": "integer",
               "required": true,
               "maximum": 1000
+            },
+            {
+              "name": "creator_prefix",
+              "caption": "Creator Prefix",
+              "description": "Optional. Only subscriptions whose creator account name starts with this prefix. Matched against the creator index, so it searches the whole set rather than the page you are on — a subscription past the first \"limit\" entries is still found. Empty or omitted returns everything, which is the behaviour without this argument.",
+              "type": "string",
+              "required": false
             }
           ],
           "returns": {
