@@ -237,6 +237,16 @@ module.exports = [
     "params": ["account"]
   },
   {
+    "api": "database_api",
+    "method": "get_key_history",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_key_history_by_key",
+    "params": ["key", "limit"]
+  },
+  {
     "api": "account_by_key",
     "method": "get_key_references",
     "params": ["account_name_type"]

@@ -190,6 +190,22 @@ viz.api.getKeyReferences(publicKeys, function(err, result) {
 });
 ```
 
+### Get Key History (HF15)
+Every key an account stopped standing behind (role, weight, threshold, valid until block/time), oldest first. `from` — row id to start at (0 = first), `limit` <= 1000.
+```js
+viz.api.getKeyHistory(account, from, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Get Key History By Key (HF15)
+Who held a key in the past and until when.
+```js
+viz.api.getKeyHistoryByKey(key, limit, function(err, result) {
+  console.log(err, result);
+});
+```
+
 ## Accounts
 
 ### Get Accounts
