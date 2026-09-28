@@ -803,6 +803,7 @@ module.exports = [
       "agent_key",
       "operations",
       "expiration",
+      "addons",
       "extensions"
     ]
   }

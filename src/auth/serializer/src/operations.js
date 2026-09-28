@@ -1411,7 +1411,8 @@ const pm_dispute_oracle_respond = new Serializer(
     }
 );
 
-// 105 — set_agent_permission (active: account). HF15 agent access; empty operations = revoke,
+// 105 — set_agent_permission (active: account). HF15 agent access; addons = off-chain scopes
+// (e.g. "vizhub"), not checked by the node; empty operations AND addons = revoke,
 // expiration epoch = perpetual.
 const set_agent_permission = new Serializer(
     "set_agent_permission", {
@@ -1420,6 +1421,7 @@ const set_agent_permission = new Serializer(
         agent_key: public_key,
         operations: set(string),
         expiration: time_point_sec,
+        addons: set(string),
         extensions: set(future_extensions)
     }
 );
