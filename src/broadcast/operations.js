@@ -793,5 +793,17 @@ module.exports = [
       "unban_creator",
       "extensions"
     ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "set_agent_permission",
+    "params": [
+      "account",
+      "agent_name",
+      "agent_key",
+      "operations",
+      "expiration",
+      "extensions"
+    ]
   }
 ]

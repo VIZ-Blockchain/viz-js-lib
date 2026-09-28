@@ -1411,6 +1411,19 @@ const pm_dispute_oracle_respond = new Serializer(
     }
 );
 
+// 105 — set_agent_permission (active: account). HF15 agent access; empty operations = revoke,
+// expiration epoch = perpetual.
+const set_agent_permission = new Serializer(
+    "set_agent_permission", {
+        account: string,
+        agent_name: string,
+        agent_key: public_key,
+        operations: set(string),
+        expiration: time_point_sec,
+        extensions: set(future_extensions)
+    }
+);
+
 // 99 — pm_unban (active: resolver)
 const pm_unban = new Serializer(
     "pm_unban", {
@@ -1570,7 +1583,8 @@ operation.st_operations = [
     pm_market_expired,
     pm_dispute_opened,
     pm_early_exit_claim_paid,
-    pm_lp_payout
+    pm_lp_payout,
+    set_agent_permission
 ];
 
 // Export old witness names as aliases for backward compatibility
