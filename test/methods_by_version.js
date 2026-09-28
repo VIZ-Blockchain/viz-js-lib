@@ -11,6 +11,8 @@ export const methods_test = [
     "get_accounts_on_auction",
     "get_accounts_on_sale",
     "get_agent_permissions",
+    "get_key_history",
+    "get_key_history_by_key",
     "get_active_paid_subscriptions",
     "get_active_validators",
     "get_active_witnesses",
