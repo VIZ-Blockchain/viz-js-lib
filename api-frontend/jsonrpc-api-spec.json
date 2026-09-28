@@ -852,6 +852,23 @@
             "type": "array",
             "description": "Array of subaccount_on_sale_api_object entries."
           }
+        },
+        {
+          "method": "get_agent_permissions",
+          "description": "Returns the agents of a principal (HF15 agent access), ordered by agent name. At most 16 rows. Expired rows are returned with expired=true: they grant nothing and are removed on the principal's next grant. Nodes without HF15 answer with an unknown-method error.",
+          "params": [
+            {
+              "name": "account",
+              "caption": "Account Name",
+              "description": "The principal whose agents to return.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": "Array of agent_permission_api_object: account, agent_name, agent_key, operations, expiration (1970-01-01T00:00:00 = perpetual), addons (off-chain scopes such as vizhub), expired."
+          }
         }
       ]
     },

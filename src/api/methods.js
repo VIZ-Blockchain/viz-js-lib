@@ -232,6 +232,11 @@ module.exports = [
     "params": ["from", "limit", "name_prefix"]
   },
   {
+    "api": "database_api",
+    "method": "get_agent_permissions",
+    "params": ["account"]
+  },
+  {
     "api": "account_by_key",
     "method": "get_key_references",
     "params": ["account_name_type"]

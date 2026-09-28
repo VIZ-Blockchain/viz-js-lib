@@ -42,6 +42,7 @@ const METHODS = [
   {api:"database_api",method:"get_accounts_on_sale",params:["from","limit","name_prefix"]},
   {api:"database_api",method:"get_accounts_on_auction",params:["from","limit","name_prefix"]},
   {api:"database_api",method:"get_subaccounts_on_sale",params:["from","limit","name_prefix"]},
+  {api:"database_api",method:"get_agent_permissions",params:["account"]},
   {api:"account_by_key",method:"get_key_references",params:["account_name_type"]},
   {api:"network_broadcast_api",method:"broadcast_transaction",params:["trx"]},
   {api:"network_broadcast_api",method:"broadcast_transaction_with_callback",params:["confirmationCallback","trx"]},
@@ -420,7 +421,8 @@ const SPEC = {
     get_proposed_transactions: {d:"Returns proposed transactions (proposals) associated with a given account.",p:{account:{c:"Account Name",d:"The account name whose proposals to retrieve."},from:{c:"From Offset",d:"Offset for pagination (number of results to skip)."},limit:{c:"Limit",d:"Maximum number of proposals to return (max 100)."}}},
     get_accounts_on_sale: {d:"Returns accounts currently on sale (direct sale, not auction).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds accounts past the first page. Empty or omitted returns all."}}},
     get_accounts_on_auction: {d:"Returns accounts currently on auction (no target buyer set).",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only accounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds accounts past the first page. Empty or omitted returns all."}}},
-    get_subaccounts_on_sale: {d:"Returns subaccounts currently on sale.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only subaccounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds subaccounts past the first page. Empty or omitted returns all."}}}
+    get_subaccounts_on_sale: {d:"Returns subaccounts currently on sale.",p:{from:{c:"From Offset",d:"Number of results to skip for pagination."},limit:{c:"Limit",d:"Maximum number of results (max 1000)."},name_prefix:{c:"Name Prefix",d:"Optional. Only subaccounts whose name starts with this prefix. Matched against the account-name index, so it searches the whole set and finds subaccounts past the first page. Empty or omitted returns all."}}},
+    get_agent_permissions: {d:"Returns the agents of a principal (HF15 agent access): name, public key, allowed operations, expiration (1970-01-01T00:00:00 = perpetual), addons (off-chain scopes such as vizhub) and an expired flag. At most 16 rows, ordered by agent name. Nodes without HF15 answer with an unknown-method error.",p:{account:{c:"Account Name",d:"The principal whose agents to return."}}}
   },
   account_by_key: {
     get_key_references: {d:"Returns all account names that reference the given public keys in their authority.",p:{account_name_type:{c:"Public Keys",d:"Array of public keys to look up.",t:"array"}}}
