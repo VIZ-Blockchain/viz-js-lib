@@ -70,6 +70,49 @@ viz.api.getAccounts(['ned', 'dan'], function(err, result) {
 });
 ```
 
+### Key checks: authority or agent (HF15)
+
+HF15 added `set_agent_permission` (op 105): a principal may hand a key an explicit, frozen list of
+its operations — an *agent*. An agent is not an account and never appears in any authority, so the
+old check ("`getAccount` and look at `active_authority.key_auths`") silently rejects agent keys.
+The recipe is now **authority OR agents**, and `viz.agent.check()` does both in one call.
+
+Rules the helper mirrors from the node (`agent_evaluator.cpp::usable_agent_row`):
+
+- an agent answers direct active/regular requirements only, and only for operations on its list —
+  the master authority is never satisfied by an agent, nor is a nested/other authority;
+- `expiration` epoch (`1970-01-01T00:00:00`) = perpetual; a date in the past = revoked;
+- empty `operations` and `addons` = revoked; `addons` are off-chain scopes the node stores and
+  never interprets, so a service matches its own scope there;
+- one key belongs to one agent of a principal; a change of master/active, a recovery or a sale
+  wipes every agent of the principal.
+
+`check(account, key, operation)` resolves to `{allowed, source: 'authority'|'agent'|'none', role,
+agent, operation}`; `find()` resolves to the raw row (or `false`), `has()` to a bool. Pass the wire
+operation name (`transfer`, `pm_place_bet`, ...) to check a specific operation — with no operation
+an agent key is only answered as "this is a live agent key", because its grants are per-operation.
+A key that is only in a nested authority (`account_auths`) is not resolved here: use
+`verify_authority` with a signed transaction for the full recursive check. On a node without HF15
+the agent call fails, `find()` reads that as "no agents", and the check degrades to authorities
+only.
+
+```js
+viz.config.set('websocket', 'https://api.viz.world/');
+
+//the key recovered from the request signature
+viz.agent.check('altbettor', 'VIZ7iiYUk6hFuieveBJcTVTV33aNuC2vZauXuYc9Hki3moxsm9WXe', 'transfer')
+	.then(verdict => {
+		if (verdict.allowed) console.log('allowed by', verdict.source);//'authority' or 'agent'
+		else console.log('denied');
+	});
+
+viz.agent.get('altbettor').then(rows => console.log(rows));//every agent of the principal
+viz.agent.find('altbettor', 'VIZ7ii...').then(row => console.log(row));//live row, or false
+```
+
+The write side is `viz.broadcast.setAgentPermission(...)`. The raw read method is
+`viz.api.getAgentPermissionsAsync(account)`.
+
 ## Contributions
 Patches are welcome! Contributors are listed in the package.json file. Please run the tests before opening a pull request and make sure that you are passing all of them. If you would like to contribute, but don't know what to work on, check the issues list.
 
