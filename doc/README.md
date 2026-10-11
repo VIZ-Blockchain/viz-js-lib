@@ -206,6 +206,33 @@ viz.api.getKeyHistoryByKey(key, limit, function(err, result) {
 });
 ```
 
+## Agent access (HF15)
+
+An agent is a named key of a principal, limited to a list of operations and an optional expiry. An agent is not an account and never appears in any authority, so a key check that only reads `getAccount` → `active_authority.key_auths` silently rejects valid agent keys — the recipe is now the authority OR the agents.
+
+### Get Agent Permissions (HF15)
+Every agent a principal has granted: `account`, `agent_name`, `agent_key`, `operations`, `expiration` (epoch `1970-01-01T00:00:00` = perpetual), `addons` (off-chain scopes the node stores and never interprets) and `expired` (computed by the node on head block time).
+```js
+viz.api.getAgentPermissions('on1x', function(err, result) {
+  console.log(err, result);
+});
+```
+
+### Agent key check (HF15)
+One call answering "may this key act here": the authority roles of the account first, then its agents. The operation is optional (`null` = any) — an agent is answered only for operations on its own list, and it never satisfies the master authority. Resolves to `{allowed, source: 'authority'|'agent'|'none', role, agent, operation}`.
+```js
+viz.agent.check('on1x', key, 'transfer').then(function(v) {
+  if (v.allowed) console.log('allowed by', v.source);
+  else console.log('denied');
+});
+
+viz.agent.get('on1x').then(function(rows) { console.log(rows); });//every agent of the principal
+viz.agent.find('on1x', key).then(function(row) { console.log(row); });//the live row, or false
+```
+`viz.agent.poisoned(row)` and `viz.agent.addonMatches(row, scope)` are the pure row predicates the verdicts are built from; the write side is `viz.broadcast.setAgentPermission(...)`.
+
+`viz.agent` is a Node-side module: the browser bundle exports `api`, `auth`, `broadcast`, `config`, `formatter`, `memo`, `aes` and `utils` only, so browser code reads agents with `viz.api.getAgentPermissionsAsync(account)` and grants or revokes with `viz.broadcast.setAgentPermission(...)`.
+
 ## Accounts
 
 ### Get Accounts

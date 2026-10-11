@@ -117,6 +117,10 @@ viz.agent.find('altbettor', 'VIZ7ii...').then(row => console.log(row));//live ro
 The write side is `viz.broadcast.setAgentPermission(...)`. The raw read method is
 `viz.api.getAgentPermissionsAsync(account)`.
 
+`viz.agent` is a Node-side module: the browser bundle (`dist/viz.min.js`) exports `api`, `auth`,
+`broadcast`, `config`, `formatter`, `memo`, `aes` and `utils` only, so browser code reads agents with
+`viz.api.getAgentPermissionsAsync(account)` and writes with `viz.broadcast.setAgentPermission(...)`.
+
 ## Contributions
 Patches are welcome! Contributors are listed in the package.json file. Please run the tests before opening a pull request and make sure that you are passing all of them. If you would like to contribute, but don't know what to work on, check the issues list.
 
