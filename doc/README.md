@@ -231,7 +231,9 @@ viz.agent.find('on1x', key).then(function(row) { console.log(row); });//the live
 ```
 `viz.agent.poisoned(row)` and `viz.agent.addonMatches(row, scope)` are the pure row predicates the verdicts are built from; the write side is `viz.broadcast.setAgentPermission(...)`.
 
-`viz.agent` is a Node-side module: the browser bundle exports `api`, `auth`, `broadcast`, `config`, `formatter`, `memo`, `aes` and `utils` only, so browser code reads agents with `viz.api.getAgentPermissionsAsync(account)` and grants or revokes with `viz.broadcast.setAgentPermission(...)`.
+`viz.agent` is exported by both entries — the Node module and, since 0.18.4, the browser bundle, which
+previously shipped the raw `viz.api.getAgentPermissionsAsync` only. The write side is
+`viz.broadcast.setAgentPermission(...)`.
 
 ## Accounts
 
