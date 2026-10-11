@@ -96,6 +96,10 @@ A key that is only in a nested authority (`account_auths`) is not resolved here:
 the agent call fails, `find()` reads that as "no agents", and the check degrades to authorities
 only.
 
+`poisoned(row)` and `addonMatches(row, scope)` are the two pure row predicates the verdicts are
+built from, exported for callers that already hold a row (and mirrored by `VIZ\Agent` in the PHP
+lib).
+
 ```js
 viz.config.set('websocket', 'https://api.viz.world/');
 

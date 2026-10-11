@@ -66,6 +66,31 @@ describe('viz.agent', function () {
     });
   });
 
+  describe('poisoned', function () {
+    it('flags a row holding a never-delegable name', function () {
+      assert.strictEqual(agent.poisoned(row()), false);
+      assert.strictEqual(agent.poisoned(row({ operations: ['transfer', 'account_update'] })), true);
+    });
+
+    it('does not call a row without an operation list poisoned', function () {
+      assert.strictEqual(agent.poisoned(row({ operations: undefined })), false);
+    });
+  });
+
+  describe('addonMatches', function () {
+    it('matches the service scope exactly and case-sensitively', function () {
+      assert.strictEqual(agent.addonMatches(row(), 'wallet'), true);
+      assert.strictEqual(agent.addonMatches(row(), 'Wallet'), false);
+      assert.strictEqual(agent.addonMatches(row(), 'exchange'), false);
+      assert.strictEqual(agent.addonMatches(row(), ''), false);
+    });
+
+    it('treats a row without addons as no match, not as any scope', function () {
+      assert.strictEqual(agent.addonMatches(row({ addons: [] }), 'wallet'), false);
+      assert.strictEqual(agent.addonMatches(row({ addons: undefined }), 'wallet'), false);
+    });
+  });
+
   describe('inAuthority', function () {
     it('accepts a member that alone meets the threshold', function () {
       const authority = {

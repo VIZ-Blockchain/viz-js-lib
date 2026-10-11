@@ -154,12 +154,36 @@ module.exports = VIZ_API => {
     if (!Array.isArray(row.operations) || -1 === row.operations.indexOf(operation)) {
       return false;
     }
+    return !poisoned(row);
+  }
+
+  /**
+   * True when the row's list holds a never-delegable name. The node refuses such a row WHOLE
+   * (`usable_agent_row` bails on the first forbidden name), it does not merely drop that name — so
+   * the row grants nothing at all, including its off-chain addons.
+   */
+  function poisoned(row) {
+    if (!Array.isArray(row.operations)) {
+      return false;
+    }
     for (let i = 0; i < row.operations.length; i++) {
       if (-1 !== NEVER_DELEGABLE.indexOf(row.operations[i])) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
+  }
+
+  /**
+   * True when the row is scoped to `scope`. Addons are opaque off-chain scopes: the node stores
+   * them and never interprets them, so a service matches its OWN scope here, by exact string
+   * (case-sensitive — the chain does not normalise them for us).
+   */
+  function addonMatches(row, scope) {
+    if (!Array.isArray(row.addons)) {
+      return false;
+    }
+    return -1 !== row.addons.indexOf(scope);
   }
 
   /** True when `key` is a member of the authority with enough weight to meet its threshold. */
@@ -211,6 +235,8 @@ module.exports = VIZ_API => {
     check,
     isExpired,
     grants,
+    poisoned,
+    addonMatches,
     inAuthority,
     keyEquals,
     normalizeKey,
