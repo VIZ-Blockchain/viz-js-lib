@@ -126,6 +126,10 @@ ChainTypes.operations = {
   pm_early_exit_claim_paid: 103,
   // Prediction Markets (HF14) — settlement-time direct LP return (goal #442)
   pm_lp_payout: 104,
+  // HF15 agent access
+  set_agent_permission: 105,
+  // HF16 QC — equivocation proof virtual operation
+  validator_equivocation: 106,
   // Aliases for backward compatibility (old witness names)
   witness_update: 6,
   account_witness_vote: 7,

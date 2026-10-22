@@ -1479,6 +1479,17 @@ const pm_lp_payout = new Serializer(
     }
 );
 
+// 106 — validator_equivocation (virtual, HF16): a block carried proof that `validator` voted
+// for two different blocks in `round`; the validator is penalised like for a missed block.
+const validator_equivocation = new Serializer(
+    "validator_equivocation", {
+        validator: string,
+        round: uint32,
+        first_block_id: bytes(20),
+        second_block_id: bytes(20)
+    }
+);
+
 operation.st_operations = [
     vote,
     content,
@@ -1586,7 +1597,8 @@ operation.st_operations = [
     pm_dispute_opened,
     pm_early_exit_claim_paid,
     pm_lp_payout,
-    set_agent_permission
+    set_agent_permission,
+    validator_equivocation
 ];
 
 // Export old witness names as aliases for backward compatibility
