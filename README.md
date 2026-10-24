@@ -129,3 +129,14 @@ When you find issues, please report them!
 
 ## License
 MIT
+
+## HF16 (0.18.5)
+
+Block header serializers support the append-only QC (3), timeout certificate (4),
+and equivocation proof (5) extensions, including validator signature maps. Version
+reporting (1) and hardfork votes (2) accept the node JSON version strings. The
+`validator_equivocation` virtual operation remains at index 106.
+
+DAO requests keep the same wire format. From HF16 the node limits their maximum
+amount to 1% of current supply at creation; clients must not keep a fixed 500,000
+VIZ ceiling. This release does not change transaction signing or transaction extensions.

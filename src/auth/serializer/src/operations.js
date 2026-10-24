@@ -44,8 +44,25 @@ const {
 } = types
 
 const future_extensions = types.void
-const hardfork_version_vote = types.void
-const version = types.void
+const version = {
+    fromByteBuffer: b => uint32.fromByteBuffer(b),
+    appendByteBuffer: (b, v) => uint32.appendByteBuffer(b, version.fromObject(v)),
+    fromObject(v) {
+        if (typeof v === "number") return uint32.fromObject(v);
+        const parts = String(v).split(".").map(Number);
+        if (parts.length !== 3 || parts.some(n => !Number.isInteger(n) || n < 0) ||
+            parts[0] > 255 || parts[1] > 255 || parts[2] > 65535)
+            throw new Error("Invalid protocol version");
+        return parts[0] * 16777216 + parts[1] * 65536 + parts[2];
+    },
+    toObject(v) {
+        v = version.fromObject(v);
+        return [v >>> 24, (v >>> 16) & 255, v & 65535].join(".");
+    }
+};
+const hardfork_version_vote = new SerializerImpl("hardfork_version_vote", {
+    hf_version: version, hf_time: time_point_sec
+});
 
 // Place-holder, their are dependencies on "operation" .. The final list of
 // operations is not avialble until the very end of the generated code.
@@ -58,6 +75,30 @@ const Serializer = function(operation_name, serilization_types_object) {
     const s = new SerializerImpl(operation_name, serilization_types_object);
     return module.exports[operation_name] = s;
 }
+
+// Append-only C++ block_header_extensions tags (HF16); transaction extensions
+// remain unchanged. FC versions pack their numeric v_num as uint32.
+const block_qc_certificate = new Serializer("block_qc_certificate", {
+    block_num: uint32, block_id: bytes(20), round: uint32,
+    signatures: map(string, bytes(65))
+});
+const block_timeout_vote = new Serializer("block_timeout_vote", {
+    high_qc_round: uint32, signature: bytes(65)
+});
+const block_timeout_certificate = new Serializer("block_timeout_certificate", {
+    round: uint32, votes: map(string, block_timeout_vote)
+});
+const block_vote_evidence = new Serializer("block_vote_evidence", {
+    block_num: uint32, block_id: bytes(20), signature: bytes(65)
+});
+const block_equivocation_proof = new Serializer("block_equivocation_proof", {
+    validator: string, round: uint32, first: block_vote_evidence, second: block_vote_evidence
+});
+const block_header_extensions = static_variant([
+    future_extensions, version, hardfork_version_vote,
+    block_qc_certificate, block_timeout_certificate, block_equivocation_proof
+]);
+module.exports.block_header_extensions = block_header_extensions;
 
 const beneficiaries = new Serializer(
     "beneficiaries", {
@@ -132,11 +173,7 @@ const signed_block = new Serializer(
         timestamp: time_point_sec,
         validator: string,
         transaction_merkle_root: bytes(20),
-        extensions: set(static_variant([
-            future_extensions,
-            version,
-            hardfork_version_vote
-        ])),
+        extensions: set(block_header_extensions),
         validator_signature: bytes(65),
         transactions: array(signed_transaction)
     }
@@ -148,11 +185,7 @@ const block_header = new Serializer(
         timestamp: time_point_sec,
         validator: string,
         transaction_merkle_root: bytes(20),
-        extensions: set(static_variant([
-            future_extensions,
-            version,
-            hardfork_version_vote
-        ]))
+        extensions: set(block_header_extensions)
     }
 );
 
@@ -162,11 +195,7 @@ const signed_block_header = new Serializer(
         timestamp: time_point_sec,
         validator: string,
         transaction_merkle_root: bytes(20),
-        extensions: set(static_variant([
-            future_extensions,
-            version,
-            hardfork_version_vote
-        ])),
+        extensions: set(block_header_extensions),
         validator_signature: bytes(65)
     }
 );
