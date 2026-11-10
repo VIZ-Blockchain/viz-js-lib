@@ -94,9 +94,19 @@ const block_vote_evidence = new Serializer("block_vote_evidence", {
 const block_equivocation_proof = new Serializer("block_equivocation_proof", {
     validator: string, round: uint32, first: block_vote_evidence, second: block_vote_evidence
 });
+// HF18: the timeout vote carries the id of the block whose QC it saw, not only the round
+// (a round is a slot, so two blocks of one round share it). Field order mirrors
+// graphene::protocol::block_timeout_vote_v2 / block_timeout_certificate_v2.
+const block_timeout_vote_v2 = new Serializer("block_timeout_vote_v2", {
+    high_qc_round: uint32, high_qc_block_id: bytes(20), signature: bytes(65)
+});
+const block_timeout_certificate_v2 = new Serializer("block_timeout_certificate_v2", {
+    round: uint32, votes: map(string, block_timeout_vote_v2)
+});
 const block_header_extensions = static_variant([
     future_extensions, version, hardfork_version_vote,
-    block_qc_certificate, block_timeout_certificate, block_equivocation_proof
+    block_qc_certificate, block_timeout_certificate, block_equivocation_proof,
+    block_timeout_certificate_v2
 ]);
 module.exports.block_header_extensions = block_header_extensions;
 
